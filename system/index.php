@@ -19,7 +19,7 @@ $fragment=  isset($_GET['fragment'])?$_GET['fragment']:"home";
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="css/sigin.css" >
+     
         <title></title>
     </head>
     <body class="bg-light">

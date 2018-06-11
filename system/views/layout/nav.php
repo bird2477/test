@@ -10,6 +10,9 @@
             $query = "SELECT * FROM `projectmodel` WHERE `privilege` <= '$privilege'  ORDER BY  id  ASC";
             $result = mysqli_query($connection, $query);
             while ($row = mysqli_fetch_array($result)) {
+                if($row['fragment']=="profile")
+                    continue;
+                
                 ?>
                 <li class="nav-item <?php if ($fragment == $row['fragment']) {
                 echo 'active';
@@ -23,7 +26,7 @@
 
         </ul>
         <form method="" action="../request/logout.php" class="form-inline my-2 my-lg-0">
-             <a class="btn btn-info my-2 my-sm-0" href="?fragment=user&component=profile">Profile </a>
+             <a class="btn btn-info my-2 my-sm-0" href="?fragment=profile&component=profile">Profile </a>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log out</button>
         </form>
     </div>

@@ -5,7 +5,7 @@
     
     
     
-    <form class="needs-validation" method="POST" action="./views/managementuser/query/ajaxEdit.php" novalidate="">
+    <form class="needs-validation" method="POST" action="./views/profile/query/ajaxEdit.php" novalidate="">
         <input type="hidden" name="id" value="<?php echo $_SESSION['id']; ?>" >
         <input type="hidden" name="profile" value="1" >
         <div class="col-md-10">
