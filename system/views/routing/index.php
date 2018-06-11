@@ -1,6 +1,6 @@
 <?php
 
-$component = isset($_GET['component']) ? $_GET['component'] : "rou";
+$component = isset($_GET['component']) ? $_GET['component'] : "routing";
 $query = "SELECT * FROM `component` WHERE `projectfragment` like '$fragment' and `fragment` like '$component'";
 
 $result = mysqli_query($connection, $query);
