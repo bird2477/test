@@ -32,7 +32,7 @@
     </div>
 </nav>
  <?php  
-        $query="SELECT * FROM `component` WHERE `projectfragment` LIKE '$fragment'";
+        $query="SELECT * FROM `component` WHERE `projectfragment` LIKE '$fragment' and `privilege` <= '$privilege' ";
         $result=  mysqli_query($connection, $query);
         $rows=  mysqli_num_rows($result);
         if($rows>0){
