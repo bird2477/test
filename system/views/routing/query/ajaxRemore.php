@@ -1,0 +1,12 @@
+<?php
+include '../../../../config/database.php';
+
+
+$id=$_POST['id'];
+
+$query="DELETE FROM `productionline` WHERE `id` ='$id'";
+if(mysqli_query($connection, $query)){
+    echo 1;
+}
+$query="DELETE FROM `subproductionline` WHERE  `productionline` ='$id'";
+mysqli_query($connection, $query);
