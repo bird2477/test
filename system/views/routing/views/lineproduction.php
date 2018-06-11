@@ -20,7 +20,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : "";
             var name = "name=" + $("#nameline").val();
             $.ajax({data: name, url: "views/routing/query/ajaxAddProductionLine.php", type: 'POST', cache: false, success: function (data, textStatus, jqXHR) {
                     if (data != "") {
-                        window.location.replace("?fragment=routing&component=lineproduction&id="+data);
+                        window.location.replace("./views/routing/views/subproductionline.php?id="+data);
                     }
                 }});
         });
