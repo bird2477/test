@@ -21,13 +21,14 @@
         <select class="custom-select d-block w-100" name="searchproductionline" id="searchproductionline" required="">
             <option value="">Choose...</option>
             <?php
+            $productionline= isset($_GET['productionline'])?$_GET['productionline']  :"";
             $query="SELECT * FROM `productionline` WHERE 1";
             
             $result=  mysqli_query($connection, $query);
             while ($row2 =  mysqli_fetch_array  ($result)) {
                
             ?>
-            <option <?php if($_GET['productionline']==$row2['id']){ echo 'selected'; } ?> value="<?php echo $row2['id']; ?>"> <?php echo $row2['machine']; ?> </option> 
+            <option <?php if($productionline==$row2['id']){ echo 'selected'; } ?> value="<?php echo $row2['id']; ?>"> <?php echo $row2['machine']; ?> </option> 
             <?php  
             }
             ?>
