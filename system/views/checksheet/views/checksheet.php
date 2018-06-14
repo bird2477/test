@@ -7,26 +7,58 @@
             var url = "?fragment=checksheet&from=" + from + "&to=" + to;
             window.location.replace(url);
         });
-        
-        $(".approved").click(function(){
-            var id = "id="+$(this).attr("id")+"&routing="+$(this).attr("routing");
-            $.ajax({type: 'POST',url: "./views/checksheet/query/ajaxApproved.php",cache: false,data: id,success: function (data, textStatus, jqXHR) {
-                                if(data=="1"){
-                                    window.location.reload();
-                                }
-                            }});
+
+        $(".approved").click(function () {
+            var id = "id=" + $(this).attr("id") + "&routing=" + $(this).attr("routing");
+            $.ajax({type: 'POST', url: "./views/checksheet/query/ajaxApproved.php", cache: false, data: id, success: function (data, textStatus, jqXHR) {
+                    if (data == "1") {
+                        window.location.reload();
+                    }
+                }});
         });
-        $(".remove").click(function(){
-             var id ="id="+ $(this).attr("id")+"&routing="+$(this).attr("routing");
-           
-             $.ajax({type: 'POST',data: id,cache: false,url: "./views/checksheet/query/ajaxRemove.php",success: function (data, textStatus, jqXHR) {
-                                 
-            if(data=="1"){
-                                    window.location.reload();
-                                }
-                             }});
+        $(".remove").click(function () {
+            var id = "id=" + $(this).attr("id") + "&routing=" + $(this).attr("routing");
+            $.ajax({type: 'POST', data: id, cache: false, url: "./views/checksheet/query/ajaxRemove.php", success: function (data, textStatus, jqXHR) {
+
+                    if (data == "1") {
+                        window.location.reload();
+                    }
+                }});
+
+        });
+
+        $("#productionline").change(function () {
+            var productionline = "productionline=" + $(this).val();
+
+            $.ajax({type: 'POST', cache: false, data: productionline, url: "./views/checksheet/query/ajaxOptionCode.php", success: function (data, textStatus, jqXHR) {
+                    $("#code").html(data);
+                }});
+        });
+         $("#code").change(function () {
+             var code = "code="+$(this).val() +"&productionline="+$("#productionline").val();
              
+             $.ajax({type: 'POST',cache: false,data:code ,url: "./views/checksheet/query/ajaxOptionName.php",success: function (data, textStatus, jqXHR) {
+                 $("#name").html(data);
+                 }});
+             
+         });
+        $("#addChecksheet").click(function (){
+            if($("#name").val() != ""){
+                var productionline=$("#productionline").val();
+                var name = $("#name").val();
+                var code =$("#code").val();
+                var target = $("#target").val();
+                var dataString ="productionline="+productionline+"&name="+name+"&code="+code+"&target="+target;
+                $.ajax({data:dataString ,type: 'POST',cache: false,url: "./views/checksheet/query/ajaxReport.php",success: function (data, textStatus, jqXHR) {
+                        if(data != ""){
+                            window.location.replace("./views/checksheet/views/report.php?id="+data);
+                        }
+                    }});
+            }else{
+              
+            }
         });
+        
     });
 </script>
 
@@ -48,23 +80,9 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                Routing
+                Production Report
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <label for="code">Code</label>
-
-                    <div class="input-group ">
-                        <input type="text" class="form-control " id="code" name="code" placeholder="code : 103322551015" required="">
-                    </div>
-                </div>
-                <div class="row">
-                    <label for="name">Name</label>
-                    <div class="input-group ">
-                        <input type="text" class="form-control " id="name" name="name" placeholder="Description" required="">
-                    </div>
-                </div>
-
                 <div class="row">
                     <label for="productionline">Production Line</label>       
                     <select name="productionline" class="custom-select d-block w-100 " id="productionline" required="">
@@ -80,10 +98,29 @@
                         ?>
                     </select>
                 </div>
+                <div class="row">
+                    <label for="code">Code</label>       
+                    <select name="code" class="custom-select d-block w-100 " id="code" required="">
+                        <option value="">Choose...</option>
+
+                    </select>
+                </div>
+                <div class="row">
+                    <label for="name">Name</label>       
+                    <select name="name" class="custom-select d-block w-100 " id="name" required="">
+                        <option value="">Choose...</option>
+
+                    </select>
+                </div>
+                  <div class="row">
+                    <label for="target">Target</label>       
+                   <input type="text" class="form-control" id="target" name="target" placeholder="5000" required="">
+                </div>
+                
 
             </div>
             <div class="modal-footer">
-                <button type="button" id="routingadd" class="btn btn-default" data-dismiss="modal">Add</button>
+                <button type="button" id="addChecksheet" class="btn btn-default" data-dismiss="modal">Add</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -146,7 +183,7 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
                                 <?php
                                 if ($_SESSION['privilege'] >= 3) {
                                     ?>
-                                    
+
                                     <button type="button" class="btn btn-info approved" routing="<?php echo $row1['routingid']; ?>" id="<?php echo $row1['id']; ?>">
                                         Approved
                                     </button>  
@@ -154,11 +191,11 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
                                 }
                             } elseif (($row1['status'] == 1) && ($_SESSION['privilege']) >= 3) {
                                 ?>
-                                 <a href="./views/checksheet/views/report.php?id=<?php echo $row1['id']; ?>&routing=<?php echo $row1['routingid']; ?>" class="btn btn-success " >Edit</a>
+                                <a href="./views/checksheet/views/report.php?id=<?php echo $row1['id']; ?>" class="btn btn-success " >Edit</a>
                                 <button type="button" class="btn btn-danger remove" routing="<?php echo $row1['routingid']; ?>" id="<?php echo $row1['id']; ?>">
                                     Remove
                                 </button>  
-                               
+
                                 <?php
                             }
                             ?>
@@ -179,34 +216,34 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`
                             <td><?php echo $row2['date']; ?></td>
                             <td><?php echo $row2['code']; ?></td>
                             <td><?php echo $row2['name']; ?></td>
-                             <td>
-                            <?php
-                            if (($row2['status'] == 0)) {
-                                ?>
-                                <a href="./views/checksheet/views/report.php?id=<?php echo $row2['id']; ?>&routing=<?php echo $row2['routingid']; ?>" class="btn btn-success " >Edit</a>
-                                <button type="button" class="btn btn-danger remove" routing="<?php echo $row2['routingid']; ?>" id="<?php echo $row2['id']; ?>">
-                                    Remove
-                                </button>  
+                            <td>
                                 <?php
-                                if ($_SESSION['privilege'] >= 3) {
+                                if (($row2['status'] == 0)) {
                                     ?>
-                                    
-                                    <button type="button" class="btn btn-info approved" routing="<?php echo $row2['routingid']; ?>" id="<?php echo $row2['id']; ?>">
-                                        Approved
+                                    <a href="./views/checksheet/views/report.php?id=<?php echo $row2['id']; ?>" class="btn btn-success " >Edit</a>
+                                    <button type="button" class="btn btn-danger remove" routing="<?php echo $row2['routingid']; ?>" id="<?php echo $row2['id']; ?>">
+                                        Remove
                                     </button>  
                                     <?php
+                                    if ($_SESSION['privilege'] >= 3) {
+                                        ?>
+
+                                        <button type="button" class="btn btn-info approved" routing="<?php echo $row2['routingid']; ?>" id="<?php echo $row2['id']; ?>">
+                                            Approved
+                                        </button>  
+                                        <?php
+                                    }
+                                } elseif (($row2['status'] == 1) && ($_SESSION['privilege']) >= 3) {
+                                    ?>
+                                    <a href="./views/checksheet/views/report.php?id=<?php echo $row2['id']; ?>" class="btn btn-success " >Edit</a>
+                                    <button type="button" class="btn btn-danger remove" routing="<?php echo $row2['routingid']; ?>" id="<?php echo $row2['id']; ?>">
+                                        Remove
+                                    </button>  
+
+                                    <?php
                                 }
-                            } elseif (($row2['status'] == 1) && ($_SESSION['privilege']) >= 3) {
                                 ?>
-                                 <a href="./views/checksheet/views/report.php?id=<?php echo $row2['id']; ?>&routing=<?php echo $row2['routingid']; ?>" class="btn btn-success " >Edit</a>
-                                <button type="button" class="btn btn-danger remove" routing="<?php echo $row2['routingid']; ?>" id="<?php echo $row2['id']; ?>">
-                                    Remove
-                                </button>  
-                               
-                                <?php
-                            }
-                            ?>
-                        </td>
+                            </td>
                         </tr>
                         <?php
                     }
