@@ -46,7 +46,7 @@ $query = "";
                 function data() {
                     var checksheetId = "checksheetId=<?php echo $checksheetId; ?>";
                     $.ajax({url: "../../checksheet/query/ajaxLoaddata.php", data: checksheetId, cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
-                           
+
                             var obj = JSON.parse(data);
                             for (var i in obj) {
                                 var key = i;
@@ -54,8 +54,8 @@ $query = "";
                                 for (var j in val) {
                                     var sub_key = j;
                                     var sub_val = val[j];
-                                   $("#"+sub_key).text(sub_val);
-                              
+                                    $("#" + sub_key).text(sub_val);
+
                                 }
                             }
 
@@ -67,7 +67,22 @@ $query = "";
                         data();
                     }, 1000);
                 }
-
+                 
+                 $(".check").change(function(){
+                     var val = $(this).val();
+                     var status = $(this).attr("status");
+                     var checksheet = $(this).attr("checksheet");
+                     var subproductionlineid = $(this).attr("subproductionlineid");
+                     var key = $(this).attr("key");
+                     var data1="val="+val+"&status="+status+"&checksheet="+checksheet+"&subproductionlineid="+subproductionlineid+"&key="+key;
+                    $.ajax({type: 'POST',url: "../../checksheet/query/ajaxCheckUser.php",data: data1,cache: false,success: function (data, textStatus, jqXHR) {
+                         window.location.reload();
+                       
+                    }});
+                     
+                 });
+                 
+                 
             });
         </script>
         <meta charset="UTF-8">
@@ -123,9 +138,22 @@ INNER JOIN `subproductionline` ON  `subchecksheet`.`subproductionlineID`= `subpr
                                         <input type="text" class="form-control chenge" subproductionlineID="<?php echo $subproductionlineID; ?>" key="reject_total" value="<?php echo $row['reject_total']; ?>" >
                                     </td>
                                     <td>
-                                        <div class="btn-group" role="group" data-toggle="modal" data-target="#check">
-                                            <button type="button" class="btn btn-default">Left</button>
-
+                                        <div class="btn-group" role="group" >
+                                            <button type="button" data-toggle="modal" data-target="#<?php echo $subproductionlineID; ?>"  class="btn btn-default">
+                                                <?php  
+                                                $query="SELECT * FROM `timestamp` WHERE `checksheetID` ='$checksheetId' and `subproductionlineID` ='$subproductionlineID'";
+                                                $result1=  mysqli_query($connection, $query);
+                                                $mod= mysqli_num_rows($result1) %2;
+                                                if($mod){
+                                                   
+                                                     echo 'Pause'; 
+                                                }else{
+                                                     echo 'Start';  
+                                                }
+                                                ?>
+                                                
+                                            </button>
+                                            <a class="btn btn-primary" target="_blank" href="../views/paper.php?subproductionlineID=<?php echo $subproductionlineID; ?>&checksheetId=<?php echo $checksheetId; ?>" >Report</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -134,6 +162,43 @@ INNER JOIN `subproductionline` ON  `subchecksheet`.`subproductionlineID`= `subpr
                         </table>
                     </div>
                 </div>
+
+
+
+
+
+
+                <!-- Modal -->
+                <div class="modal fade" id="<?php echo $subproductionlineID; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">เตะบัตร</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group mb-3">   
+                                    <input type="text" class="form-control check" status="<?php   if($mod){
+                                                    
+                                                        echo '0'; 
+                                                }else{
+                                                  echo '1'; 
+                                                } ?>" checksheet="<?php echo $checksheetId; ?>" subproductionlineID="<?php echo $subproductionlineID; ?>"  placeholder="Employee ID" key="employeeID" name="employeeID"   aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
                 <?php
             }
             ?>

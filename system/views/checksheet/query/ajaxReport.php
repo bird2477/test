@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set("Asia/Bangkok");
 include '../../../../config/database.php';
 $productionline=$_POST['productionline'];
 $name=$_POST['name'];

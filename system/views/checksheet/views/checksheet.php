@@ -34,31 +34,31 @@
                     $("#code").html(data);
                 }});
         });
-         $("#code").change(function () {
-             var code = "code="+$(this).val() +"&productionline="+$("#productionline").val();
-             
-             $.ajax({type: 'POST',cache: false,data:code ,url: "./views/checksheet/query/ajaxOptionName.php",success: function (data, textStatus, jqXHR) {
-                 $("#name").html(data);
-                 }});
-             
-         });
-        $("#addChecksheet").click(function (){
-            if($("#name").val() != ""){
-                var productionline=$("#productionline").val();
+        $("#code").change(function () {
+            var code = "code=" + $(this).val() + "&productionline=" + $("#productionline").val();
+
+            $.ajax({type: 'POST', cache: false, data: code, url: "./views/checksheet/query/ajaxOptionName.php", success: function (data, textStatus, jqXHR) {
+                    $("#name").html(data);
+                }});
+
+        });
+        $("#addChecksheet").click(function () {
+            if ($("#name").val() != "") {
+                var productionline = $("#productionline").val();
                 var name = $("#name").val();
-                var code =$("#code").val();
+                var code = $("#code").val();
                 var target = $("#target").val();
-                var dataString ="productionline="+productionline+"&name="+name+"&code="+code+"&target="+target;
-                $.ajax({data:dataString ,type: 'POST',cache: false,url: "./views/checksheet/query/ajaxReport.php",success: function (data, textStatus, jqXHR) {
-                        if(data != ""){
-                            window.location.replace("./views/checksheet/views/report.php?id="+data);
+                var dataString = "productionline=" + productionline + "&name=" + name + "&code=" + code + "&target=" + target;
+                $.ajax({data: dataString, type: 'POST', cache: false, url: "./views/checksheet/query/ajaxReport.php", success: function (data, textStatus, jqXHR) {
+                        if (data != "") {
+                            window.location.replace("./views/checksheet/views/report.php?id=" + data);
                         }
                     }});
-            }else{
-              
+            } else {
+
             }
         });
-        
+
     });
 </script>
 
@@ -112,11 +112,11 @@
 
                     </select>
                 </div>
-                  <div class="row">
+                <div class="row">
                     <label for="target">Target</label>       
-                   <input type="text" class="form-control" id="target" name="target" placeholder="5000" required="">
+                    <input type="text" class="form-control" id="target" name="target" placeholder="5000" required="">
                 </div>
-                
+
 
             </div>
             <div class="modal-footer">
@@ -131,11 +131,11 @@
 <div class="row" style="background: buttonhighlight;" >
     <div class="col-3" >
         <label for="from" class="col-form-label">From</label>
-        <input class="form-control" type="date" value="" name="from" id="from">
+        <input class="form-control" type="date" value="<?php if(isset($_GET['from'])){echo $_GET['from'];  } ?>" name="from" id="from">
     </div>
     <div class="col-3" >
         <label for="to" class="col-form-label">To</label>
-        <input class="form-control" type="date" value="" name="to" id="to" >
+        <input class="form-control" type="date" value="<?php if(isset($_GET['to'])){echo $_GET['to'];  } ?>" name="to" id="to" >
     </div>
     <div class="col-4" style="    margin-top: 7px;">
         <label for="search">Search</label>
@@ -199,6 +199,40 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
                                 <?php
                             }
                             ?>
+                                    
+                                   <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Report
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <?php
+                                        $id = $row1['id'];
+                                        $query = "SELECT * FROM `subchecksheet` WHERE `checksheet` ='$id'";
+                                        $result1 = mysqli_query($connection, $query);
+                                        while ($row3 = mysqli_fetch_array($result1)) {
+                                            $checksheet=$row3['checksheet'];
+                                            $subproductionlineID=$row3['subproductionlineID'];
+                                            
+                                            ?>
+
+                                        <a class="dropdown-item " target="_blank"  href="./views/checksheet/views/paper.php?subproductionlineID=<?php echo $subproductionlineID; ?>&checksheetId=<?php echo $checksheet; ?>">
+                                        <?php
+                                        $query="SELECT * FROM `subproductionline` WHERE `id` = '$subproductionlineID'";
+                                        $result2=  mysqli_query($connection, $query);
+                                        $row4=  mysqli_fetch_array($result2);
+                                        echo $row4['name'];
+                                        
+                                        
+                                        
+                                        
+                                        ?>
+                                        </a> <?php
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                                
+                                
                         </td>
                     </tr>
                     <?php
@@ -243,6 +277,37 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`
                                     <?php
                                 }
                                 ?>
+                                <div class="dropdown col-2">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Report
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <?php
+                                        $id = $row2['id'];
+                                        $query = "SELECT * FROM `subchecksheet` WHERE `checksheet` ='$id'";
+                                        $result1 = mysqli_query($connection, $query);
+                                        while ($row3 = mysqli_fetch_array($result1)) {
+                                            $checksheet=$row3['checksheet'];
+                                            $subproductionlineID=$row3['subproductionlineID'];
+                                            
+                                            ?>
+
+                                        <a class="dropdown-item " target="_blank"  href="./views/checksheet/views/paper.php?subproductionlineID=<?php echo $subproductionlineID; ?>&checksheetId=<?php echo $checksheet; ?>">
+                                        <?php
+                                        $query="SELECT * FROM `subproductionline` WHERE `id` = '$subproductionlineID'";
+                                        $result2=  mysqli_query($connection, $query);
+                                        $row4=  mysqli_fetch_array($result2);
+                                        echo $row4['name'];
+                                        
+                                        
+                                        
+                                        
+                                        ?>
+                                        </a> <?php
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         <?php
