@@ -80,6 +80,7 @@
     <table class="table table-condensed">
         <thead>
             <tr>
+                <th>Employee ID</th>
                 <th>Name</th>
                 <th>Lastname</th>
                 <th>Tools</th>
@@ -103,6 +104,7 @@
             while ($row = mysqli_fetch_array($result)) {
                 ?>
                 <tr>
+                    <td><?php echo $row['employeeID']; ?></td>
                     <td><?php echo $row['name']; ?></td>
                     <td><?php echo $row['lastname']; ?></td>
                     <td>
