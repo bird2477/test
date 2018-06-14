@@ -97,12 +97,36 @@ $id = isset($_GET['id']) ? $_GET['id'] : "";
                     <?php
                 }
             } else {
+                 $query = "SELECT * FROM `productionline` WHERE 1 order by `id` DESC ";
+                $result = mysqli_query($connection, $query);
+                if(mysqli_num_rows($result)>0){
+                    while ($row2 = mysqli_fetch_array($result)) {
+                
+                    ?>
+                       <tr>
+                        <td><?php echo $row2['id']; ?></td>
+                        <td><?php echo $row2['machine']; ?></td>
+                        <td>
+                            <a href="./views/routing/views/subproductionline.php?id=<?php echo $row2['id']; ?>"  class="btn btn-success " >Sub station</a>
+                            <button type="button" class="btn btn-danger remove" id="<?php echo $row2['id']; ?>">
+                                Remove
+                            </button>   
+                        </td>
+                    </tr>
+                    <?php
+                    }
+                }else{
+                    
                 ?>
                 <tr style="text-align: center;">
                     <td colspan="3"> No data</td>
 
                 </tr>
-            <?php } ?>
+            <?php
+            
+                }
+            
+                } ?>
         </tbody>
     </table>
 </div>

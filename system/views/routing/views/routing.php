@@ -31,16 +31,16 @@
                 });
             }
         });
-        $('.remove').click(function(){
-            var id = "id="+$(this).attr("id");
-            $.ajax({type: 'POST',data: id,cache: false,url: "views/routing/query/ajaxRemoveRouting.php",success: function (data, textStatus, jqXHR) {
-                                if(data==1){
-                                    window.location.reload();
-                                }
-                            }});
-            
+        $('.remove').click(function () {
+            var id = "id=" + $(this).attr("id");
+            $.ajax({type: 'POST', data: id, cache: false, url: "views/routing/query/ajaxRemoveRouting.php", success: function (data, textStatus, jqXHR) {
+                    if (data == 1) {
+                        window.location.reload();
+                    }
+                }});
+
         });
-        
+
         $('#searchname').typeahead({
             source: function (query, result) {
                 $.ajax({
@@ -56,13 +56,13 @@
                 });
             }
         });
-        
-        
-        $("#search").click(function(){
-            var searchname =  $('#searchname').val();
-            var searchcode =  $('#searchcode').val();
-            var url="&code="+searchcode+"&name="+searchname;
-             window.location.replace("?fragment=routing&component=routing"+url);
+
+
+        $("#search").click(function () {
+            var searchname = $('#searchname').val();
+            var searchcode = $('#searchcode').val();
+            var url = "&code=" + searchcode + "&name=" + searchname;
+            window.location.replace("?fragment=routing&component=routing" + url);
         });
 
 
@@ -139,7 +139,7 @@
 
         </div>
     </div>
-     <div class="col-md-3 mb-3">
+    <div class="col-md-3 mb-3">
         <label for="searchname">Name</label>
         <div class="input-group ">
             <input type="text" class="form-control " id="searchname" name="searchname" placeholder="Name" required="">
@@ -163,7 +163,7 @@
     <table class="table table-condensed">
         <thead>
             <tr>
-               
+
                 <th>Code</th>
                 <th>Name</th>
                 <th>Tools</th>
@@ -171,10 +171,9 @@
         </thead>
         <tbody>
             <?php
-            
-            $code = isset($_GET['code']) ? $_GET['code'] :"";
-            $name = isset($_GET['name']) ? $_GET['name'] :"";
-            if (($code != "") || ($name !="")) {
+            $code = isset($_GET['code']) ? $_GET['code'] : "";
+            $name = isset($_GET['name']) ? $_GET['name'] : "";
+            if (($code != "") || ($name != "")) {
 
                 $query = "SELECT * FROM `routing` WHERE `code` like '%$code%'  or `name` like '%$name%'";
                 $result = mysqli_query($connection, $query);
@@ -193,12 +192,33 @@
                     <?php
                 }
             } else {
-                ?>
-                <tr style="text-align: center;">
-                    <td colspan="3"> No data</td>
+                $query = "SELECT * FROM `routing` WHERE 1 ORDER by `id` DESC";
+                $result = mysqli_query($connection, $query);
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row2 = mysqli_fetch_array($result)) {
+                        ?>
+                     <tr>
+                        <td><?php echo $row2['code']; ?></td>
+                        <td><?php echo $row2['name']; ?></td>
+                        <td>
+                            <a href="./views/routing/views/subrouting.php?id=<?php echo $row2['id']; ?>&productionline=<?php echo $row2['productionline']; ?>&code=<?php echo $row2['code']; ?>&name=<?php echo $row2['name']; ?>"  class="btn btn-success " >Sub station</a>
+                            <button type="button" class="btn btn-danger remove" id="<?php echo $row2['id']; ?>">
+                                Remove
+                            </button>   
+                        </td>
+                    </tr>
+                    <?php
+                    }
+                } else {
+                    ?>
+                    <tr style="text-align: center;">
+                        <td colspan="3"> No data</td>
 
-                </tr>
-            <?php } ?>
+                    </tr>
+        <?php
+    }
+}
+?>
         </tbody>
     </table>
 </div>
