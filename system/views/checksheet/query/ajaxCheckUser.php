@@ -13,3 +13,6 @@ $query="INSERT INTO `timestamp`(`checksheetID`, `subproductionlineID`, `employee
                                  . "('$checksheet','$subproductionlineid','$val','$date','$status')";
 
                          mysqli_query($connection, $query);
+                         
+ $query="UPDATE `subproductionline` SET  `statusUser` ='$status' WHERE `id`='$subproductionlineid'";  
+ mysqli_query($connection, $query);

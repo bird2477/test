@@ -41,9 +41,11 @@
 <div class="nav-scroller bg-white box-shadow">
       <nav class="nav nav-underline">
        
-        <?php    while ($row1 = mysqli_fetch_array($result)) {
+        <?php   
+        $component=  isset($_GET['component']) ?$_GET['component'] :"home";
+        while ($row1 = mysqli_fetch_array($result)) {
          ?>
-          <a class="nav-link   <?php if ($_GET['component'] == $row1['fragment']) {
+          <a class="nav-link   <?php if ($component == $row1['fragment']) {
                 echo 'active';
             } ?>" href="?fragment=<?php echo $fragment; ?>&component=<?php echo  $row1['fragment'] ?>"><?php echo $row1['title']; ?></a>
         

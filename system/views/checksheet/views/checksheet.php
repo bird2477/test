@@ -153,7 +153,7 @@
                 <th>Date</th>
                 <th>Code</th>
                 <th>Name</th>
-                <th>Tools</th>
+                <th colspan="2" style="text-align: center;">Tools</th>
             </tr>
         </thead>
         <tbody>
@@ -199,8 +199,9 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
                                 <?php
                             }
                             ?>
-                                    
-                                   <div class="dropdown">
+                        </td>
+                        <td>
+                             <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Report
                                     </button>
@@ -231,7 +232,6 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
                                         ?>
                                     </div>
                                 </div>
-                                
                                 
                         </td>
                     </tr>
@@ -277,7 +277,10 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`
                                     <?php
                                 }
                                 ?>
-                                <div class="dropdown col-2">
+                               
+                            </td>
+                            <td>
+                                 <div class="dropdown col-2">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Report
                                     </button>
@@ -315,7 +318,7 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`
                 } else {
                     ?>
                     <tr style="text-align: center;">
-                        <td colspan="4" >No Data</td>
+                        <td colspan="5" >No Data</td>
                     </tr>
                     <?php
                 }

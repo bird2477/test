@@ -16,7 +16,7 @@ while ($row = mysqli_fetch_array($result)) {
     $subproductionlineID = $row['subproductionlineID'];
     $speed=$row['speed'];
     $query="UPDATE `subchecksheet` SET `speed` ='$speed'WHERE  `checksheet` ='$checksheetId' and `subproductionlineID` ='$subproductionlineID'";
-    
-    $query = "UPDATE `subproductionline` SET   `target`  ='0' ,`status`='0' WHERE `id` ='$subproductionlineID'";
+     mysqli_query($connection, $query);
+    $query = "UPDATE `subproductionline` SET  `speed`='0',`reject_total`='0' ,`free_total`='0' ,`actual_total`='0' ,`target`  ='0' ,`status`='0' WHERE `id` ='$subproductionlineID'";
     mysqli_query($connection, $query);
 }
