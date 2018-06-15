@@ -141,8 +141,6 @@
         <label for="search">Search</label>
         <input type="button" class="form-control filter"  value="Search" id="search" required="">
     </div>
-
-
 </div>
 
 
