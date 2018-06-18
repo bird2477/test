@@ -5,14 +5,15 @@ $productionline=$_POST['productionline'];
 $name=$_POST['name'];
 $code=$_POST['code'];
 $target=$_POST['target'];
+$lot=$_POST['lot'];
 $query="SELECT `id` FROM `routing` WHERE `code` like '$code' and `name` like '$name' and `productionline` ='$productionline'";
 $result=  mysqli_query($connection, $query);
 $row=  mysqli_fetch_array($result);
 $routing=$row['id'];
 $target=$_POST['target'];
 $date = date('Y-m-d');
-$query="INSERT INTO `checksheet`(`id`, `date`, `routing`, `traget`, `status`) VALUES"
-        . " (null,'$date','$routing','$target','0')";
+$query="INSERT INTO `checksheet`(`id`, `date`,`lot` ,`routing`, `traget`, `status`) VALUES"
+        . " (null,'$date','$lot','$routing','$target','0')";
 mysqli_query($connection, $query);
 $checksheetId=  mysqli_insert_id($connection);
 

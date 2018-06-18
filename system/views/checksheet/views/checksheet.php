@@ -48,7 +48,8 @@
                 var name = $("#name").val();
                 var code = $("#code").val();
                 var target = $("#target").val();
-                var dataString = "productionline=" + productionline + "&name=" + name + "&code=" + code + "&target=" + target;
+                var lot =$('#lot').val();
+                var dataString = "lot="+lot+"&productionline=" + productionline + "&name=" + name + "&code=" + code + "&target=" + target;
                 $.ajax({data: dataString, type: 'POST', cache: false, url: "./views/checksheet/query/ajaxReport.php", success: function (data, textStatus, jqXHR) {
                         if (data != "") {
                             window.location.replace("./views/checksheet/views/report.php?id=" + data);
@@ -97,6 +98,10 @@
                         }
                         ?>
                     </select>
+                </div>
+                <div class="row">
+                    <label for="lot">Lot</label>    
+                    <input type="text" class="form-control" name="lot" id="lot" >
                 </div>
                 <div class="row">
                     <label for="code">Code</label>       
