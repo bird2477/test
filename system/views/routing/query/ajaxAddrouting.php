@@ -10,6 +10,6 @@ $query="INSERT INTO `routing`(`id`, `code`, `name`, `productionline`) VALUES"
                 
 if(mysqli_query($connection, $query)){
   $id=  mysqli_insert_id($connection);
-  echo './views/routing/views/maprouting.php?id='.$id;
+  echo './views/routing/views/subrouting.php?id='.$id.'&productionline='.$productionline.'&code='.$code.'&name='.$name;
     
 }
