@@ -14,6 +14,10 @@
             <th class="frame">ผู้ปฏิบัติงาน</th>
             <th class="frame">ชืองาน</th>
             <th class="frame">เครื่องจักร</th>
+            <th class="frame" >Target</th>
+            <th class="frame" >Actual Total</th>
+            <th class="frame" >Free Total</th>
+            <th class="frame" >Reject Total</th>
             <th class="frame">เวลาเริ่ม</th>
             <th class="frame">เวลาหยุด</th>
 
@@ -56,6 +60,20 @@ INNER JOIN `routing` ON `routing`.`id`=`checksheet`.`routing` WHERE  `checksheet
                 <td class="frame">
                     <?php echo $row1['name']; ?>
                 </td>
+                <td class="frame">
+                    <?php echo $row['target']; ?>
+                </td>
+                <td class="frame">
+                     <?php echo $row['actual_total']; ?>
+                </td >
+                <td class="frame">
+                     <?php echo $row['free_total']; ?>
+                </td>
+                <td class="frame">
+                     <?php echo $row['reject_total']; ?>
+                </td>
+                
+                
                 <td class="frame" >
                     <?php 
                     $query="SELECT  `datetime` FROM `timestamp` WHERE  `checksheetID` ='$checksheet' and `subproductionlineID` ='$subproductionlineID'  AND `status` ='1' ORDER by  `datetime` ASC";

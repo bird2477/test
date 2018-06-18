@@ -36,7 +36,8 @@
         <?php
         if (isset($_GET['date'])) {
             $date = $_GET['date'];
-            $query = "SELECT `checksheet`.`id`,  `checksheet`.`routing`,`checksheet`.`date`,`subchecksheet`.`subproductionlineID` FROM `checksheet` INNER JOIN `subchecksheet` ON `subchecksheet`.`checksheet` =`checksheet`.`id` WHERE `checksheet`. `date` like '$date'";
+            $query = "SELECT DISTINCT   `checksheet`.`id`,  `checksheet`.`routing`,`checksheet`.`date` FROM `checksheet` INNER JOIN `subchecksheet` ON `subchecksheet`.`checksheet` =`checksheet`.`id` WHERE `checksheet`. `date` like '$date'";
+            echo $query;
             $result = mysqli_query($connection, $query);
             while ($row = mysqli_fetch_array($result)) {
                 ?>
