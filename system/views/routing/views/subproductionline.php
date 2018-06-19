@@ -15,7 +15,11 @@ session_start();
                 $("#addmachine").click(function () {
                     var productionline = "<?php echo $_GET['id']; ?>";
                     var name = $("#name").val();
-                    var dataString = "productionline=" + productionline + "&name=" + name;
+                    var type = $("#type").val();
+                    var capability = $("#capability").val();
+                    var model = $("#model").val();
+                    var brandname = $("#brandname").val();
+                    var dataString = "productionline=" + productionline + "&name=" + name+ "&type=" + type+ "&capability=" + capability+ "&model=" + model+ "&brandname=" + brandname;
                     $.ajax({data: dataString, url: "../../routing/query/ajaxAddSubMachine.php", cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
                             if (data == 1) {
                                 window.location.reload();
@@ -23,14 +27,26 @@ session_start();
                         }});
 
                 });
-                
-                $(".remove").click(function(){
-                    var id = "id="+$(this).attr("id");
-                    $.ajax({data:id,cache: false,url: "../../routing/query/ajaxRemoveSub.php",type: 'POST',success: function (data, textStatus, jqXHR) {
-                        if(data=="1"){
-                        window.location.reload();
-                        }
-                    } });
+
+                $('.chenge').change(function () {
+                    var id = $(this).attr("id");
+                    var key = $(this).attr("key");
+                    var val = $(this).val();
+                    var dataString = "id=" + id + "&key=" + key + "&val=" + val;
+                    $.ajax({url: "../../routing/query/ajaxChengeSubproductionline.php", data: dataString, cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
+                            if (data == 1) {
+                                alert("update success");
+                            }
+                        }});
+                });
+
+                $(".remove").click(function () {
+                    var id = "id=" + $(this).attr("id");
+                    $.ajax({data: id, cache: false, url: "../../routing/query/ajaxRemoveSub.php", type: 'POST', success: function (data, textStatus, jqXHR) {
+                            if (data == "1") {
+                                window.location.reload();
+                            }
+                        }});
                 });
 
             });
@@ -60,10 +76,50 @@ session_start();
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="name">Name</label>
+                                <label for="name">Machine Code</label>
                                 <div class="input-group">
 
-                                    <input type="text" class="form-control" id="name" placeholder="Name" required="">
+                                    <input type="text" class="form-control" id="name" placeholder="Machine Code" required="">
+                                    <div class="invalid-feedback" style="width: 100%;">
+                                        Your username is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="type">Type</label>
+                                <div class="input-group">
+
+                                    <input type="text" class="form-control" id="type" placeholder="Type" required="">
+                                    <div class="invalid-feedback" style="width: 100%;">
+                                        Your username is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="capability">Capability</label>
+                                <div class="input-group">
+
+                                    <input type="text" class="form-control" id="capability" placeholder="Capability" required="">
+                                    <div class="invalid-feedback" style="width: 100%;">
+                                        Your username is required.
+                                    </div>
+                                </div>
+                            </div>
+                              <div class="mb-3">
+                                <label for="model">Model</label>
+                                <div class="input-group">
+
+                                    <input type="text" class="form-control" id="model" placeholder="Model" required="">
+                                    <div class="invalid-feedback" style="width: 100%;">
+                                        Your username is required.
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="mb-3">
+                                <label for="brandname">Brand Name</label>
+                                <div class="input-group">
+
+                                    <input type="text" class="form-control" id="brandname" placeholder="Brand Name" required="">
                                     <div class="invalid-feedback" style="width: 100%;">
                                         Your username is required.
                                     </div>
@@ -82,29 +138,46 @@ session_start();
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Machine</th>
+                            <th>Machine Code</th>
+                            <th>Type</th>
+                            <th>Capability</th>
+                            <th>Model</th>
+                            <th>Brand Name</th>
                             <th>Tools</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $id=$_GET['id'];
-                        $query="SELECT * FROM `subproductionline` WHERE `productionline` LIKE '$id'";
-                        $result=  mysqli_query($connection, $query);
+                        $id = $_GET['id'];
+                        $query = "SELECT * FROM `subproductionline` WHERE `productionline` LIKE '$id'";
+                        $result = mysqli_query($connection, $query);
                         while ($row = mysqli_fetch_array($result)) {
-                        
-                        ?>
-                        <tr>
-                            <td><?php echo $row['name']; ?></td>
-                            <td>
-                             <button type="button" class="btn btn-danger remove" id="<?php echo $row['id']; ?>">
-                                Remove
-                            </button> 
-                                
-                            </td>
-                        </tr>       
-                        <?php      
-                        } 
+                            ?>
+                            <tr>
+                                <td>
+                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="name" value="<?php echo $row['name']; ?>" >
+                                </td>
+                                <td> 
+                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="type" value="<?php echo $row['type']; ?>" >
+                                </td>
+                                <td>
+                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="capability" value="<?php echo $row['capability']; ?>" >
+                                </td>
+                                <td>
+                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="model" value="<?php echo $row['model']; ?>" >
+                                </td>
+                                <td>
+                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="brandname" value="<?php echo $row['brandname']; ?>" >
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger remove" id="<?php echo $row['id']; ?>">
+                                        Remove
+                                    </button> 
+
+                                </td>
+                            </tr>       
+                            <?php
+                        }
                         ?>
                     </tbody>
                 </table>

@@ -47,7 +47,11 @@ session_start();
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Machine</th>
+                            <th>Machine Code</th>
+                            <th>Brand Name</th>
+                            <th>Model</th>
+                            <th>Type</th>
+                            <th>Capability</th>
                             <th>NO</th>
                             <th>Address</th>
                         </tr>
@@ -61,6 +65,10 @@ session_start();
                             ?>
                             <tr>
                                 <td><?php echo $row['name']; ?></td>
+                                <td><?php echo $row['brandname']; ?></td>
+                                <td><?php echo $row['model']; ?></td>
+                                <td><?php echo $row['type']; ?></td>
+                                <td><?php echo $row['capability']; ?></td>
                                 <td>
                                     <input type="text" class="update" value="<?php echo $row['no'] ?>" colum="no" id="<?php echo $row['id']; ?>"     >
 

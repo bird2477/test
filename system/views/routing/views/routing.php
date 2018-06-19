@@ -2,10 +2,11 @@
 <script >
     $(document).ready(function () {
         $("#routingadd").click(function () {
-            var code = $("#code").val();
-            var name = $("#name").val();
-            var productionline = $("#productionline").val();
-            var dataSting = "code=" + code + "&name=" + name + "&productionline=" + productionline;
+            var productioncode = $("#productioncode").val();
+            var partname = $("#partname").val();
+            var partcode = $("#partcode").val();
+           
+            var dataSting = "productioncode=" + productioncode + "&partname=" + partname+"&partcode=" + partcode;
             $.ajax({data: dataSting, type: 'POST', cache: false, url: "views/routing/query/ajaxAddrouting.php", success: function (data, textStatus, jqXHR) {
 
                     if (data != "") {
@@ -16,11 +17,11 @@
         });
 
 
-        $('#searchcode').typeahead({
+        $('#searchproductioncode').typeahead({
             source: function (query, result) {
                 $.ajax({
                     url: "views/routing/query/codeautocomplate.php",
-                    data: 'code=' + $("#searchcode").val(),
+                    data: 'productioncode=' + $("#searchproductioncode").val(),
                     dataType: "json",
                     type: "POST",
                     success: function (data) {
@@ -41,11 +42,26 @@
 
         });
 
-        $('#searchname').typeahead({
+        $('#searchpartcode').typeahead({
+            source: function (query, result) {
+                $.ajax({
+                    url: "views/routing/query/partcodeautocomplate.php",
+                    data: 'searchpartcode=' + $("#searchpartcode").val(),
+                    dataType: "json",
+                    type: "POST",
+                    success: function (data) {
+                        result($.map(data, function (item) {
+                            return item;
+                        }));
+                    }
+                });
+            }
+        });
+        $('#searchpartname').typeahead({
             source: function (query, result) {
                 $.ajax({
                     url: "views/routing/query/nameautocomplate.php",
-                    data: 'name=' + $("#searchname").val(),
+                    data: 'searchpartname=' + $("#searchpartname").val(),
                     dataType: "json",
                     type: "POST",
                     success: function (data) {
@@ -57,11 +73,11 @@
             }
         });
 
-
         $("#search").click(function () {
-            var searchname = $('#searchname').val();
+            var searchpartname = $('#searchpartname').val();
+            var searchpartcode = $('#searchpartcode').val();
             var searchcode = $('#searchcode').val();
-            var url = "&code=" + searchcode + "&name=" + searchname;
+            var url = "&searchpartname=" + searchpartname + "&searchpartcode=" + searchpartcode+ "&searchproductioncode=" + searchproductioncode;
             window.location.replace("?fragment=routing&component=routing" + url);
         });
 
@@ -92,34 +108,26 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <label for="code">Code</label>
+                    <label for="productioncode">Production Code</label>
 
                     <div class="input-group ">
-                        <input type="text" class="form-control " id="code" name="code" placeholder="code : 103322551015" required="">
+                        <input type="text" class="form-control " id="productioncode" name="productioncode" placeholder="Production Code : 103322551015" required="">
                     </div>
                 </div>
                 <div class="row">
-                    <label for="name">Name</label>
+                    <label for="partcode">Part Code</label>
                     <div class="input-group ">
-                        <input type="text" class="form-control " id="name" name="name" placeholder="Description" required="">
+                        <input type="text" class="form-control " id="partcode" name="partcode" placeholder="Part Code :0010039N" required="">
+                    </div>
+                </div>
+                 <div class="row">
+                    <label for="partname">Part Name</label>
+                    <div class="input-group ">
+                        <input type="text" class="form-control " id="partname" name="partname" placeholder="Part Name :Detial" required="">
                     </div>
                 </div>
 
-                <div class="row">
-                    <label for="productionline">Production Line</label>       
-                    <select name="productionline" class="custom-select d-block w-100 " id="productionline" required="">
-                        <option value="">Choose...</option>
-                        <?php
-                        $query = "SELECT * FROM `productionline` WHERE 1";
-                        $result = mysqli_query($connection, $query);
-                        while ($row = mysqli_fetch_array($result)) {
-                            ?> 
-                            <option value="<?php echo $row['id']; ?>"><?php echo $row['machine']; ?></option>
-                            <?php
-                        }
-                        ?>
-                    </select>
-                </div>
+               
 
             </div>
             <div class="modal-footer">
@@ -133,16 +141,24 @@
 
 <div class="row" style="background: buttonhighlight;" >
     <div class="col-md-3 mb-3">
-        <label for="searchcode">Code</label>
+        <label for="searchproductioncode">Production Code</label>
         <div class="input-group ">
-            <input type="text" class="form-control " id="searchcode" name="searchcode" placeholder="Code" required="">
+            <input type="text" class="form-control " id="searchproductioncode" name="searchproductioncode" placeholder="Production Code" required="">
 
         </div>
     </div>
     <div class="col-md-3 mb-3">
-        <label for="searchname">Name</label>
+        <label for="searchpartcode">Part Code</label>
         <div class="input-group ">
-            <input type="text" class="form-control " id="searchname" name="searchname" placeholder="Name" required="">
+            <input type="text" class="form-control " id="searchpartcode" name="searchpartcode" placeholder="Part Code" required="">
+
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <label for="searchpartname">Part Name</label>
+        <div class="input-group ">
+            <input type="text" class="form-control " id="searchpartname" name="searchpartname" placeholder="Part Code" required="">
 
         </div>
     </div>
@@ -164,26 +180,30 @@
         <thead>
             <tr>
 
-                <th>Code</th>
-                <th>Name</th>
+                <th>Production Code</th>
+                <th>Part Code</th>
+                <th>Part Name</th>
                 <th>Tools</th>
             </tr>
         </thead>
         <tbody>
             <?php
-            $code = isset($_GET['code']) ? $_GET['code'] : "";
-            $name = isset($_GET['name']) ? $_GET['name'] : "";
-            if (($code != "") || ($name != "")) {
+            $partcode = isset($_GET['partcode']) ? $_GET['partcode'] : "";
+            $partname= isset($_GET['partname']) ? $_GET['partname'] : "";
+            $productioncode = isset($_GET['productioncode']) ? $_GET['productioncode'] : "";
+            if (($productioncode != "") || ($partname != "") ||($partcode != "")) {
 
-                $query = "SELECT * FROM `routing` WHERE `code` like '%$code%'  or `name` like '%$name%'";
+                $query = "SELECT * FROM `routing` WHERE `productioncode` like '%$productioncode%' or `partcode` like '%$partcode%' or `partname`  like '%$partname%'";
+              
                 $result = mysqli_query($connection, $query);
                 while ($row1 = mysqli_fetch_array($result)) {
                     ?>
                     <tr>
-                        <td><?php echo $row1['code']; ?></td>
-                        <td><?php echo $row1['name']; ?></td>
+                        <td><?php echo $row1['productioncode']; ?></td>
+                        <td><?php echo $row1['partcode']; ?></td>
+                        <td><?php echo $row1['partname']; ?></td>
                         <td>
-                            <a href="./views/routing/views/subrouting.php?id=<?php echo $row1['id']; ?>&productionline=<?php echo $row1['productionline']; ?>&code=<?php echo $_GET['code']; ?>&name=<?php echo $_GET['name']; ?>"  class="btn btn-success " >Sub station</a>
+                            <a href="./views/routing/views/subrouting.php?id=<?php echo $row1['id']; ?>&productioncode=<?php echo $row1['productioncode']; ?>&partnmae=<?php echo $row1['partname']; ?>&partcode=<?php echo $row1['partcode']; ?>"  class="btn btn-success " >Sub station</a>
                             <button type="button" class="btn btn-danger remove" id="<?php echo $row1['id']; ?>">
                                 Remove
                             </button>   
@@ -198,10 +218,11 @@
                     while ($row2 = mysqli_fetch_array($result)) {
                         ?>
                      <tr>
-                        <td><?php echo $row2['code']; ?></td>
-                        <td><?php echo $row2['name']; ?></td>
+                        <td><?php echo $row2['productioncode']; ?></td>
+                        <td><?php echo $row2['partcode']; ?></td>
+                        <td><?php echo $row2['partname']; ?></td>
                         <td>
-                            <a href="./views/routing/views/subrouting.php?id=<?php echo $row2['id']; ?>&productionline=<?php echo $row2['productionline']; ?>&code=<?php echo $row2['code']; ?>&name=<?php echo $row2['name']; ?>"  class="btn btn-success " >Sub station</a>
+                            <a href="./views/routing/views/subrouting.php?id=<?php echo $row2['id']; ?>&productioncode=<?php echo $row2['productioncode']; ?>&partcode=<?php echo $row2['partcode']; ?>&partname=<?php echo $row2['partname']; ?>"  class="btn btn-success " >Sub station</a>
                             <button type="button" class="btn btn-danger remove" id="<?php echo $row2['id']; ?>">
                                 Remove
                             </button>   
@@ -212,7 +233,7 @@
                 } else {
                     ?>
                     <tr style="text-align: center;">
-                        <td colspan="3"> No data</td>
+                        <td colspan="4"> No data</td>
 
                     </tr>
         <?php

@@ -22,9 +22,17 @@ session_start();
                             }
                         }});
                 });
-
+                    
+                $('#productionline').change(function(){
+                    var id ='id='+ $(this).val();
+                    $.ajax({data: id,url: "../../routing/query/ajaxOptionSubproductionline.php",cache: false,type: 'POST',success: function (data, textStatus, jqXHR) {
+               
+            $('#subproductionline').html(data);
+                    }});
+                });    
+                    
                 $("#addmachine").click(function () {
-                    var subproductiononline = $("#submachine").val();
+                    var subproductiononline = $("#subproductionline").val();
                     var id = "<?php echo $_GET['id']; ?>";
                     var dataString = "routing=" + id + "&subproductiononline=" + subproductiononline;
                     $.ajax({data: dataString, url: "../../routing/query/ajaxAddSubRouting.php", type: 'POST', cache: false, success: function (data, textStatus, jqXHR) {
@@ -47,7 +55,7 @@ session_start();
                     <td></td>
                     <td style="text-align: right;">
                         <button type="button" class="btn btn-info " data-toggle="modal" data-target="#add">Add</button>
-                        <a href="../../../?fragment=routing&component=routing&code=<?php echo $_GET['code'];  ?>&name=<?php echo $_GET['name'];  ?>"  class="btn btn-success " >Back</a>
+                        <a href="../../../?fragment=routing&component=routing&productioncode=<?php echo $_GET['productioncode']; ?>&partcode=<?php echo $_GET['partcode']; ?>&partnmae=<?php echo $_GET['partnmae']; ?>"  class="btn btn-success " >Back</a>
 
                     </td>
                 </tr>
@@ -62,21 +70,32 @@ session_start();
                         </div>
                         <div class="modal-body">
                             <div class="row">
-                                <label for="submachine">Sub Machine</label>
+                                <label for="productionline">Production Line</label>
                                 <div class="input-group">
 
-                                    <select name="submachine" class="custom-select d-block w-100" id="submachine" required="">
+                                    <select name="productionline" class="custom-select d-block w-100" id="productionline" required="">
                                         <option value="">Choose...</option>
                                         <?php
-                                        $productionline = $_GET['productionline'];
-                                        $query = "SELECT * FROM `subproductionline` WHERE `productionline` ='$productionline'";
-                                        $result = mysqli_query($connection, $query);
+                                        $query="SELECT * FROM `productionline` WHERE 1";
+                                        $result=  mysqli_query($connection, $query);
                                         while ($row1 = mysqli_fetch_array($result)) {
-                                            ?>
-                                            <option value="<?php echo $row1['id']; ?>"><?php echo $row1['name']; ?></option>
-                                            <?php
-                                        }
                                         ?>
+                                        <option value="<?php echo $row1['id']; ?>" ><?php echo $row1['machine']; ?></option>
+                                        <?php     
+                                        } 
+                                        ?>
+                                    </select>
+
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <label for="subproductionline">Machine Code</label>
+                                <div class="input-group">
+
+                                    <select name="subproductionline" class="custom-select d-block w-100" id="subproductionline" required="">
+                                        <option value="">Choose...</option>
+                                        
                                     </select>
 
                                 </div>
@@ -94,7 +113,7 @@ session_start();
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Machine</th>
+                            <th>Machine Code</th>
                             <th>Tools</th>
                         </tr>
                     </thead>
