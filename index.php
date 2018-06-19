@@ -9,8 +9,6 @@ window.location.replace("./system");
 </script>
 <?php
 }
-
-
 ?>
 <html>
     <head>

@@ -27,7 +27,10 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Production Line</th>
+            <th>ChecksheetID</th>
+            <th>Production Code</th>
+            <th>Part Code</th>
+            <th>Part Name</th>
             <th>Tools</th>
 
         </tr>
@@ -37,21 +40,31 @@
         if (isset($_GET['date'])) {
             $date = $_GET['date'];
             $query = "SELECT DISTINCT   `checksheet`.`id`,  `checksheet`.`routing`,`checksheet`.`date` FROM `checksheet` INNER JOIN `subchecksheet` ON `subchecksheet`.`checksheet` =`checksheet`.`id` WHERE `checksheet`. `date` like '$date'";
-           
+
             $result = mysqli_query($connection, $query);
             while ($row = mysqli_fetch_array($result)) {
                 ?>
                 <tr>
-                    <td><?php
-                        $routing = $row['routing'];
-                        $query = "SELECT * FROM `routing` WHERE `id` like '$routing'";
-                        $result1 = mysqli_query($connection, $query);
-                        $row1 = mysqli_fetch_array($result1);
-                        $productionline = $row1['productionline'];
-                        $query = "SELECT * FROM `productionline` WHERE `id` ='$productionline'";
-                        $result1 = mysqli_query($connection, $query);
-                        $row1 = mysqli_fetch_array($result1);
-                        echo $row1['machine'];
+                    <?php
+                    $routing = $row['routing'];
+                    $query = "SELECT * FROM `routing` WHERE `id` like '$routing'";
+                    $result1 = mysqli_query($connection, $query);
+                    $row1 = mysqli_fetch_array($result1);
+                    ?>
+                    <td><?php echo $row['id'] ; ?></td>
+                    <td>
+                        <?php
+                        echo $row1['productioncode'];
+                        ?>
+                    </td>
+                    <td >
+                        <?php
+                        echo $row1['partcode'];
+                        ?>
+                    </td>
+                    <td >
+                        <?php
+                        echo $row1['partname'];
                         ?>
                     </td>
                     <td>
@@ -62,9 +75,9 @@
             }
         } else {
             ?>
-                <tr>
-                    <td colspan="2" style="text-align: center;"> Need filter</td>
-                </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;"> Need filter</td>
+            </tr>
         <?php } ?>
     </tbody>
 </table>
