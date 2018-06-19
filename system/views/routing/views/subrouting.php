@@ -55,7 +55,7 @@ session_start();
                     <td></td>
                     <td style="text-align: right;">
                         <button type="button" class="btn btn-info " data-toggle="modal" data-target="#add">Add</button>
-                        <a href="../../../?fragment=routing&component=routing&productioncode=<?php echo $_GET['productioncode']; ?>&partcode=<?php echo $_GET['partcode']; ?>&partnmae=<?php echo $_GET['partnmae']; ?>"  class="btn btn-success " >Back</a>
+                        <a href="../../../?fragment=routing&component=routing&productioncode=<?php echo $_GET['productioncode']; ?>&partcode=<?php echo $_GET['partcode']; ?>&partnmae=<?php echo $_GET['partname']; ?>"  class="btn btn-success " >Back</a>
 
                     </td>
                 </tr>

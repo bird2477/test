@@ -1,6 +1,22 @@
+<script src="../vender/typeahead.js" ></script>
 <script >
     $(document).ready(function () {
-
+          $('#name').typeahead({
+            source: function (query, result) {
+                $.ajax({
+                    url: "views/managementuser/query/usernameautocomplate.php",
+                    data: 'name=' + $("#name").val(),
+                    dataType: "json",
+                    type: "POST",
+                    success: function (data) {
+                        result($.map(data, function (item) {
+                            return item;
+                        }));
+                    }
+                });
+            }
+        });
+        
         $(".filter").click(function () {
             var name = $('#name').val();
             var privilege = $('#privilege').val();
@@ -61,6 +77,7 @@
         <label for="privilege">Privilege</label>
         <select name="privilege" class="custom-select d-block w-100 " id="privilege" required="">
             <option value="">Choose...</option>
+            <option value="0">technician</option>
             <option value="1">operator</option>
             <option value="2">lineleadder</option>
             <option value="3">shifleadder</option>
