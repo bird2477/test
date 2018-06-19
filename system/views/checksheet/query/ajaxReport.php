@@ -1,19 +1,19 @@
 <?php
 date_default_timezone_set("Asia/Bangkok");
 include '../../../../config/database.php';
-$productionline=$_POST['productionline'];
-$name=$_POST['name'];
-$code=$_POST['code'];
+$productioncode=$_POST['productioncode'];
+$partcode=$_POST['partcode'];
+$partname=$_POST['partname'];
 $target=$_POST['target'];
-$lot=$_POST['lot'];
-$query="SELECT `id` FROM `routing` WHERE `code` like '$code' and `name` like '$name' and `productionline` ='$productionline'";
+
+$query="SELECT `id` FROM `routing` WHERE  `productioncode` like '$productioncode' and `partcode` like '$partcode' and `partname` like '$partname'";
 $result=  mysqli_query($connection, $query);
 $row=  mysqli_fetch_array($result);
 $routing=$row['id'];
-$target=$_POST['target'];
+
 $date = date('Y-m-d');
-$query="INSERT INTO `checksheet`(`id`, `date`,`lot` ,`routing`, `traget`, `status`) VALUES"
-        . " (null,'$date','$lot','$routing','$target','0')";
+$query="INSERT INTO `checksheet`(`id`, `date` ,`routing`, `traget`, `status`) VALUES"
+        . " (null,'$date','$routing','$target','0')";
 mysqli_query($connection, $query);
 $checksheetId=  mysqli_insert_id($connection);
 
@@ -25,7 +25,7 @@ while ($row1 = mysqli_fetch_array($result)) {
     $subproductionlineID=$row1['subproductiononline'];
     $query="INSERT INTO `subchecksheet`(`id`, `checksheet`, `subproductionlineID`, `target`, `actual_total`, `free_total`, `reject_total`) VALUES"
                                     . " (null,'$checksheetId','$subproductionlineID','$target','0','0','')";
-                            mysqli_query($connection, $query);
+    mysqli_query($connection, $query);
 }
 echo $checksheetId;
 

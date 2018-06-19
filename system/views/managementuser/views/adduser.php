@@ -91,6 +91,7 @@
         <label for="privilege">Privilege</label>
         <select name="privilege" class="custom-select d-block w-100" id="privilege" required="">
             <option value="">Choose...</option>
+            <option value="0">technician</option>
             <option value="1">operator</option>
             <option value="2">lineleadder</option>
             <option value="3">shifleadder</option>
