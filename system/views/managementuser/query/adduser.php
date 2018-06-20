@@ -1,6 +1,6 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 include '../../../../config/database.php';
-
 $name = $_POST['name'];
 $lastname = $_POST['lastname'];
 $username = $_POST['username'];

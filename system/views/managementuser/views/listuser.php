@@ -1,7 +1,7 @@
 <script src="../vender/typeahead.js" ></script>
 <script >
     $(document).ready(function () {
-          $('#name').typeahead({
+        $('#name').typeahead({
             source: function (query, result) {
                 $.ajax({
                     url: "views/managementuser/query/usernameautocomplate.php",
@@ -16,11 +16,11 @@
                 });
             }
         });
-        
+
         $(".filter").click(function () {
             var name = $('#name').val();
-            var privilege = $('#privilege').val();
-            var filter = "?fragment=user&component=listuser&name=" + name + "&privilege=" + privilege;
+        
+            var filter = "?fragment=user&component=listuser&name=" + name ;
             window.location.replace(filter);
 
         });
@@ -35,33 +35,36 @@
                 }});
 
         });
-        
-        $('.edit').click(function(){
-            
-             var id =  $(this).attr("id");
-           
-             var name=$('#name'+id).val();
-           
-             var lastname=$('#lastname'+id).val();
-             var username=$('#username'+id).val();
-             var password=$('#password'+id).val();
-             
-             var dataString="id="+id+"&name="+name+"&lastname="+lastname+"&username="+username+"&password="+password;
-             
-             $.ajax({data: dataString,type: 'POST',cache: false,url: "views/managementuser/query/ajaxEdit.php",success: function (data, textStatus, jqXHR) {
-                                 
-         
-            if (data == 1) {
+
+        $('.edit').click(function () {
+
+            var id = $(this).attr("id");
+
+            var name = $('#name' + id).val();
+
+            var lastname = $('#lastname' + id).val();
+            var username = $('#username' + id).val();
+            var password = $('#password' + id).val();
+
+            var dataString = "id=" + id + "&name=" + name + "&lastname=" + lastname + "&username=" + username + "&password=" + password;
+
+            $.ajax({data: dataString, type: 'POST', cache: false, url: "views/managementuser/query/ajaxEdit.php", success: function (data, textStatus, jqXHR) {
+
+
+                    if (data == 1) {
 
                         window.location.reload();
                     }
-                             }});
-            
+                }});
+
         });
 
     });
 </script>
-
+<?php
+$name = isset($_GET['name']) ? $_GET['name'] : "";
+$lastname = isset($_GET['lastname']) ? $_GET['lastname'] : "";
+?>
 <div class="row" style="background: buttonhighlight;" >
     <div class="col-md-5 mb-3">
         <label for="name">Name</label>
@@ -69,20 +72,11 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">@</span>
             </div>
-            <input type="text" class="form-control " id="name" name="name" placeholder="Name" required="">
+            <input type="text" class="form-control " id="name" name="name" value="<?php echo $name; ?>"  placeholder="Name" required="">
 
         </div>
     </div>
-    <div class="col-md-4 mb-3">
-        <label for="privilege">Privilege</label>
-        <select name="privilege" class="custom-select d-block w-100 " id="privilege" required="">
-            <option value="">Choose...</option>
-            <option value="0">technician</option>
-            <option value="1">operator</option>
-            <option value="2">lineleadder</option>
-            <option value="3">shifleadder</option>
-        </select>
-    </div>
+  
     <div class="col-md-3 mb-3">
         <label for="search">Search</label>
         <input type="button" class="form-control filter"  value="Search" id="search" placeholder="Search" required="">
@@ -100,32 +94,49 @@
                 <th>Employee ID</th>
                 <th>Name</th>
                 <th>Lastname</th>
+                <th>Privilege</th>
                 <th>Tools</th>
             </tr>
         </thead>
         <tbody>
 
             <?php
-            $name = isset($_GET['name']) ? $_GET['name'] : "";
-            $lastname = isset($_GET['lastname']) ? $_GET['lastname'] : "";
-
-
-            if (($name == "") && ($lastname == "")) {
+            if (($name == "")) {
                 $query = "SELECT * FROM `users` WHERE 1 ORDER BY id DESC limit 0,10";
             } else {
-                $query = "SELECT * FROM `users` WHERE `name` like '$name' and `privilege` ='$privilege'";
+                $query = "SELECT * FROM `users` WHERE `name` like '%$name%'";
             }
 
             $result = mysqli_query($connection, $query);
 
             while ($row = mysqli_fetch_array($result)) {
+                if ($row['employeeID'] == "99999999") {
+                    continue;
+                }
                 ?>
                 <tr>
                     <td><?php echo $row['employeeID']; ?></td>
                     <td><?php echo $row['name']; ?></td>
                     <td><?php echo $row['lastname']; ?></td>
+                    <td><?php 
+                            switch (intval($row['privilege'])) {
+                                case 0:
+                                    echo 'technician';
+                                    break;
+                                case 1:
+                                    echo 'operator';
+                                    break;
+                                case 2:
+                                    echo 'lineleadder';
+                                    break;
+                                case 3:
+                                    echo 'shifleadder';
+                                    break;
+                            }
+                    
+                    ?></td>
                     <td>
-                        <?php if ($row['privilege'] < $_SESSION['privilege']) { ?>
+    <?php if ($row['privilege'] < $_SESSION['privilege']) { ?>
                             <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#Edit<?php echo $row['id']; ?>">Edit</button>
                             <button type="button" id="<?php echo $row['id']; ?>"  class="remove btn btn-info btn-lg" data-toggle="modal" data-target="#">Remove</button>
                         <?php } ?>
@@ -157,7 +168,7 @@
 
                                 </div>
                             </div>
-                            
+
                             <div class="row">
                                 <label for="lastname<?php echo $row['id']; ?>">Lastname</label>
                                 <div class="input-group ">
@@ -168,7 +179,7 @@
 
                                 </div>
                             </div>
-                            
+
                             <div class="row">
                                 <label for="username<?php echo $row['id']; ?>">Username</label>
                                 <div class="input-group ">
@@ -189,8 +200,8 @@
 
                                 </div>
                             </div>
-                            
-                            
+
+
 
 
                         </div>
@@ -206,9 +217,9 @@
 
 
 
-            <?php
-        }
-        ?>
+    <?php
+}
+?>
         </tbody>
     </table>
 </div>

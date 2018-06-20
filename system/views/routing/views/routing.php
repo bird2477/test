@@ -203,7 +203,7 @@
                         <td><?php echo $row1['partcode']; ?></td>
                         <td><?php echo $row1['partname']; ?></td>
                         <td>
-                            <a href="./views/routing/views/subrouting.php?id=<?php echo $row1['id']; ?>&productioncode=<?php echo $row1['productioncode']; ?>&partnmae=<?php echo $row1['partname']; ?>&partcode=<?php echo $row1['partcode']; ?>"  class="btn btn-success " >Sub station</a>
+                            <a href="./views/routing/views/subrouting.php?id=<?php echo $row1['id']; ?>&productioncode=<?php echo $row1['productioncode']; ?>&partname=<?php echo $row1['partname']; ?>&partcode=<?php echo $row1['partcode']; ?>"  class="btn btn-success " >Sub station</a>
                             <button type="button" class="btn btn-danger remove" id="<?php echo $row1['id']; ?>">
                                 Remove
                             </button>   
