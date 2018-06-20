@@ -13,9 +13,8 @@
     <div class="col-3" >
         <label for="date" class="col-form-label">Date</label>
         <input class="form-control" type="date" value="<?php
-        if (isset($_GET['date'])) {
-            echo $_GET['date'];
-        }
+        $date=  isset($_GET['date']) ?  $_GET['date'] : date('Y-m-d');
+        echo $date;
         ?>" name="date" id="date">
     </div>
     <div class="col-4" style="    margin-top: 7px;">
@@ -37,11 +36,14 @@
     </thead>
     <tbody>
         <?php
-        if (isset($_GET['date'])) {
-            $date = $_GET['date'];
+        
+        
+           
+          
             $query = "SELECT DISTINCT   `checksheet`.`id`,  `checksheet`.`routing`,`checksheet`.`date` FROM `checksheet` INNER JOIN `subchecksheet` ON `subchecksheet`.`checksheet` =`checksheet`.`id` WHERE `checksheet`. `date` like '$date'";
 
             $result = mysqli_query($connection, $query);
+            if(mysqli_num_rows($result)>0){
             while ($row = mysqli_fetch_array($result)) {
                 ?>
                 <tr>
@@ -73,12 +75,13 @@
                 </tr>
                 <?php
             }
-        } else {
+            }else{
+      
             ?>
             <tr>
-                <td colspan="2" style="text-align: center;"> Need filter</td>
+                <td colspan="5" style="text-align: center;"> Need filter</td>
             </tr>
-        <?php } ?>
+            <?php } ?>
     </tbody>
 </table>
 
