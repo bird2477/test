@@ -174,7 +174,7 @@
             <tr>
                 <th>Date</th>
                 <th>
-                    Machine Code
+                    Production Code
                 </th>
                 <th>
                     Part Code
@@ -201,7 +201,7 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
                     <tr>
                         <td><?php echo $row1['date']; ?></td>
                         <td><?php echo $row1['productioncode']; ?></td>
-                        <td><?php echo $row2['partcode']; ?></td>
+                        <td><?php echo $row1['partcode']; ?></td>
                         <td><?php echo $row1['partname']; ?></td>
                         <td>
                             <?php
