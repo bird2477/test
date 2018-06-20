@@ -45,8 +45,9 @@
             var lastname = $('#lastname' + id).val();
             var username = $('#username' + id).val();
             var password = $('#password' + id).val();
+            var employeeID =$("#employeeID"+id).val();
 
-            var dataString = "id=" + id + "&name=" + name + "&lastname=" + lastname + "&username=" + username + "&password=" + password;
+            var dataString = "id=" + id + "&name=" + name + "&lastname=" + lastname + "&username=" + username + "&password=" + password+"&employeeID="+employeeID;
 
             $.ajax({data: dataString, type: 'POST', cache: false, url: "views/managementuser/query/ajaxEdit.php", success: function (data, textStatus, jqXHR) {
 
@@ -179,7 +180,20 @@ $lastname = isset($_GET['lastname']) ? $_GET['lastname'] : "";
 
                                 </div>
                             </div>
+                            
+                            <div class="row">
+                                <label for="employeeID<?php echo $row['id']; ?>">employeeID</label>
+                                <div class="input-group ">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">@</span>
+                                    </div>
+                                    <input type="text" class="form-control " value="<?php echo $row['employeeID']; ?>" id="employeeID<?php echo $row['id']; ?>" name="employeeID<?php echo $row['id']; ?>" placeholder="Name" required="">
 
+                                </div>
+                            </div>
+                            
+                            
+                            
                             <div class="row">
                                 <label for="username<?php echo $row['id']; ?>">Username</label>
                                 <div class="input-group ">

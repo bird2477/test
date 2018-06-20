@@ -31,7 +31,7 @@ if(mysqli_query($connection, $query)){
 if(isset($_POST['profile'])){
     ?>
 <script >
-    window.location.replace("../../../index.php?fragment=user&component=profile");
+    window.location.replace("../../../index.php?fragment=profile&component=profile");
 </script>
 <?php
 }

@@ -31,9 +31,22 @@
                     Your username is required.
                 </div>
             </div>
+            
         </div>
 
-
+         <div class="col-md-10">
+            <label for="employeeID">Employee ID</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">@</span>
+                </div>
+                <input type="text" class="form-control" id="employeeID" value="<?php echo $_SESSION['employeeID']; ?>" name="employeeID" placeholder="Employee ID" required="">
+                <div class="invalid-feedback" style="width: 100%;">
+                    Your username is required.
+                </div>
+            </div>
+            
+        </div>
 
         <div class="col-md-10">
             <label for="username">Username</label>
