@@ -15,7 +15,8 @@ $query="UPDATE `users` SET "
         . "`name`='$name',"
         . "`lastname`='$lastname',"
         . "`username`='$username',"
-        . "`password`='$password'  ,"
+        . "`password`='$password'  ," 
+       
         . "`employeeID`='$employeeID'  WHERE `id` ='$id'";
 
 if(mysqli_query($connection, $query)){

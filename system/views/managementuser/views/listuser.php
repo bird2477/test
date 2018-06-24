@@ -93,6 +93,7 @@ $lastname = isset($_GET['lastname']) ? $_GET['lastname'] : "";
         <thead>
             <tr>
                 <th>Employee ID</th>
+                <th>Sex</th>
                 <th>Name</th>
                 <th>Lastname</th>
                 <th>Privilege</th>
@@ -107,16 +108,23 @@ $lastname = isset($_GET['lastname']) ? $_GET['lastname'] : "";
             } else {
                 $query = "SELECT * FROM `users` WHERE `name` like '%$name%'";
             }
-
+         
             $result = mysqli_query($connection, $query);
 
             while ($row = mysqli_fetch_array($result)) {
-                if ($row['employeeID'] == "99999999") {
+                if ($row['privilege'] == "5") {
                     continue;
                 }
                 ?>
                 <tr>
                     <td><?php echo $row['employeeID']; ?></td>
+                    <td><?php   
+                    if($row['sex']==0){
+                         echo "male" ;
+                    }else{
+                          echo "female" ;
+                    }
+                    ?></td>
                     <td><?php echo $row['name']; ?></td>
                     <td><?php echo $row['lastname']; ?></td>
                     <td><?php 

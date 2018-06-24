@@ -21,7 +21,22 @@
 </div>
 
 <form class="needs-validation" method="POST" action="./views/managementuser/query/adduser.php" novalidate="">
-
+    
+    
+    <div class=" mb-3">
+        <label for="sex">Sex</label>
+        <select name="sex" class="custom-select d-block w-100" id="sex" required="">
+            <option value="">Choose...</option>
+            <option value="0">male </option>
+            <option value="1">female </option>
+           
+        </select>
+        <div class="invalid-feedback">
+            Please select a position.
+        </div>
+    </div>
+    
+    
     <div class="mb-3">
         <label for="name">Name</label>
         <div class="input-group">

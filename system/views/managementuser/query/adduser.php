@@ -7,9 +7,10 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 $privilege = $_POST['privilege'];
 $employeeID = $_POST['employeeID'];
+$sex = $_POST['sex'];
 
-$query = "INSERT INTO `users`(`id`,`employeeID` , `name`, `lastname`, `username`, `password`, `privilege`, `image`) "
-        . "VALUES (null,'$employeeID'  , '$name','$lastname','$username','$password','$privilege','')";
+$query = "INSERT INTO `users`(`id`,`employeeID` , `name`, `lastname`, `username`, `password`, `privilege`, `image`,`sex`) "
+        . "VALUES (null,'$employeeID'  , '$name','$lastname','$username','$password','$privilege','','$sex')";
 
 mysqli_query($connection, $query);
 ?>

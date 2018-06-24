@@ -1,8 +1,10 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark " >
-    <a class="navbar-brand" href="?fragment=home">Real Time System</a>
   
-
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <a class="navbar-brand" href="?fragment=home">Real Time System</a>
+ 
+    
+    <div class="navbar-collapse collapse" id="navbarsExampleDefault">
+      
         <ul class="navbar-nav mr-auto">
 
             <?php

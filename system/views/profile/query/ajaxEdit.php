@@ -10,10 +10,12 @@ $username=$_POST['username'];
 $password=$_POST['password'];
 
 
+
 $query="UPDATE `users` SET "
         . "`name`='$name',"
         . "`lastname`='$lastname',"
-        . "`username`='$username',"
+        . "`username`='$username',"  
+       
         . "`password`='$password' WHERE `id` ='$id'";
 
 if(mysqli_query($connection, $query)){

@@ -1,5 +1,5 @@
 <?php
-$component = isset($_GET['component']) ? $_GET['component'] : "routing";
+$component = isset($_GET['component']) ? $_GET['component'] : "listcustomer";
 $query = "SELECT * FROM `component` WHERE `projectfragment` like '$fragment' and `fragment` like '$component'";
 
 $result = mysqli_query($connection, $query);
