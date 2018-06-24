@@ -99,7 +99,7 @@ $query = "";
                 </table>
             </div>
             <?php
-            $query = "SELECT `subchecksheet`.`subproductionlineID`, `subproductionline`.`name`, `subchecksheet`.`target`, `subproductionline`.`actual_total`, `subproductionline`.`free_total`, `subproductionline`.`reject_total`
+            $query = "SELECT `subchecksheet`.`checksheet`, `subchecksheet`.`subproductionlineID`, `subproductionline`.`name`, `subchecksheet`.`target`, `subproductionline`.`actual_total`, `subproductionline`.`free_total`, `subproductionline`.`reject_total`
 FROM `subchecksheet`
 INNER JOIN `subproductionline` ON  `subchecksheet`.`subproductionlineID`= `subproductionline`.`id` WHERE subchecksheet.checksheet ='$checksheetId'";
 
@@ -112,7 +112,23 @@ INNER JOIN `subproductionline` ON  `subchecksheet`.`subproductionlineID`= `subpr
                 ?>
 
                 <div class="panel panel-primary " style="margin: 3px;padding: 3px;"  >           
-                    <div class="panel-heading"><h3><?php echo $row['name']; ?></h3></div>
+                    <div class="panel-heading"><h3><?php 
+                    $checksheet=$row['checksheet'];
+                    
+                    $query="SELECT * FROM `checksheet` WHERE `id` ='$checksheet'";
+                    $result1=  mysqli_query($connection, $query);
+                    $row1=  mysqli_fetch_array($result1);
+                    
+                    $routing=$row1['routing'];
+                    $query="SELECT * FROM `subrouting` WHERE `routing` ='$routing'";
+                    $result1=  mysqli_query($connection, $query);
+                    $row1=  mysqli_fetch_array($result1);
+                    $mold=$row1['mold'];
+                    $query="SELECT * FROM `mold` WHERE `id` ='$mold'";
+                    $result1=  mysqli_query($connection, $query);
+                    $row1=  mysqli_fetch_array($result1);
+                    
+                    echo $row['name'] ." Mold Code : ".$row1['detail'];  ?></h3></div>
                     <div class="panel-body">
                         <table class="table table-striped">
                             <thead>
