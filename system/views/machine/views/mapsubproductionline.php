@@ -6,6 +6,7 @@ session_start();
 <html>
     <head> <link rel="stylesheet" href="../../../../css/bootstrap.css"  crossorigin="anonymous">
         <script src="../../../../js/jquery.min.js" crossorigin="anonymous"></script>
+        <script src="../../../../js/poper.js"  crossorigin="anonymous"></script>
         <script src="../../../../js/bootstrap.js"  crossorigin="anonymous"></script>
 
         <script >

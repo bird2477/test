@@ -11,7 +11,13 @@ $date = $_GET['date'];
     .frame{ border: 1px solid black;	text-align: center; }
     .rec{ color:#0066ff; }
 </style> 
+<table border="0" align="center"  style="width: 1024px; text-align: left;"  >
+    <tr>
+        <td><?php echo $date; ?></td>
+    </tr>
+</table>
 <table border="0" align="center"  style="width: 1024px; text-align: center;" class="frame"  >
+   
     <thead>
         <tr class="frame">
             <th class="frame">เครื่องจักร</th>
