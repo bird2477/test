@@ -208,7 +208,7 @@
 
 <?php
 $name = isset($_GET['name']) ? $_GET['name'] : "";
-$privilege = isset($_GET['privilege']) ? $_GET['privilege'] : 0;
+$privilege = isset($_GET['privilege']) ? $_GET['privilege'] : "";
 ?>
 <div class="row" style="background: buttonhighlight;" >
     <div class="col-md-5 mb-3">
@@ -259,12 +259,12 @@ $privilege = isset($_GET['privilege']) ? $_GET['privilege'] : 0;
         <tbody>
 
             <?php
-            if (($name == "" && $privilege==0)) {
+            if ((($name == "") && ($privilege==""))) {
                 $query = "SELECT * FROM `users` WHERE 1 ORDER BY id DESC limit 0,10";
             } else {
                 $query = "SELECT * FROM `users` WHERE `name` like '%$name%' and  `privilege`='$privilege'";
             }
-          
+           
             $result = mysqli_query($connection, $query);
 
             while ($row = mysqli_fetch_array($result)) {

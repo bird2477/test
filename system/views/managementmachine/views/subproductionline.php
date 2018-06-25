@@ -53,7 +53,7 @@ session_start();
         <meta charset="UTF-8">
     </head>
     <body>
-        <div class="container">
+        <div style="padding: 20px;">
             <table style="width: 100%">
                 <tr>
                     <td></td>
@@ -224,23 +224,23 @@ session_start();
                 </div>
             </div>
             <div class="row" >
-                <table class="table">
+                <table  class="table" >
                     <thead>
                         <tr>
-                            <th>Machine Code</th>
-                            <th>Type</th>
-                            <th>Capability</th>
-                            <th>Model</th>
-                            <th>Brand Name</th>
-                            <th>Area Size</th>
-                            <th>Ram Size</th>
-                            <th>Bloster Size</th>
-                            <th>Slide Adj</th>
+                            <th >Machine Code</th>
+                            <th >Type</th>
+                            <th >Capability</th>
+                            <th >Model</th>
+                            <th >Brand Name</th>
+                            <th >Area Size</th>
+                            <th >Ram Size</th>
+                            <th >Bloster Size</th>
+                            <th >Slide Adj</th>
                             <th>Stroke Length</th>
-                            <th>SPM</th>
-                            <th>Volt</th>
-                            <th>Amp</th>
-                            <th>HP</th>
+                            <th >SPM</th>
+                            <th >Volt</th>
+                            <th >Amp</th>
+                            <th >HP</th>
 
                             <th>Tools</th>
                         </tr>
@@ -254,46 +254,46 @@ session_start();
                             ?>
                             <tr>
                                 <td>
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="name" value="<?php echo $row['name']; ?>" >
+                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="name" value="<?php echo $row['name']; ?>" >
                                 </td>
                                 <td> 
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="type" value="<?php echo $row['type']; ?>" >
+                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="type" value="<?php echo $row['type']; ?>" >
                                 </td>
                                 <td>
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="capability" value="<?php echo $row['capability']; ?>" >
+                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="capability" value="<?php echo $row['capability']; ?>" >
                                 </td>
                                 <td>
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="model" value="<?php echo $row['model']; ?>" >
+                                    <input type="text" style="width: 100%" class="chenge" id="<?php echo $row['id']; ?>" key="model" value="<?php echo $row['model']; ?>" >
                                 </td>
                                 <td>
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="brandname" value="<?php echo $row['brandname']; ?>" >
+                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="brandname" value="<?php echo $row['brandname']; ?>" >
                                 </td>
                                 <td>
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="areasize" value="<?php echo $row['areasize']; ?>" >
+                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="areasize" value="<?php echo $row['areasize']; ?>" >
                                 </td>
                                 <td>
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="ramsize" value="<?php echo $row['ramsize']; ?>" >
+                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="ramsize" value="<?php echo $row['ramsize']; ?>" >
                                 </td>
                                 <td>
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="blostersize" value="<?php echo $row['blostersize']; ?>" >
+                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="blostersize" value="<?php echo $row['blostersize']; ?>" >
                                 </td>
                                 <td>
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="slideadj" value="<?php echo $row['slideadj']; ?>" >
+                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="slideadj" value="<?php echo $row['slideadj']; ?>" >
                                 </td>
                                 <td>
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="strokelength" value="<?php echo $row['strokelength']; ?>" >
+                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="strokelength" value="<?php echo $row['strokelength']; ?>" >
                                 </td>
                                 <td>
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="SPM" value="<?php echo $row['SPM']; ?>" >
+                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="SPM" value="<?php echo $row['SPM']; ?>" >
                                 </td>
                                 <td>
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="volt" value="<?php echo $row['volt']; ?>" >
+                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="volt" value="<?php echo $row['volt']; ?>" >
                                 </td>
                                 <td>
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="amp" value="<?php echo $row['amp']; ?>" >
+                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="amp" value="<?php echo $row['amp']; ?>" >
                                 </td>
                                 <td>
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="hp" value="<?php echo $row['hp']; ?>" >
+                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="hp" value="<?php echo $row['hp']; ?>" >
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-danger remove" id="<?php echo $row['id']; ?>">

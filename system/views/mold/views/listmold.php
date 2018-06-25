@@ -88,6 +88,7 @@ $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
         </thead>
         <tbody>
             <?php
+            $cout=1;
             if ($moldcode != "") {
 
                 $query = "SELECT * FROM `mold` WHERE `moldcode` like '%$moldcode%'";
@@ -95,7 +96,7 @@ $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
                 while ($row1 = mysqli_fetch_array($result)) {
                     ?>
                     <tr>
-                        <td><?php echo $row1['id']; ?></td>
+                        <td><?php echo $cout; ?></td>
                         <td><?php echo $row1['moldcode']; ?></td>
                         <td><?php echo $row1['detail']; ?></td>
                         <td><?php
@@ -113,6 +114,7 @@ $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
                         </td>
                     </tr>
                     <?php
+                    $cout++;
                 }
             } else {
                 $query = "SELECT * FROM `mold` WHERE 1  order by `id` DESC ";
@@ -121,7 +123,7 @@ $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
                     while ($row2 = mysqli_fetch_array($result)) {
                         ?>
                         <tr>
-                            <td><?php echo $row2['id']; ?></td>
+                            <td><?php echo $cout ?></td>
                             <td><?php echo $row2['moldcode']; ?></td>
                             <td><?php echo $row2['detail']; ?></td>
                             <td><?php
@@ -139,6 +141,7 @@ $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
                             </td>
                         </tr>
                         <?php
+                        $cout++;
                     }
                 } else {
                     ?>
