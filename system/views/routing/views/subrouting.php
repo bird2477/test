@@ -131,7 +131,7 @@ session_start();
                                 </div>
                             </div>
                             <div class="row">
-                                <label for="moldcode">Mold Code</label>
+                                <label for="moldcode">Mold No</label>
                                 <div class="input-group">
 
                                     <select name="moldcode" class="custom-select d-block w-100" id="moldcode" required="">
@@ -157,7 +157,7 @@ session_start();
                     <thead>
                         <tr>
                             <th>Machine Code</th>
-                            <th>mold</th>
+                            <th>Mold No</th>
                             <th>Tools</th>
                         </tr>
                     </thead>

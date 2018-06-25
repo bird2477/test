@@ -70,7 +70,7 @@ $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
 
 <div class="row" style="background: buttonhighlight;" >
     <div class="col-md-5 mb-3">
-        <label for="searchmoldcode">Mold Code</label>          
+        <label for="searchmoldcode">Mold No</label>          
         <input class="form-control" type="text" value="<?php echo $moldcode; ?>" name="searchmoldcode" id="searchmoldcode">
     </div>
    
@@ -80,7 +80,7 @@ $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
         <thead>
             <tr>
                 <th>No.</th>
-                <th>Mold Code</th>
+                <th>Mold No</th>
                 <th>Detail</th>
                 <th>Customer</th>
                 <th>Tools</th>
@@ -167,7 +167,7 @@ $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
             <div class="modal-body">
                 <form id="custoner" >
                     <div class="row">
-                        <label for="moldcode">Mold Code</label>
+                        <label for="moldcode">Mold No</label>
                         <input type="text" class="form-control" id="moldcode" name="moldcode" placeholder="" required="">
                         <div class="invalid-feedback">
                             Please enter your shipping address.
