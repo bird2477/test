@@ -171,7 +171,8 @@ session_start();
                     <tbody>
                         <?php
                         $id = $_GET['id'];
-                        $query = "SELECT  `subproductionline`.`id`,   `subrouting`.`mold`,  `subproductionline`.`name`  ,  `subrouting`.`id` FROM `subrouting` INNER JOIN `subproductionline` ON `subrouting`.`subproductiononline`= `subproductionline`.`id` WHERE `routing` = '$id'";
+                        $query = "SELECT  `subproductionline`.`id` as  subproductionline,   `subrouting`.`mold`,  `subproductionline`.`name`  ,  `subrouting`.`id` FROM `subrouting` INNER JOIN `subproductionline` ON `subrouting`.`subproductiononline`= `subproductionline`.`id` WHERE `routing` = '$id'";
+                        
                         $result = mysqli_query($connection, $query);
                         while ($row = mysqli_fetch_array($result)) {
                             ?>
@@ -189,12 +190,14 @@ session_start();
                                 
                                 ?></td>
                                 <td><?php 
-                                $subproductionline=$row['id'];
+                                $subproductionline=$row['subproductionline'];
                                 $query="SELECT * FROM `subproductionline` WHERE `id` ='$subproductionline'";
+                               
                                 $c=  mysqli_query($connection, $query);
                                 $row8=  mysqli_fetch_array($c);
                                 $productionline=$row8['productionline'];
                                 $query="SELECT * FROM `productionline` WHERE `id` ='$productionline'";
+                             
                                 $c=  mysqli_query($connection, $query);
                                 $r=  mysqli_fetch_array($c);
                                 echo $r['machine'];
