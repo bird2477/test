@@ -100,8 +100,9 @@ function sum_the_time($time1, $time2) {
                             $time[] = $r4['diff'];
                             $cout++;
                         }
-                        if (((sizeof($time) % 2) == 0) && (sizeof($time) > 0)) {
-                            $sum;
+                    
+                        if ( (sizeof($time) > 0)) {
+                         
                             $sumold="00:00:00";
                             for ($i = 0; $i < sizeof($time); $i++) {
                                 $sumold=sum_the_time($sumold, $time[$i]);
