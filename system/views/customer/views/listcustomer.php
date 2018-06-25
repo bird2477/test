@@ -1,6 +1,6 @@
 <?php
-$companynameTH = isset($_GET['companynameTH']) ? $_GET['companynameTH'] : "";
-$companynameEN = isset($_GET['companynameEN']) ? $_GET['companynameEN'] : "";
+$search_param = isset($_GET['search_param']) ? $_GET['search_param'] : "";
+
 ?>
 <script src="../vender/typeahead.js" ></script>
 <script >
@@ -27,41 +27,23 @@ $companynameEN = isset($_GET['companynameEN']) ? $_GET['companynameEN'] : "";
                 }});
         });
         
-         $('#searchcompanynameTH').change(function(){
-             var data="companynameTH="+$("#searchcompanynameTH").val() +"&companynameEN=" +$('#searchcompanynameEN').val();
+         $('#search_param').change(function(){
+             var data="companynameTH="+$("#search_param").val() +"&companynameEN=" +$('#search_param').val();
              data=encodeURI(data);
              window.location.replace("?fragment=customer&component=listcustomer&"+data);
          });
-           $('#searchcompanynameEN').change(function(){
-             var data="companynameTH="+$("#searchcompanynameTH").val() +"&companynameEN=" +$('#searchcompanynameEN').val();
-             data=encodeURI(data);
-             window.location.replace("?fragment=customer&component=listcustomer&"+data);
-         });
-        
-        $('#searchcompanynameTH').typeahead({
-            source: function (query, result) {
-                $.ajax({
-                    url: "views/customer/query/nameTHautocomplate.php",
-                    data: 'companynameTH=' + $("#searchcompanynameTH").val(),
-                    dataType: "json",
-                    type: "POST",
-                    success: function (data) {
-                        result($.map(data, function (item) {
-                            return item;
-                        }));
-                    }
-                });
-            }
-        });
-        $('#searchcompanynameEN').typeahead({
+          
+        $('#search_param').typeahead({
             source: function (query, result) {
                 $.ajax({
                     url: "views/customer/query/nameENautocomplate.php",
-                    data: 'companynameEN=' + $("#searchcompanynameEN").val(),
+                    data: 'search_param=' + $("#search_param").val(),
                     dataType: "json",
                     type: "POST",
                     success: function (data) {
+                        console.log(data);
                         result($.map(data, function (item) {
+                            
                             return item;
                         }));
                     }
@@ -90,13 +72,10 @@ $companynameEN = isset($_GET['companynameEN']) ? $_GET['companynameEN'] : "";
 
 <div class="row" style="background: buttonhighlight;" >
     <div class="col-md-5 mb-3">
-        <label for="searchcompanynameTH">companynameTH</label>          
-        <input class="form-control" type="text" value="<?php echo $companynameTH; ?>" name="searchcompanynameTH" id="searchcompanynameTH">
+        <label for="search_param">Search</label>          
+        <input class="form-control" type="text" value="<?php echo $search_param; ?>" name="search_param" id="search_param">
     </div>
-     <div class="col-md-5 mb-3">
-        <label for="searchcompanynameEN">companynameEN</label>          
-        <input class="form-control" type="text" value="<?php echo $companynameEN; ?>" name="searchcompanynameEN" id="searchcompanynameEN">
-    </div>
+    
     
 
 </div>
@@ -112,15 +91,17 @@ $companynameEN = isset($_GET['companynameEN']) ? $_GET['companynameEN'] : "";
         </thead>
         <tbody>
             <?php
-            if ($companynameTH != "" || $companynameEN !="") {
+             $cout=1;
+            if ($search_param != "") {
 
-                $query = "SELECT * FROM `customer` WHERE `companynameTH` like '%$companynameTH%' or `companynameEN` like '%$companynameEN%' ";
+                $query = "SELECT * FROM `customer` WHERE `companynameTH` like '%$search_param%' or `companynameEN` like '%$search_param%'  ";
                
                 $result = mysqli_query($connection, $query);
+               
                 while ($row1 = mysqli_fetch_array($result)) {
                     ?>
                     <tr>
-                        <td><?php echo $row1['id']; ?></td>
+                        <td><?php echo $cout;  ?></td>
                         <td><?php echo $row1['companynameTH']; ?></td>
                             <td><?php echo $row1['companynameEN']; ?></td>
                         <td>
@@ -131,6 +112,7 @@ $companynameEN = isset($_GET['companynameEN']) ? $_GET['companynameEN'] : "";
                         </td>
                     </tr>
                     <?php
+                    $cout++;
                 }
             } else {
                 $query = "SELECT * FROM `customer` WHERE 1  order by `id` DESC ";
@@ -139,7 +121,7 @@ $companynameEN = isset($_GET['companynameEN']) ? $_GET['companynameEN'] : "";
                     while ($row2 = mysqli_fetch_array($result)) {
                         ?>
                         <tr>
-                            <td><?php echo $row2['id']; ?></td>
+                            <td><?php echo $cout;  ?></td>
                             <td><?php echo $row2['companynameTH']; ?></td>
                             <td><?php echo $row2['companynameEN']; ?></td>
                             <td>
@@ -150,6 +132,7 @@ $companynameEN = isset($_GET['companynameEN']) ? $_GET['companynameEN'] : "";
                             </td>
                         </tr>
                         <?php
+                        $cout++;
                     }
                 } else {
                     ?>
