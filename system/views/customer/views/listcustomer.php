@@ -112,9 +112,10 @@ $companynameEN = isset($_GET['companynameEN']) ? $_GET['companynameEN'] : "";
         </thead>
         <tbody>
             <?php
-            if ($companynameTH != "") {
+            if ($companynameTH != "" || $companynameEN !="") {
 
-                $query = "SELECT * FROM `customer` WHERE `companynameTH` like '%$companynameTH%' or `companynameEN` like '%$companynameEN%'";
+                $query = "SELECT * FROM `customer` WHERE `companynameTH` like '%$companynameTH%' or `companynameEN` like '%$companynameEN%' ";
+               
                 $result = mysqli_query($connection, $query);
                 while ($row1 = mysqli_fetch_array($result)) {
                     ?>
