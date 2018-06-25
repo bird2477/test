@@ -146,8 +146,8 @@ $lastname = isset($_GET['lastname']) ? $_GET['lastname'] : "";
                     ?></td>
                     <td>
     <?php if ($row['privilege'] < $_SESSION['privilege']) { ?>
-                            <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#Edit<?php echo $row['id']; ?>">Edit</button>
-                            <button type="button" id="<?php echo $row['id']; ?>"  class="remove btn btn-info btn-lg" data-toggle="modal" data-target="#">Remove</button>
+                            <button type="button"  class="btn btn-success btn-lg" data-toggle="modal" data-target="#Edit<?php echo $row['id']; ?>">Edit</button>
+                            <button type="button" id="<?php echo $row['id']; ?>"  class="remove btn btn-danger btn-lg" data-toggle="modal" data-target="#">Remove</button>
                         <?php } ?>
 
                     </td>

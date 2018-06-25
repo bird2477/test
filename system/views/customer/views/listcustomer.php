@@ -1,5 +1,5 @@
 <?php
-$search_param = isset($_GET['search_param']) ? $_GET['search_param'] : "";
+$search_param = isset($_GET['companynameTH']) ? $_GET['companynameTH'] : "";
 
 ?>
 <script src="../vender/typeahead.js" ></script>
