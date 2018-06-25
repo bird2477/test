@@ -79,7 +79,7 @@ $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
     <table class="table table-condensed">
         <thead>
             <tr>
-                <th>No.</th>
+               
                 <th>Mold No</th>
                 <th>Detail</th>
                 <th>Customer</th>
@@ -92,13 +92,15 @@ $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
             if ($moldcode != "") {
 
                 $query = "SELECT * FROM `mold` WHERE `moldcode` like '%$moldcode%'";
+                
+                
                 $result = mysqli_query($connection, $query);
                 while ($row1 = mysqli_fetch_array($result)) {
                     ?>
                     <tr>
-                        <td><?php echo $cout; ?></td>
-                        <td><?php echo $row1['moldcode']; ?></td>
-                        <td><?php echo $row1['detail']; ?></td>
+                        
+                        <td><?php echo urldecode($row1['moldcode']); ?></td>
+                        <td><?php echo urldecode($row1['detail']); ?></td>
                         <td><?php
             $id = $row1['id'];
             $query = "SELECT * FROM `customer` WHERE `id` ='$id'";
@@ -117,18 +119,20 @@ $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
                     $cout++;
                 }
             } else {
-                $query = "SELECT * FROM `mold` WHERE 1  order by `id` DESC ";
+                $query = "SELECT * FROM `mold` WHERE 1   ";
+               
                 $result = mysqli_query($connection, $query);
                 if (mysqli_num_rows($result) > 0) {
                     while ($row2 = mysqli_fetch_array($result)) {
                         ?>
                         <tr>
-                            <td><?php echo $cout ?></td>
-                            <td><?php echo $row2['moldcode']; ?></td>
-                            <td><?php echo $row2['detail']; ?></td>
+                           
+                            <td><?php echo urldecode(  $row2['moldcode']); ?></td>
+                            <td><?php echo urldecode($row2['detail']); ?></td>
                             <td><?php
-                             $id = $row2['id'];
+                             $id = $row2['customer'];
                             $query = "SELECT * FROM `customer` WHERE `id` ='$id'";
+                            
                             $result1 = mysqli_query($connection, $query);
                             $row = mysqli_fetch_array($result1);
                              echo $row['companynameTH'];

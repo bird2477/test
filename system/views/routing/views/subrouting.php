@@ -160,21 +160,23 @@ session_start();
                 <table class="table">
                     <thead>
                         <tr>
+                             <th>Mold No</th>
+                             <th>Step</th>
+                            <th>Line</th>
                             <th>Machine Code</th>
-                            <th>Mold No</th>
+                           
                             <th>Tools</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $id = $_GET['id'];
-                        $query = "SELECT    `subrouting`.`mold`,  `subproductionline`.`name`  ,  `subrouting`.`id` FROM `subrouting` INNER JOIN `subproductionline` ON `subrouting`.`subproductiononline`= `subproductionline`.`id` WHERE `routing` = '$id'";
+                        $query = "SELECT  `subproductionline`.`id`,   `subrouting`.`mold`,  `subproductionline`.`name`  ,  `subrouting`.`id` FROM `subrouting` INNER JOIN `subproductionline` ON `subrouting`.`subproductiononline`= `subproductionline`.`id` WHERE `routing` = '$id'";
                         $result = mysqli_query($connection, $query);
                         while ($row = mysqli_fetch_array($result)) {
                             ?>
                             <tr>
-                                <td><?php echo $row['name']; ?></td>
-                                <td><?php
+                                 <td><?php
                                 $mold=$row['mold']; 
                                 $query="SELECT * FROM `mold` WHERE `id` ='$mold'";
                                 $result1=  mysqli_query($connection, $query);
@@ -182,6 +184,24 @@ session_start();
                                 $row1=  mysqli_fetch_array($result1);
                                 echo $row1['moldcode'];
                                 ?></td>
+                                <td><?php 
+                                echo urldecode($row1['detail']) ; 
+                                
+                                ?></td>
+                                <td><?php 
+                                $subproductionline=$row['id'];
+                                $query="SELECT * FROM `subproductionline` WHERE `id` ='$subproductionline'";
+                                $c=  mysqli_query($connection, $query);
+                                $row8=  mysqli_fetch_array($c);
+                                $productionline=$row8['productionline'];
+                                $query="SELECT * FROM `productionline` WHERE `id` ='$productionline'";
+                                $c=  mysqli_query($connection, $query);
+                                $r=  mysqli_fetch_array($c);
+                                echo $r['machine'];
+                                
+                                ?></td>
+                                <td><?php echo $row['name']; ?></td>
+                               
                                 <td>
                                     <button type="button" class="btn btn-danger remove" id="<?php echo $row['id']; ?>">
                                         Remove

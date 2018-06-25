@@ -8,7 +8,7 @@ $query="SELECT * FROM `mold` WHERE `customer` ='$productionline'";
 <?php
  while ($row = mysqli_fetch_array($result)) {
      ?>
-<option value="<?php echo $row['id']; ?>" ><?php echo "code = ".$row['moldcode'].": ".$row['detail']; ?></option>
+<option value="<?php echo $row['id']; ?>" ><?php echo "Mold No = ".$row['moldcode'].": ".urldecode($row['detail']); ?></option>
 <?php
     
 }
