@@ -81,6 +81,39 @@ session_start();
                             Sub Machine
                         </div>
                         <div class="modal-body">
+                            
+                             <div class="row">
+                                <label for="customer">Customer</label>
+                                <div class="input-group">
+
+                                    <select name="customer" class="custom-select d-block w-100" id="customer" required="">
+                                        <option value="">Choose...</option>
+                                        <?php
+                                        $query = "SELECT * FROM `customer` WHERE 1";
+                                        $result = mysqli_query($connection, $query);
+                                        while ($row1 = mysqli_fetch_array($result)) {
+                                            ?>
+                                            <option value="<?php echo $row1['id']; ?>" ><?php echo $row1['companynameTH']; ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label for="moldcode">Mold No</label>
+                                <div class="input-group">
+
+                                    <select name="moldcode" class="custom-select d-block w-100" id="moldcode" required="">
+                                        <option value="">Choose...</option>
+                                      
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            
                             <div class="row">
                                 <label for="productionline">Production Line</label>
                                 <div class="input-group">
@@ -112,37 +145,7 @@ session_start();
 
                                 </div>
                             </div>
-                            <div class="row">
-                                <label for="customer">Customer</label>
-                                <div class="input-group">
-
-                                    <select name="customer" class="custom-select d-block w-100" id="customer" required="">
-                                        <option value="">Choose...</option>
-                                        <?php
-                                        $query = "SELECT * FROM `customer` WHERE 1";
-                                        $result = mysqli_query($connection, $query);
-                                        while ($row1 = mysqli_fetch_array($result)) {
-                                            ?>
-                                            <option value="<?php echo $row1['id']; ?>" ><?php echo $row1['companynameTH']; ?></option>
-                                            <?php
-                                        }
-                                        ?>
-                                    </select>
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label for="moldcode">Mold No</label>
-                                <div class="input-group">
-
-                                    <select name="moldcode" class="custom-select d-block w-100" id="moldcode" required="">
-                                        <option value="">Choose...</option>
-                                      
-                                    </select>
-
-                                </div>
-                            </div>
-
+                           
 
                         </div>
                         <div class="modal-footer">

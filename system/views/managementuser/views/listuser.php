@@ -208,7 +208,9 @@
 
 <?php
 $name = isset($_GET['name']) ? $_GET['name'] : "";
-$privilege = isset($_GET['privilege']) ? $_GET['privilege'] : "";
+$privilege = isset($_GET['privilege']) ? $_GET['privilege'] : "5";
+
+
 ?>
 <div class="row" style="background: buttonhighlight;" >
     <div class="col-md-5 mb-3">
@@ -224,11 +226,11 @@ $privilege = isset($_GET['privilege']) ? $_GET['privilege'] : "";
  <div class=" mb-3">
                         <label for="privilege1">Privilege</label>
                         <select name="privilege1" class="custom-select d-block w-100" id="privilege1" required="">
-                            <option value="">Choose...</option>
-                            <option <?php if($privilege==0){    echo 'selected';} ?> value="0">technician</option>
-                            <option <?php if($privilege==1){    echo 'selected';} ?> value="1">operator</option>
-                            <option <?php if($privilege==2){    echo 'selected';} ?> value="2">lineleadder</option>
-                            <option  <?php if($privilege==3){    echo 'selected';} ?> value="3">shifleadder</option>
+                            <option value="" <?php if( intval($privilege)=="5"){  echo 'selected'; } ?>>Choose...</option>
+                            <option <?php if( intval(  $privilege)===0) {    echo 'selected';} ?> value="0">technician</option>
+                            <option <?php if(intval( $privilege)===1){    echo 'selected';} ?> value="1">operator</option>
+                            <option <?php if( intval( $privilege)===2){    echo 'selected';} ?> value="2">lineleadder</option>
+                            <option  <?php if(intval( $privilege)===3){    echo 'selected';} ?> value="3">shifleadder</option>
                         </select>
                         <div class="invalid-feedback">
                             Please select a position.

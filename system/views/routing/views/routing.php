@@ -107,17 +107,12 @@
                 Routing
             </div>
             <div class="modal-body">
+                
                 <div class="row">
                     <label for="productioncode">Production Code</label>
 
                     <div class="input-group ">
                         <input type="text" class="form-control " id="productioncode" name="productioncode" placeholder="Production Code : 103322551015" required="">
-                    </div>
-                </div>
-                <div class="row">
-                    <label for="partcode">Part Code</label>
-                    <div class="input-group ">
-                        <input type="text" class="form-control " id="partcode" name="partcode" placeholder="Part Code :0010039N" required="">
                     </div>
                 </div>
                  <div class="row">
@@ -127,6 +122,13 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <label for="partcode">Part Code</label>
+                    <div class="input-group ">
+                        <input type="text" class="form-control " id="partcode" name="partcode" placeholder="Part Code :0010039N" required="">
+                    </div>
+                </div>
+                
                
 
             </div>
@@ -140,6 +142,14 @@
 </div>
 
 <div class="row" style="background: buttonhighlight;" >
+     
+    <div class="col-md-3 mb-3">
+        <label for="searchpartname">Part Name</label>
+        <div class="input-group ">
+            <input type="text" class="form-control " id="searchpartname" name="searchpartname" placeholder="Part Name" required="">
+
+        </div>
+    </div>
     <div class="col-md-3 mb-3">
         <label for="searchproductioncode">Production Code</label>
         <div class="input-group ">
@@ -154,14 +164,7 @@
 
         </div>
     </div>
-    
-    <div class="col-md-3 mb-3">
-        <label for="searchpartname">Part Name</label>
-        <div class="input-group ">
-            <input type="text" class="form-control " id="searchpartname" name="searchpartname" placeholder="Part Code" required="">
-
-        </div>
-    </div>
+   
 
     <div class="col-md-3 mb-3">
         <label for="search">Search</label>
@@ -181,8 +184,9 @@
             <tr>
 
                 <th>Production Code</th>
+                 <th>Part Name</th>
                 <th>Part Code</th>
-                <th>Part Name</th>
+               
                 <th>Tools</th>
             </tr>
         </thead>
@@ -200,8 +204,9 @@
                     ?>
                     <tr>
                         <td><?php echo $row1['productioncode']; ?></td>
-                        <td><?php echo $row1['partcode']; ?></td>
                         <td><?php echo $row1['partname']; ?></td>
+                        <td><?php echo $row1['partcode']; ?></td>
+                        
                         <td>
                             <a href="./views/routing/views/subrouting.php?id=<?php echo $row1['id']; ?>&productioncode=<?php echo $row1['productioncode']; ?>&partname=<?php echo $row1['partname']; ?>&partcode=<?php echo $row1['partcode']; ?>"  class="btn btn-success " >Sub station</a>
                             <button type="button" class="btn btn-danger remove" id="<?php echo $row1['id']; ?>">
@@ -219,8 +224,9 @@
                         ?>
                      <tr>
                         <td><?php echo $row2['productioncode']; ?></td>
-                        <td><?php echo $row2['partcode']; ?></td>
                         <td><?php echo $row2['partname']; ?></td>
+                        <td><?php echo $row2['partcode']; ?></td>
+                        
                         <td>
                             <a href="./views/routing/views/subrouting.php?id=<?php echo $row2['id']; ?>&productioncode=<?php echo $row2['productioncode']; ?>&partcode=<?php echo $row2['partcode']; ?>&partname=<?php echo $row2['partname']; ?>"  class="btn btn-success " >Sub station</a>
                             <button type="button" class="btn btn-danger remove" id="<?php echo $row2['id']; ?>">
