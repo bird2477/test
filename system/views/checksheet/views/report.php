@@ -129,7 +129,7 @@ INNER JOIN `subproductionline` ON  `subchecksheet`.`subproductionlineID`= `subpr
                     $result1=  mysqli_query($connection, $query);
                     $row1=  mysqli_fetch_array($result1);
                     
-                    echo $row['name'] ." Mold No : ".$row1['moldcode'] ." Step : ".$row1['detail'];  ?></h3></div>
+                    echo $row['name'] ." Mold No : ".$row1['moldcode'] ."  : ".urldecode($row1['detail']);  ?></h3></div>
                     <div class="panel-body">
                         <table class="table table-striped">
                             <thead>
