@@ -13,11 +13,11 @@
         });
 
 
-        $('#name').typeahead({
+        $('#name1').typeahead({
             source: function (query, result) {
                 $.ajax({
                     url: "views/managementuser/query/usernameautocomplate.php",
-                    data: 'name=' + $("#name").val(),
+                    data: 'name=' + $("#name1").val(),
                     dataType: "json",
                     type: "POST",
                     success: function (data) {
@@ -30,9 +30,9 @@
         });
 
         $(".filter").click(function () {
-            var name = $('#name').val();
-
-            var filter = "?fragment=user&component=listuser&name=" + name;
+            var name = $('#name1').val();
+            var p=$('#privilege1').val();
+            var filter = "?fragment=user&component=listuser&name=" + name+"&privilege="+p;
             window.location.replace(filter);
 
         });
@@ -208,20 +208,32 @@
 
 <?php
 $name = isset($_GET['name']) ? $_GET['name'] : "";
-$lastname = isset($_GET['lastname']) ? $_GET['lastname'] : "";
+$privilege = isset($_GET['privilege']) ? $_GET['privilege'] : 0;
 ?>
 <div class="row" style="background: buttonhighlight;" >
     <div class="col-md-5 mb-3">
-        <label for="name">Name</label>
+        <label for="name1">Name</label>
         <div class="input-group ">
             <div class="input-group-prepend">
                 <span class="input-group-text">@</span>
             </div>
-            <input type="text" class="form-control " id="name" name="name" value="<?php echo $name; ?>"  placeholder="Name" required="">
+            <input type="text" class="form-control " id="name1" name="name1" value="<?php echo $name; ?>"  placeholder="Name" required="">
 
         </div>
     </div>
-
+ <div class=" mb-3">
+                        <label for="privilege1">Privilege</label>
+                        <select name="privilege1" class="custom-select d-block w-100" id="privilege1" required="">
+                            <option value="">Choose...</option>
+                            <option <?php if($privilege==0){    echo 'selected';} ?> value="0">technician</option>
+                            <option <?php if($privilege==1){    echo 'selected';} ?> value="1">operator</option>
+                            <option <?php if($privilege==2){    echo 'selected';} ?> value="2">lineleadder</option>
+                            <option  <?php if($privilege==3){    echo 'selected';} ?> value="3">shifleadder</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a position.
+                        </div>
+                    </div>
     <div class="col-md-3 mb-3">
         <label for="search">Search</label>
         <input type="button" class="form-control filter"  value="Search" id="search" placeholder="Search" required="">
@@ -247,12 +259,12 @@ $lastname = isset($_GET['lastname']) ? $_GET['lastname'] : "";
         <tbody>
 
             <?php
-            if (($name == "")) {
+            if (($name == "" && $privilege==0)) {
                 $query = "SELECT * FROM `users` WHERE 1 ORDER BY id DESC limit 0,10";
             } else {
-                $query = "SELECT * FROM `users` WHERE `name` like '%$name%'";
+                $query = "SELECT * FROM `users` WHERE `name` like '%$name%' and  `privilege`='$privilege'";
             }
-
+          
             $result = mysqli_query($connection, $query);
 
             while ($row = mysqli_fetch_array($result)) {

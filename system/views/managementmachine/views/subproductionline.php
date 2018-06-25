@@ -14,10 +14,11 @@ session_start();
             $(document).ready(function () {
 
                 $("#addmachine").click(function () {
-                    var dataString = encodeURI($('#formadd').serialize());
+                    var dataString = encodeURI($('#formadd').serialize() +"&productionline=<?php echo $_GET['id']; ?>");
 
                     $.ajax({data: dataString, url: "../../managementmachine/query/ajaxAddSubMachine.php", cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
-                            if (data == 1) {
+                    
+            if (data == 1) {
                                 window.location.reload();
                             }
                         }});
