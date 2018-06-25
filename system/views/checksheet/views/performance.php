@@ -26,62 +26,44 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>ChecksheetID</th>
-            <th>Production Code</th>
-            <th>Part Code</th>
-            <th>Part Name</th>
+            
+            <th>Date</th>
+            <th>Total Target</th>
+           
             <th>Tools</th>
 
         </tr>
     </thead>
     <tbody>
         <?php
-        
-        
-           
+            $query = "SELECT SUM(`traget`) as target ,`date` FROM `checksheet` WHERE `date` like '$date'";
           
-            $query = "SELECT DISTINCT   `checksheet`.`id`,  `checksheet`.`routing`,`checksheet`.`date` FROM `checksheet` INNER JOIN `subchecksheet` ON `subchecksheet`.`checksheet` =`checksheet`.`id` WHERE `checksheet`. `date` like '$date'";
-
             $result = mysqli_query($connection, $query);
-            if(mysqli_num_rows($result)>0){
             while ($row = mysqli_fetch_array($result)) {
+                if(is_null ($row['target'])==FALSE){
                 ?>
                 <tr>
-                    <?php
-                    $routing = $row['routing'];
-                    $query = "SELECT * FROM `routing` WHERE `id` like '$routing'";
-                    $result1 = mysqli_query($connection, $query);
-                    $row1 = mysqli_fetch_array($result1);
-                    ?>
-                    <td><?php echo $row['id'] ; ?></td>
+                   <td><?php echo $row['date'] ; ?></td>
+                    <td><?php echo $row['target'] ; ?></td>
+                   
                     <td>
-                        <?php
-                        echo $row1['productioncode'];
-                        ?>
-                    </td>
-                    <td >
-                        <?php
-                        echo $row1['partcode'];
-                        ?>
-                    </td>
-                    <td >
-                        <?php
-                        echo $row1['partname'];
-                        ?>
-                    </td>
-                    <td>
-                        <a class="btn btn-primary" target="_blank" href="./views/checksheet/views/reportperformance.php?checksheet=<?php echo $row['id']; ?>" >Report</a>    
+                        <a class="btn btn-primary" target="_blank" href="./views/checksheet/views/reportperformance.php?date=<?php echo $row['date']; ?>" >Report</a>    
                     </td>
                 </tr>
-                <?php
+                <?php  
             }
-            }else{
+            else{
       
             ?>
             <tr>
                 <td colspan="5" style="text-align: center;"> Need filter</td>
             </tr>
-            <?php } ?>
+            <?php 
+            
+            }
+            
+            
+            } ?>
     </tbody>
 </table>
 
