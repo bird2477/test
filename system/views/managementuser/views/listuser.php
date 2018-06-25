@@ -1,6 +1,18 @@
 <script src="../vender/typeahead.js" ></script>
 <script >
     $(document).ready(function () {
+        $("#adduserbtn").click(function () {
+            var dataString = $("#formuser").serialize();
+            $.ajax({url: "./views/managementuser/query/adduser.php", cache: false, data: dataString, type: 'POST', success: function (data, textStatus, jqXHR) {
+                    if (data == 1) {
+                        alert("success");
+                        window.location.reload();
+                    }
+
+                }});
+        });
+
+
         $('#name').typeahead({
             source: function (query, result) {
                 $.ajax({
@@ -19,8 +31,8 @@
 
         $(".filter").click(function () {
             var name = $('#name').val();
-        
-            var filter = "?fragment=user&component=listuser&name=" + name ;
+
+            var filter = "?fragment=user&component=listuser&name=" + name;
             window.location.replace(filter);
 
         });
@@ -45,9 +57,9 @@
             var lastname = $('#lastname' + id).val();
             var username = $('#username' + id).val();
             var password = $('#password' + id).val();
-            var employeeID =$("#employeeID"+id).val();
+            var employeeID = $("#employeeID" + id).val();
 
-            var dataString = "id=" + id + "&name=" + name + "&lastname=" + lastname + "&username=" + username + "&password=" + password+"&employeeID="+employeeID;
+            var dataString = "id=" + id + "&name=" + name + "&lastname=" + lastname + "&username=" + username + "&password=" + password + "&employeeID=" + employeeID;
 
             $.ajax({data: dataString, type: 'POST', cache: false, url: "views/managementuser/query/ajaxEdit.php", success: function (data, textStatus, jqXHR) {
 
@@ -62,6 +74,138 @@
 
     });
 </script>
+
+<div class="row" >
+    <table style="width: 100%;" >
+        <tr>
+            <td ></td>
+            <td style="text-align: right;">
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#adduser">
+                    Add User
+                </button>   
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div id="adduser" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                Add Customer
+            </div>
+            <div class="modal-body"> <form id="formuser" >
+                    <div class=" mb-3">
+                        <label for="sex">Sex</label>
+                        <select name="sex" class="custom-select d-block w-100" id="sex" required="">
+                            <option value="">Choose...</option>
+                            <option value="0">male </option>
+                            <option value="1">female </option>
+
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a position.
+                        </div>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="name">Name</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" required="">
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Your username is required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastname">Lastname</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Lastname" required="">
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Your username is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="employeeID">Employee ID</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            <input type="text" class="form-control" id="employeeID" name="employeeID" placeholder="Employee ID" required="">
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Your username is required.
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="mb-3">
+                        <label for="username">Username</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Username" required="">
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Your username is required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password">Password</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="">
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Your username is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class=" mb-3">
+                        <label for="privilege">Privilege</label>
+                        <select name="privilege" class="custom-select d-block w-100" id="privilege" required="">
+                            <option value="">Choose...</option>
+                            <option value="0">technician</option>
+                            <option value="1">operator</option>
+                            <option value="2">lineleadder</option>
+                            <option value="3">shifleadder</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a position.
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" id="adduserbtn" class="btn btn-default" data-dismiss="modal">Add</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
 <?php
 $name = isset($_GET['name']) ? $_GET['name'] : "";
 $lastname = isset($_GET['lastname']) ? $_GET['lastname'] : "";
@@ -77,7 +221,7 @@ $lastname = isset($_GET['lastname']) ? $_GET['lastname'] : "";
 
         </div>
     </div>
-  
+
     <div class="col-md-3 mb-3">
         <label for="search">Search</label>
         <input type="button" class="form-control filter"  value="Search" id="search" placeholder="Search" required="">
@@ -108,7 +252,7 @@ $lastname = isset($_GET['lastname']) ? $_GET['lastname'] : "";
             } else {
                 $query = "SELECT * FROM `users` WHERE `name` like '%$name%'";
             }
-         
+
             $result = mysqli_query($connection, $query);
 
             while ($row = mysqli_fetch_array($result)) {
@@ -118,34 +262,33 @@ $lastname = isset($_GET['lastname']) ? $_GET['lastname'] : "";
                 ?>
                 <tr>
                     <td><?php echo $row['employeeID']; ?></td>
-                    <td><?php   
-                    if($row['sex']==0){
-                         echo "male" ;
-                    }else{
-                          echo "female" ;
-                    }
-                    ?></td>
+                    <td><?php
+                        if ($row['sex'] == 0) {
+                            echo "male";
+                        } else {
+                            echo "female";
+                        }
+                        ?></td>
                     <td><?php echo $row['name']; ?></td>
                     <td><?php echo $row['lastname']; ?></td>
-                    <td><?php 
-                            switch (intval($row['privilege'])) {
-                                case 0:
-                                    echo 'technician';
-                                    break;
-                                case 1:
-                                    echo 'operator';
-                                    break;
-                                case 2:
-                                    echo 'lineleadder';
-                                    break;
-                                case 3:
-                                    echo 'shifleadder';
-                                    break;
-                            }
-                    
-                    ?></td>
+                    <td><?php
+                        switch (intval($row['privilege'])) {
+                            case 0:
+                                echo 'technician';
+                                break;
+                            case 1:
+                                echo 'operator';
+                                break;
+                            case 2:
+                                echo 'lineleadder';
+                                break;
+                            case 3:
+                                echo 'shifleadder';
+                                break;
+                        }
+                        ?></td>
                     <td>
-    <?php if ($row['privilege'] < $_SESSION['privilege']) { ?>
+                        <?php if ($row['privilege'] < $_SESSION['privilege']) { ?>
                             <button type="button"  class="btn btn-success btn-lg" data-toggle="modal" data-target="#Edit<?php echo $row['id']; ?>">Edit</button>
                             <button type="button" id="<?php echo $row['id']; ?>"  class="remove btn btn-danger btn-lg" data-toggle="modal" data-target="#">Remove</button>
                         <?php } ?>
@@ -188,7 +331,7 @@ $lastname = isset($_GET['lastname']) ? $_GET['lastname'] : "";
 
                                 </div>
                             </div>
-                            
+
                             <div class="row">
                                 <label for="employeeID<?php echo $row['id']; ?>">employeeID</label>
                                 <div class="input-group ">
@@ -199,9 +342,9 @@ $lastname = isset($_GET['lastname']) ? $_GET['lastname'] : "";
 
                                 </div>
                             </div>
-                            
-                            
-                            
+
+
+
                             <div class="row">
                                 <label for="username<?php echo $row['id']; ?>">Username</label>
                                 <div class="input-group ">
@@ -239,9 +382,9 @@ $lastname = isset($_GET['lastname']) ? $_GET['lastname'] : "";
 
 
 
-    <?php
-}
-?>
+            <?php
+        }
+        ?>
         </tbody>
     </table>
 </div>

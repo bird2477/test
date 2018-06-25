@@ -12,8 +12,7 @@ $sex = $_POST['sex'];
 $query = "INSERT INTO `users`(`id`,`employeeID` , `name`, `lastname`, `username`, `password`, `privilege`, `image`,`sex`) "
         . "VALUES (null,'$employeeID'  , '$name','$lastname','$username','$password','$privilege','','$sex')";
 
-mysqli_query($connection, $query);
+if(mysqli_query($connection, $query)){
+    echo '1';
+}
 ?>
-<script >
-    window.location.replace("../../../index.php?fragment=user&component=listuser");
-</script>
