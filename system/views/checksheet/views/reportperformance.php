@@ -120,7 +120,7 @@ function sum_the_time($time1, $time2) {
                         $query = "SELECT * FROM `mold` WHERE `id` ='$mold'";
                         $colum = mysqli_query($connection, $query);
                         $row2 = mysqli_fetch_array($colum);
-                        echo $row2['detail'];
+                        echo urldecode($row2['detail']);
                         ?>
                     </td>
                     <td class="frame">
