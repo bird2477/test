@@ -22,6 +22,5 @@ while ($row = mysqli_fetch_assoc($result)) {
    
 }
 echo json_encode($array);
- $query="UPDATE `subchecksheet` SET  `actual_total`='$actual_total',`free_total`='$free_total',`reject_total`='$reject_total' WHERE `checksheet` ='$checksheetId'";
-    mysqli_query($connection, $query);
+
  

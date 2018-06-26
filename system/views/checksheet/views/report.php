@@ -38,7 +38,7 @@ $query = "";
 
                     var checksheetId = "checksheetId=<?php echo $checksheetId; ?>";
                     $.ajax({data: checksheetId, url: "../../checksheet/query/ajaxSend.php", cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
-                      
+                           
                             window.location.replace("../../../?fragment=checksheet");
                         }});
                 });

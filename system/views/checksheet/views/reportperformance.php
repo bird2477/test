@@ -41,10 +41,10 @@ function sum_the_time($time1, $time2) {
             <th class="frame">Counter Hr.</th>
             <th class="frame">ขั้นตอนแม่พิมพ์</th>
             <th class="frame">เวลาเริ่มติดตั้งแม่พิมพ์</th>
-            <th class="frame">เวลาแล้วเสร็จติดตั้งแม่พิมพ์</th>
+            <th class="frame">เวลาหยุดติดตั้งแม่พิมพ์</th>
             <th class="frame">ชื่อพนักงาน SET</th>
             <th class="frame">เวลาเริ่มผลิต</th>
-            <th class="frame">เวลาเริ่มสิ้นสุด</th>
+            <th class="frame">เวลาหยุดผลิต</th>
             <th class="frame">จำนวนงานดี</th>
             <th class="frame">Free shot</th>
             <th class="frame">จำนวนงานเสีย</th>
