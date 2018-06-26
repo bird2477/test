@@ -1,6 +1,11 @@
 <?php
 $search_param = isset($_GET['companynameTH']) ? $_GET['companynameTH'] : "";
-
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+if ($page == 1) {
+    $page1 = "0,10";
+} else {
+    $page1 = ($page - 1) . "0," . ($page) . "0";
+}
 ?>
 <script src="../vender/typeahead.js" ></script>
 <script >
@@ -18,21 +23,21 @@ $search_param = isset($_GET['companynameTH']) ? $_GET['companynameTH'] : "";
 
         $("#productionlineadd").click(function () {
             var dataString = $('#custoner').serialize();
-           
+
             $.ajax({data: dataString, url: "views/customer/query/ajaxAddCustomer.php", type: 'POST', cache: false, success: function (data, textStatus, jqXHR) {
                     if (data == "1") {
-                       alert('success');
-                       window.location.reload();
+                        alert('success');
+                        window.location.reload();
                     }
                 }});
         });
-        
-         $('#search_param').change(function(){
-             var data="companynameTH="+$("#search_param").val() +"&companynameEN=" +$('#search_param').val();
-             data=encodeURI(data);
-             window.location.replace("?fragment=customer&component=listcustomer&"+data);
-         });
-          
+
+        $('#search_param').change(function () {
+            var data = "companynameTH=" + $("#search_param").val() + "&companynameEN=" + $('#search_param').val();
+            data = encodeURI(data);
+            window.location.replace("?fragment=customer&component=listcustomer&" + data);
+        });
+
         $('#search_param').typeahead({
             source: function (query, result) {
                 $.ajax({
@@ -43,15 +48,15 @@ $search_param = isset($_GET['companynameTH']) ? $_GET['companynameTH'] : "";
                     success: function (data) {
                         console.log(data);
                         result($.map(data, function (item) {
-                            
+
                             return item;
                         }));
                     }
                 });
             }
         });
-       
-       
+
+
     });
 </script>
 
@@ -75,8 +80,8 @@ $search_param = isset($_GET['companynameTH']) ? $_GET['companynameTH'] : "";
         <label for="search_param">Search</label>          
         <input class="form-control" type="text" value="<?php echo $search_param; ?>" name="search_param" id="search_param">
     </div>
-    
-    
+
+
 
 </div>
 <div class="row">
@@ -91,19 +96,19 @@ $search_param = isset($_GET['companynameTH']) ? $_GET['companynameTH'] : "";
         </thead>
         <tbody>
             <?php
-             $cout=1;
+            $cout = 1;
             if ($search_param != "") {
 
                 $query = "SELECT * FROM `customer` WHERE `name` like '%$search_param%'   ";
-               
+
                 $result = mysqli_query($connection, $query);
-               
+
                 while ($row1 = mysqli_fetch_array($result)) {
                     ?>
                     <tr>
-                        <td><?php echo $cout;  ?></td>
+                        <td><?php echo $cout; ?></td>
                         <td><?php echo $row1['name']; ?></td>
-                            <td><?php echo $row1['address']; ?></td>
+                        <td><?php echo $row1['address']; ?></td>
                         <td>
                             <a href="./views/customer/views/editcustomer.php?id=<?php echo $row1['id']; ?>"  class="btn btn-success " >Edit Customer</a>
                             <button type="button" class="btn btn-danger remove" id="<?php echo $row1['id']; ?>">
@@ -115,17 +120,18 @@ $search_param = isset($_GET['companynameTH']) ? $_GET['companynameTH'] : "";
                     $cout++;
                 }
             } else {
-                $query = "SELECT * FROM `customer` WHERE 1  order by `id` DESC ";
+                $query = "SELECT * FROM `customer` WHERE 1  order by `id` DESC limit $page1 ";
+                
                 $result = mysqli_query($connection, $query);
                 if (mysqli_num_rows($result) > 0) {
                     while ($row2 = mysqli_fetch_array($result)) {
                         ?>
                         <tr>
-                            <td><?php echo $cout;  ?></td>
+                            <td><?php echo $cout; ?></td>
                             <td><?php echo $row2['name']; ?></td>
                             <td><?php echo $row2['address']; ?></td>
                             <td>
-                               <a href="./views/customer/views/editcustomer.php?id=<?php echo $row2['id']; ?>"  class="btn btn-success " >Edit Customer</a>
+                                <a href="./views/customer/views/editcustomer.php?id=<?php echo $row2['id']; ?>"  class="btn btn-success " >Edit Customer</a>
                                 <button type="button" class="btn btn-danger remove" id="<?php echo $row2['id']; ?>">
                                     Remove
                                 </button>   
@@ -146,6 +152,29 @@ $search_param = isset($_GET['companynameTH']) ? $_GET['companynameTH'] : "";
             ?>
         </tbody>
     </table>
+       <div class="container">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <?php 
+                $query="SELECT * FROM `customer` WHERE 1";
+                $result=  mysqli_query($connection, $query);
+                $num=  mysqli_num_rows($result)/10;
+                $numrow=ceil($num);
+                ?>
+                <li class="page-item ">
+                    <a class="page-link <?php if($page==1){ echo 'disabled';} ?>" href="?fragment=customer&component=listcustomer&companynameTH=<?php echo $search_param; ?>&companynameEN=<?php echo $search_param; ?>&page=<?php echo $page-1; ?>" tabindex="-1">Previous</a>
+                </li>
+                <?php for($i=1;$i<=$numrow;$i++){   ?>
+                <li class="page-item <?php if($page==$i){    echo 'active';} ?>  "><a class="page-link" href="?fragment=customer&component=listcustomer&companynameTH=<?php echo $search_param; ?>&companynameEN=<?php echo $search_param; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+               
+                <?php } ?>
+                <li class="page-item">
+                    <a class="page-link <?php if($page==$numrow){ echo 'disabled';} ?>" href="?fragment=customer&component=listcustomer&companynameTH=<?php echo $search_param; ?>&companynameEN=<?php echo $search_param; ?>&page=<?php echo $page+1; ?>">Next</a>
+                </li>
+                
+            </ul>
+        </nav>
+    </div>
 </div>
 
 
@@ -160,34 +189,34 @@ $search_param = isset($_GET['companynameTH']) ? $_GET['companynameTH'] : "";
             </div>
             <div class="modal-body">
                 <form id="custoner" >
-                <label for="taxno">Tax no</label>
+                    <label for="taxno">Tax no</label>
 
-                <div class="input-group ">
-                    <input type="text" class="form-control " id="taxno" name="taxno" placeholder="taxno" required="">
-                </div>
-
-
-
-                <label for="name">Name</label>
-
-                <div class="input-group ">
-                    <input type="text" class="form-control " id="name" name="name" placeholder="Name" required="">
-                </div>
+                    <div class="input-group ">
+                        <input type="text" class="form-control " id="taxno" name="taxno" placeholder="taxno" required="">
+                    </div>
 
 
-                <label for="address">Address</label>
 
-                <div class="input-group ">
-                    <input type="text" class="form-control " id="address" name="address" placeholder="Address" required="">
-                </div>
+                    <label for="name">Name</label>
+
+                    <div class="input-group ">
+                        <input type="text" class="form-control " id="name" name="name" placeholder="Name" required="">
+                    </div>
+
+
+                    <label for="address">Address</label>
+
+                    <div class="input-group ">
+                        <input type="text" class="form-control " id="address" name="address" placeholder="Address" required="">
+                    </div>
             </div>
-</form>
+            </form>
 
             <div class="modal-footer">
                 <button type="button" id="productionlineadd" class="btn btn-default" data-dismiss="modal">Add</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
-            
+
         </div>
 
     </div>
