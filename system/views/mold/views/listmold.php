@@ -135,7 +135,7 @@ $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
                             
                             $result1 = mysqli_query($connection, $query);
                             $row = mysqli_fetch_array($result1);
-                             echo $row['companynameTH'];
+                             echo $row['name'];
                         ?></td>
                             <td>
 
