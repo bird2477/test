@@ -93,7 +93,7 @@ session_start();
                                         $result = mysqli_query($connection, $query);
                                         while ($row1 = mysqli_fetch_array($result)) {
                                             ?>
-                                            <option value="<?php echo $row1['id']; ?>" ><?php echo $row1['companynameTH']; ?></option>
+                                            <option value="<?php echo $row1['id']; ?>" ><?php echo $row1['name']; ?></option>
                                             <?php
                                         }
                                         ?>
