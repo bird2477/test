@@ -42,7 +42,7 @@ $row=  mysqli_fetch_array($result);
                     <td></td>
                     <td style="text-align: right;">
                      
-                        <a href="../../../?fragment=customer&component=listcustomer&companynameTH=<?php echo urldecode($row['companynameTH']); ?>&companynameEN=<?php echo urldecode($row['companynameEN']); ?>"  class="btn btn-success " >Back</a>
+                        <a href="../../../?fragment=customer&component=listcustomer&companynameTH=<?php echo urldecode($row['name']); ?>&companynameEN=<?php echo urldecode($row['name']); ?>"  class="btn btn-success " >Back</a>
 
                     </td>
                 </tr>
@@ -52,10 +52,10 @@ $row=  mysqli_fetch_array($result);
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>No</th>
+                           
                             <th>Tax No</th>
-                            <th>companynameTH</th>
-                            <th>companynameEN</th>
+                            <th>Name</th>
+                            <th>Address</th>
                            
                         </tr>
                     </thead>
@@ -63,15 +63,15 @@ $row=  mysqli_fetch_array($result);
                        
                             <tr>
                               
-                                <td><?php echo $row['id']; ?></td>
+                              
                                 <td>
                                     <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="taxno" value="<?php echo $row['taxno']; ?>" >
                                 </td>
                                 <td>
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="companynameTH" value="<?php echo $row['companynameTH']; ?>" >
+                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="name" value="<?php echo $row['name']; ?>" >
                                 </td>
                                 <td>
-                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="companynameEN" value="<?php echo $row['companynameEN']; ?>" >
+                                    <input type="text" class="chenge" id="<?php echo $row['id']; ?>" key="address" value="<?php echo $row['address']; ?>" >
                                 </td>
                              
                              

@@ -84,8 +84,8 @@ $search_param = isset($_GET['companynameTH']) ? $_GET['companynameTH'] : "";
         <thead>
             <tr>
                 <th>No.</th>
-                <th>companynameTH</th>
-                <th>companynameEN</th>
+                <th>Name</th>
+                <th>Address</th>
                 <th>Tools</th>
             </tr>
         </thead>
@@ -94,7 +94,7 @@ $search_param = isset($_GET['companynameTH']) ? $_GET['companynameTH'] : "";
              $cout=1;
             if ($search_param != "") {
 
-                $query = "SELECT * FROM `customer` WHERE `companynameTH` like '%$search_param%' or `companynameEN` like '%$search_param%'  ";
+                $query = "SELECT * FROM `customer` WHERE `name` like '%$search_param%'   ";
                
                 $result = mysqli_query($connection, $query);
                
@@ -102,8 +102,8 @@ $search_param = isset($_GET['companynameTH']) ? $_GET['companynameTH'] : "";
                     ?>
                     <tr>
                         <td><?php echo $cout;  ?></td>
-                        <td><?php echo $row1['companynameTH']; ?></td>
-                            <td><?php echo $row1['companynameEN']; ?></td>
+                        <td><?php echo $row1['name']; ?></td>
+                            <td><?php echo $row1['address']; ?></td>
                         <td>
                             <a href="./views/customer/views/editcustomer.php?id=<?php echo $row1['id']; ?>"  class="btn btn-success " >Edit Customer</a>
                             <button type="button" class="btn btn-danger remove" id="<?php echo $row1['id']; ?>">
@@ -122,8 +122,8 @@ $search_param = isset($_GET['companynameTH']) ? $_GET['companynameTH'] : "";
                         ?>
                         <tr>
                             <td><?php echo $cout;  ?></td>
-                            <td><?php echo $row2['companynameTH']; ?></td>
-                            <td><?php echo $row2['companynameEN']; ?></td>
+                            <td><?php echo $row2['name']; ?></td>
+                            <td><?php echo $row2['address']; ?></td>
                             <td>
                                <a href="./views/customer/views/editcustomer.php?id=<?php echo $row2['id']; ?>"  class="btn btn-success " >Edit Customer</a>
                                 <button type="button" class="btn btn-danger remove" id="<?php echo $row2['id']; ?>">
@@ -168,17 +168,17 @@ $search_param = isset($_GET['companynameTH']) ? $_GET['companynameTH'] : "";
 
 
 
-                <label for="companynameTH">CustomerTH</label>
+                <label for="name">Name</label>
 
                 <div class="input-group ">
-                    <input type="text" class="form-control " id="companynameTH" name="companynameTH" placeholder="companynameTH" required="">
+                    <input type="text" class="form-control " id="name" name="name" placeholder="Name" required="">
                 </div>
 
 
-                <label for="companynameEN">companynameEN</label>
+                <label for="address">Address</label>
 
                 <div class="input-group ">
-                    <input type="text" class="form-control " id="companynameEN" name="companynameEN" placeholder="companynameEN" required="">
+                    <input type="text" class="form-control " id="address" name="address" placeholder="Address" required="">
                 </div>
             </div>
 </form>
