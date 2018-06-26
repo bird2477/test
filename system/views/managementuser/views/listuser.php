@@ -439,14 +439,14 @@ $page=  isset($_GET['page']) ? $_GET['page']: 1;
                 $numrow=ceil($num);
                 ?>
                 <li class="page-item ">
-                    <a class="page-link <?php if($page==1){ echo 'disabled';} ?>" href="?fragment=user&component=listuser&page=<?php echo ($page-1); ?>" tabindex="-1">Previous</a>
+                    <a class="page-link <?php if($page==1){ echo 'disabled';} ?>" href="?fragment=user&component=listuser&page=<?php echo ($page-1); ?>&privilege=<?php echo $privilege; ?>" tabindex="-1">Previous</a>
                 </li>
                 <?php for($i=1;$i<=$numrow;$i++){   ?>
-                <li class="page-item <?php if($page==$i){    echo 'active';} ?>  "><a class="page-link" href="?fragment=user&component=listuser&page=<?php echo ($i); ?>"><?php echo $i; ?></a></li>
+                <li class="page-item <?php if($page==$i){    echo 'active';} ?>  "><a class="page-link" href="?fragment=user&component=listuser&page=<?php echo ($i); ?>&privilege=<?php echo $privilege; ?>"><?php echo $i; ?></a></li>
                
                 <?php } ?>
                 <li class="page-item">
-                    <a class="page-link <?php if($page==$numrow){ echo 'disabled';} ?>" href="?fragment=user&component=listuser&page=<?php echo ($page+1); ?>">Next</a>
+                    <a class="page-link <?php if($page==$numrow){ echo 'disabled';} ?>" href="?fragment=user&component=listuser&page=<?php echo ($page+1); ?>&privilege=<?php echo $privilege; ?>">Next</a>
                 </li>
                 
             </ul>
