@@ -187,13 +187,20 @@
         </thead>
         <tbody>
             <?php
+            $page=  isset($_GET['page']) ? $_GET['page']: 1;
             $to = isset($_GET['to']) ? $_GET['to'] : "";
             $from = isset($_GET['from']) ? $_GET['from'] : "";
+             if($page==1){
+               $page1="0,10";
+             }else{
+               $page1=($page-1)."0,".($page)."0";  
+             }
+            
             if ($to != "" && $from != "") {
                 $query = "SELECT  `routing`.`partcode` ,`checksheet`.`date`,`routing`.`productioncode`,  `routing`.`partname` ,`checksheet`.`status` ,`routing` .`id`  as routingid , `checksheet`.`id`
 FROM  `checksheet`
 INNER JOIN `routing` 
-ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEEN  '$from' and '$to'    ORDER by `checksheet`.`id` DESC";
+ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEEN  '$from' and '$to'    ORDER by `checksheet`.`id` DESC limit $page1";
 
                 $result = mysqli_query($connection, $query);
                 while ($row1 = mysqli_fetch_array($result)) {
@@ -267,7 +274,7 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
                 $query = "SELECT  `routing`.`partcode`, `checksheet`.`date`,`routing`.`productioncode`,  `routing`.`partname` ,`checksheet`.`status` ,`routing` .`id`  as routingid , `checksheet`.`id`
 FROM  `checksheet`
 INNER JOIN `routing` 
-ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`id` DESC LIMIT 0,10";
+ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`id` DESC LIMIT $page1";
                 $result = mysqli_query($connection, $query);
                 if (mysqli_num_rows($result) > 0) {
                     while ($row2 = mysqli_fetch_array($result)) {
@@ -348,6 +355,29 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`
             ?>
         </tbody>
     </table>
+      <div class="container">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <?php 
+                $query="SELECT * FROM `checksheet` WHERE 1";
+                $result=  mysqli_query($connection, $query);
+                $num=  mysqli_num_rows($result)/10;
+                $numrow=ceil($num);
+                ?>
+                <li class="page-item ">
+                    <a class="page-link <?php if($page==1){ echo 'disabled';} ?>" href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $page-1; ?>" tabindex="-1">Previous</a>
+                </li>
+                <?php for($i=1;$i<=$numrow;$i++){   ?>
+                <li class="page-item <?php if($page==$i){    echo 'active';} ?>  "><a class="page-link" href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+               
+                <?php } ?>
+                <li class="page-item">
+                    <a class="page-link <?php if($page==$numrow){ echo 'disabled';} ?>" href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $page+1; ?>">Next</a>
+                </li>
+                
+            </ul>
+        </nav>
+    </div>
 </div>
 
 
