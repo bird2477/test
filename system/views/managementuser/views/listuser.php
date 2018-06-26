@@ -31,8 +31,8 @@
 
         $(".filter").click(function () {
             var name = $('#name1').val();
-            var p=$('#privilege1').val();
-            var filter = "?fragment=user&component=listuser&name=" + name+"&privilege="+p;
+            var p = $('#privilege1').val();
+            var filter = "?fragment=user&component=listuser&name=" + name + "&privilege=" + p;
             window.location.replace(filter);
 
         });
@@ -209,8 +209,7 @@
 <?php
 $name = isset($_GET['name']) ? $_GET['name'] : "";
 $privilege = isset($_GET['privilege']) ? $_GET['privilege'] : "5";
-
-
+$page=  isset($_GET['page']) ? $_GET['page']: 1;
 ?>
 <div class="row" style="background: buttonhighlight;" >
     <div class="col-md-5 mb-3">
@@ -223,19 +222,39 @@ $privilege = isset($_GET['privilege']) ? $_GET['privilege'] : "5";
 
         </div>
     </div>
- <div class=" mb-3">
-                        <label for="privilege1">Privilege</label>
-                        <select name="privilege1" class="custom-select d-block w-100" id="privilege1" required="">
-                            <option value="" <?php if( intval($privilege)=="5"){  echo 'selected'; } ?>>Choose...</option>
-                            <option <?php if( intval(  $privilege)===0) {    echo 'selected';} ?> value="0">technician</option>
-                            <option <?php if(intval( $privilege)===1){    echo 'selected';} ?> value="1">operator</option>
-                            <option <?php if( intval( $privilege)===2){    echo 'selected';} ?> value="2">lineleadder</option>
-                            <option  <?php if(intval( $privilege)===3){    echo 'selected';} ?> value="3">shifleadder</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Please select a position.
-                        </div>
-                    </div>
+    <div class=" mb-3">
+        <label for="privilege1">Privilege</label>
+        <select name="privilege1" class="custom-select d-block w-100" id="privilege1" required="">
+            <option value="" <?php
+            if (intval($privilege) == "5") {
+                echo 'selected';
+            }
+            ?>>Choose...</option>
+            <option <?php
+            if (intval($privilege) === 0) {
+                echo 'selected';
+            }
+            ?> value="0">technician</option>
+            <option <?php
+            if (intval($privilege) === 1) {
+                echo 'selected';
+            }
+            ?> value="1">operator</option>
+            <option <?php
+            if (intval($privilege) === 2) {
+                echo 'selected';
+            }
+            ?> value="2">lineleadder</option>
+            <option  <?php
+            if (intval($privilege) === 3) {
+                echo 'selected';
+            }
+            ?> value="3">shifleadder</option>
+        </select>
+        <div class="invalid-feedback">
+            Please select a position.
+        </div>
+    </div>
     <div class="col-md-3 mb-3">
         <label for="search">Search</label>
         <input type="button" class="form-control filter"  value="Search" id="search" placeholder="Search" required="">
@@ -261,15 +280,24 @@ $privilege = isset($_GET['privilege']) ? $_GET['privilege'] : "5";
         <tbody>
 
             <?php
-            if ((($name == "") && ($privilege==""))) {
-                $query = "SELECT * FROM `users` WHERE 1 ORDER BY id DESC limit 0,10";
+             if($page==1){
+               $page1="0,10";
+             }else{
+               $page1=($page-1)."0,".($page)."0";  
+             }
+            
+            if ((($name == "") && ($privilege == "5"))) {
+                $query = "SELECT * FROM `users` WHERE 1 ORDER BY id DESC limit $page1";
             } else {
                 $query = "SELECT * FROM `users` WHERE `name` like '%$name%' and  `privilege`='$privilege'";
             }
-           
+      
             $result = mysqli_query($connection, $query);
-
+            $arrays = array();
             while ($row = mysqli_fetch_array($result)) {
+                $arrays[] = $row;
+            } 
+            foreach ($arrays as $row) {
                 if ($row['privilege'] == "5") {
                     continue;
                 }
@@ -401,6 +429,30 @@ $privilege = isset($_GET['privilege']) ? $_GET['privilege'] : "5";
         ?>
         </tbody>
     </table>
+    <div class="container">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <?php 
+                $query="SELECT * FROM `users` WHERE 1";
+                $result=  mysqli_query($connection, $query);
+                $num=  mysqli_num_rows($result)/10;
+                $numrow=ceil($num);
+                ?>
+                <li class="page-item ">
+                    <a class="page-link <?php if($page==1){ echo 'disabled';} ?>" href="?fragment=user&component=listuser&page=<?php echo ($page-1); ?>" tabindex="-1">Previous</a>
+                </li>
+                <?php for($i=1;$i<=$numrow;$i++){   ?>
+                <li class="page-item <?php if($page==$i){    echo 'active';} ?>  "><a class="page-link" href="?fragment=user&component=listuser&page=<?php echo ($i); ?>"><?php echo $i; ?></a></li>
+               
+                <?php } ?>
+                <li class="page-item">
+                    <a class="page-link <?php if($page==$numrow){ echo 'disabled';} ?>" href="?fragment=user&component=listuser&page=<?php echo ($page+1); ?>">Next</a>
+                </li>
+                
+            </ul>
+        </nav>
+    </div>
+
 </div>
 
 
