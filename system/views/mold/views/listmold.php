@@ -1,5 +1,11 @@
 <?php
 $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+if ($page == 1) {
+    $page1 = "0,10";
+} else {
+    $page1 = ($page - 1) . "0," . ($page) . "0";
+}
 ?>
 <script src="../vender/typeahead.js" ></script>
 <script >
@@ -106,7 +112,7 @@ $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
             $query = "SELECT * FROM `customer` WHERE `id` ='$id'";
             $result1 = mysqli_query($connection, $query);
             $row = mysqli_fetch_array($result1);
-            echo $row['companynameTH'];
+            echo $row['name'];
                     ?></td>
                         <td>
 
@@ -119,7 +125,7 @@ $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
                     $cout++;
                 }
             } else {
-                $query = "SELECT * FROM `mold` WHERE 1   ";
+                $query = "SELECT * FROM `mold` WHERE 1  limit $page1  ";
                
                 $result = mysqli_query($connection, $query);
                 if (mysqli_num_rows($result) > 0) {
@@ -159,6 +165,29 @@ $moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
             ?>
         </tbody>
     </table>
+         <div class="container">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <?php 
+                $query="SELECT * FROM `mold` WHERE 1";
+                $result=  mysqli_query($connection, $query);
+                $num=  mysqli_num_rows($result)/10;
+                $numrow=ceil($num);
+                ?>
+                <li class="page-item ">
+                    <a class="page-link <?php if($page==1){ echo 'disabled';} ?>" href="?fragment=mold&component=mold&moldcode=<?php echo $moldcode; ?>&page=<?php echo $page-1; ?>" tabindex="-1">Previous</a>
+                </li>
+                <?php for($i=1;$i<=$numrow;$i++){   ?>
+                <li class="page-item <?php if($page==$i){    echo 'active';} ?>  "><a class="page-link" href="?fragment=mold&component=mold&moldcode=<?php echo $moldcode; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+               
+                <?php } ?>
+                <li class="page-item">
+                    <a class="page-link <?php if($page==$numrow){ echo 'disabled';} ?>" href="?fragment=mold&component=mold&moldcode=<?php echo $moldcode; ?>&page=<?php echo $page+1; ?>">Next</a>
+                </li>
+                
+            </ul>
+        </nav>
+    </div>
 </div>
 
 
