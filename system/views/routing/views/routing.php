@@ -272,15 +272,22 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <?php
-                $query = "SELECT * FROM `routing` WHERE 1";
+                if($partcode=="" && $partname=="" && $productioncode==""){
+                      $query = "SELECT * FROM `routing` WHERE 1";
+                }else{
+                     $query = "SELECT * FROM `routing` WHERE `productioncode` like '$productioncode' and `partcode` like '$partcode' and `partname` like '$partname'";
+                }
+              
+                
                 $result = mysqli_query($connection, $query);
                 $num = mysqli_num_rows($result) / 10;
                 $numrow = ceil($num);
+               
                 ?>
-                <li class="page-item ">
-                    <a class="page-link <?php if ($page == 1) {
+                <li class="page-item <?php if ($page == 1) {
                     echo 'disabled';
-                } ?>" href="?fragment=routing&component=routing&partname=<?php echo $partname; ?>&partcode=<?php echo $partcode; ?>&productioncode=<?php echo $productioncode; ?>&page=<?php echo $page-1; ?>" tabindex="-1">Previous</a>
+                } ?> ">
+                    <a class="page-link " href="?fragment=routing&component=routing&partname=<?php echo $partname; ?>&partcode=<?php echo $partcode; ?>&productioncode=<?php echo $productioncode; ?>&page=<?php echo $page-1; ?>" tabindex="-1">Previous</a>
                 </li>
 <?php for ($i = 1; $i <= $numrow; $i++) { ?>
                     <li class="page-item <?php if ($page == $i) {
@@ -288,10 +295,10 @@
     } ?>  "><a class="page-link" href="?fragment=routing&component=routing&partname=<?php echo $partname; ?>&partcode=<?php echo $partcode; ?>&productioncode=<?php echo $productioncode; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
 
 <?php } ?>
-                <li class="page-item">
-                    <a class="page-link <?php if ($page == $numrow) {
+                <li class="page-item <?php if ($page >= $numrow) {
     echo 'disabled';
-} ?>" href="?fragment=routing&component=routing&partname=<?php echo $partname; ?>&partcode=<?php echo $partcode; ?>&productioncode=<?php echo $productioncode; ?>&page=<?php echo $page+1; ?>">Next</a>
+} ?>">
+                    <a class="page-link " href="?fragment=routing&component=routing&partname=<?php echo $partname; ?>&partcode=<?php echo $partcode; ?>&productioncode=<?php echo $productioncode; ?>&page=<?php echo $page+1; ?>">Next</a>
                 </li>
 
             </ul>

@@ -100,6 +100,7 @@ $query = "";
                 </table>
             </div>
             <?php
+            $cout=1;
             $query = "SELECT `subchecksheet`.`checksheet`, `subchecksheet`.`subproductionlineID`, `subproductionline`.`name`, `subchecksheet`.`target`, `subproductionline`.`actual_total`, `subproductionline`.`free_total`, `subproductionline`.`reject_total`
 FROM `subchecksheet`
 INNER JOIN `subproductionline` ON  `subchecksheet`.`subproductionlineID`= `subproductionline`.`id` WHERE subchecksheet.checksheet ='$checksheetId'";
@@ -121,15 +122,21 @@ INNER JOIN `subproductionline` ON  `subchecksheet`.`subproductionlineID`= `subpr
                     $row1=  mysqli_fetch_array($result1);
                     
                     $routing=$row1['routing'];
-                    $query="SELECT * FROM `subrouting` WHERE `routing` ='$routing'";
+                    $query="SELECT * FROM `subrouting` WHERE `routing` ='$routing' and `subproductiononline` ='$subproductionlineID'";
+                 
                     $result1=  mysqli_query($connection, $query);
                     $row1=  mysqli_fetch_array($result1);
                     $mold=$row1['mold'];
                     $query="SELECT * FROM `mold` WHERE `id` ='$mold'";
                     $result1=  mysqli_query($connection, $query);
                     $row1=  mysqli_fetch_array($result1);
-                    
-                    echo $row['name'] ." Mold No : ".$row1['moldcode'] ."  : ".urldecode($row1['detail']);  ?></h3></div>
+                    if ($row1['moldcode'] != ""){
+                        $data=" Mold No : ".$row1['moldcode'] ."  : "."Step ".$cout." :";
+                    }else{
+                        $data="";
+                    }
+                    $cout++;
+                    echo $row['name'] . $data.urldecode($row1['detail']);  ?></h3></div>
                     <div class="panel-body">
                         <table class="table table-striped">
                             <thead>

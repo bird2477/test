@@ -97,7 +97,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : "";
                     <?php
                 }
             } else {
-                 $query = "SELECT * FROM `productionline` WHERE 1 order by `id` DESC ";
+                 $query = "SELECT * FROM `productionline` WHERE 1 order by  `machine` ";
                 $result = mysqli_query($connection, $query);
                 if(mysqli_num_rows($result)>0){
                     while ($row2 = mysqli_fetch_array($result)) {

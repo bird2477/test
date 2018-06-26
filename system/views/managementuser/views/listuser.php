@@ -433,20 +433,26 @@ $page=  isset($_GET['page']) ? $_GET['page']: 1;
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <?php 
+                if($name =="" && $privilege==5){
                 $query="SELECT * FROM `users` WHERE 1";
+                }else{
+                   $query="SELECT * FROM `users` WHERE `privilege` = '$privilege' and `name` like '%$name%'"; 
+                }
+                
+                
                 $result=  mysqli_query($connection, $query);
                 $num=  mysqli_num_rows($result)/10;
                 $numrow=ceil($num);
                 ?>
-                <li class="page-item ">
-                    <a class="page-link <?php if($page==1){ echo 'disabled';} ?>" href="?fragment=user&component=listuser&page=<?php echo ($page-1); ?>&privilege=<?php echo $privilege; ?>" tabindex="-1">Previous</a>
+                <li class="page-item <?php if($page==1){ echo 'disabled';} ?>">
+                    <a class="page-link " href="?fragment=user&component=listuser&page=<?php echo ($page-1); ?>&privilege=<?php echo $privilege; ?>" tabindex="-1">Previous</a>
                 </li>
                 <?php for($i=1;$i<=$numrow;$i++){   ?>
                 <li class="page-item <?php if($page==$i){    echo 'active';} ?>  "><a class="page-link" href="?fragment=user&component=listuser&page=<?php echo ($i); ?>&privilege=<?php echo $privilege; ?>"><?php echo $i; ?></a></li>
                
                 <?php } ?>
-                <li class="page-item">
-                    <a class="page-link <?php if($page==$numrow){ echo 'disabled';} ?>" href="?fragment=user&component=listuser&page=<?php echo ($page+1); ?>&privilege=<?php echo $privilege; ?>">Next</a>
+                <li class="page-item <?php if($page>= $numrow){ echo 'disabled';} ?>">
+                    <a class="page-link " href="?fragment=user&component=listuser&page=<?php echo ($page+1); ?>&privilege=<?php echo $privilege; ?>">Next</a>
                 </li>
                 
             </ul>

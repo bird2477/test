@@ -177,11 +177,12 @@
                     Production Code
                 </th>
                 <th>
-                    Part Code
-                </th>
-                <th>
                     Part Name
                 </th>
+                <th>
+                    Part Code
+                </th>
+                
                 <th colspan="2" style="text-align: center;">Tools</th>
             </tr>
         </thead>
@@ -208,8 +209,9 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
                     <tr>
                         <td><?php echo $row1['date']; ?></td>
                         <td><?php echo $row1['productioncode']; ?></td>
+                         <td><?php echo $row1['partname']; ?></td>
                         <td><?php echo $row1['partcode']; ?></td>
-                        <td><?php echo $row1['partname']; ?></td>
+                       
                         <td>
                             <?php
                             if (($row1['status'] == 0)) {
@@ -282,8 +284,9 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`
                         <tr>
                             <td><?php echo $row2['date']; ?></td>
                             <td><?php echo $row2['productioncode']; ?></td>
+                             <td><?php echo $row2['partname']; ?></td>
                             <td><?php echo $row2['partcode']; ?></td>
-                            <td><?php echo $row2['partname']; ?></td>
+                           
                             <td>
                                 <?php
                                 if (($row2['status'] == 0)) {
@@ -359,20 +362,25 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <?php 
-                $query="SELECT * FROM `checksheet` WHERE 1";
+                if($from == "" && $to==""){
+                     $query="SELECT * FROM `checksheet` WHERE 1";
+                }else{
+                    $query="SELECT * FROM `checksheet` WHERE `date` BETWEEN '$from' and '$to'";
+                }
+                
                 $result=  mysqli_query($connection, $query);
                 $num=  mysqli_num_rows($result)/10;
                 $numrow=ceil($num);
                 ?>
-                <li class="page-item ">
-                    <a class="page-link <?php if($page==1){ echo 'disabled';} ?>" href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $page-1; ?>" tabindex="-1">Previous</a>
+                <li class="page-item <?php if($page==1){ echo 'disabled';} ?>">
+                    <a class="page-link " href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $page-1; ?>" tabindex="-1">Previous</a>
                 </li>
                 <?php for($i=1;$i<=$numrow;$i++){   ?>
                 <li class="page-item <?php if($page==$i){    echo 'active';} ?>  "><a class="page-link" href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
                
                 <?php } ?>
-                <li class="page-item">
-                    <a class="page-link <?php if($page==$numrow){ echo 'disabled';} ?>" href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $page+1; ?>">Next</a>
+                <li class="page-item <?php if($page>=$numrow){ echo 'disabled';} ?>">
+                    <a class="page-link " href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $page+1; ?>">Next</a>
                 </li>
                 
             </ul>

@@ -156,20 +156,27 @@ if ($page == 1) {
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <?php 
-                $query="SELECT * FROM `customer` WHERE 1";
+                if($search_param==""){
+                     $query="SELECT * FROM `customer` WHERE 1";
+                }else{
+                    $query="SELECT * FROM `customer` WHERE `name` like '%$search_param%'";
+                }
+               
+                
+                
                 $result=  mysqli_query($connection, $query);
                 $num=  mysqli_num_rows($result)/10;
                 $numrow=ceil($num);
                 ?>
-                <li class="page-item ">
-                    <a class="page-link <?php if($page==1){ echo 'disabled';} ?>" href="?fragment=customer&component=listcustomer&companynameTH=<?php echo $search_param; ?>&companynameEN=<?php echo $search_param; ?>&page=<?php echo $page-1; ?>" tabindex="-1">Previous</a>
+                <li class="page-item <?php if($page==1){ echo 'disabled';} ?>">
+                    <a class="page-link " href="?fragment=customer&component=listcustomer&companynameTH=<?php echo $search_param; ?>&companynameEN=<?php echo $search_param; ?>&page=<?php echo $page-1; ?>" tabindex="-1">Previous</a>
                 </li>
                 <?php for($i=1;$i<=$numrow;$i++){   ?>
                 <li class="page-item <?php if($page==$i){    echo 'active';} ?>  "><a class="page-link" href="?fragment=customer&component=listcustomer&companynameTH=<?php echo $search_param; ?>&companynameEN=<?php echo $search_param; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
                
                 <?php } ?>
-                <li class="page-item">
-                    <a class="page-link <?php if($page==$numrow){ echo 'disabled';} ?>" href="?fragment=customer&component=listcustomer&companynameTH=<?php echo $search_param; ?>&companynameEN=<?php echo $search_param; ?>&page=<?php echo $page+1; ?>">Next</a>
+                <li class="page-item <?php if($page >= $numrow){ echo 'disabled';} ?>">
+                    <a class="page-link " href="?fragment=customer&component=listcustomer&companynameTH=<?php echo $search_param; ?>&companynameEN=<?php echo $search_param; ?>&page=<?php echo $page+1; ?>">Next</a>
                 </li>
                 
             </ul>
