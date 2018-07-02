@@ -213,6 +213,17 @@ session_start();
                                         </div>
                                     </div>
                                 </div>
+                                <div class="mb-3">
+                                    <label for="hp">Machine Standard</label>
+                                    <div class="input-group">
+
+                                        <input type="text" class="form-control" id="machinestandard"  name="machinestandard" placeholder="Machine Standard" required="">
+                                        <div class="invalid-feedback" style="width: 100%;">
+                                            Your username is required.
+                                        </div>
+                                    </div>
+                                </div>
+                                
 
                             </div>
                             <div class="modal-footer">
@@ -238,10 +249,7 @@ session_start();
                             <th >Slide Adj</th>
                             <th>Stroke Length</th>
                             <th >SPM</th>
-                            <th >Volt</th>
-                            <th >Amp</th>
-                            <th >HP</th>
-
+                            <th >Machine Standard</th>
                             <th>Tools</th>
                         </tr>
                     </thead>
@@ -287,14 +295,9 @@ session_start();
                                     <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="SPM" value="<?php echo $row['SPM']; ?>" >
                                 </td>
                                 <td>
-                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="volt" value="<?php echo $row['volt']; ?>" >
+                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="machinestandard" value="<?php echo $row['machinestandard']; ?>" >
                                 </td>
-                                <td>
-                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="amp" value="<?php echo $row['amp']; ?>" >
-                                </td>
-                                <td>
-                                    <input type="text" style="width: 100%;" class="chenge" id="<?php echo $row['id']; ?>" key="hp" value="<?php echo $row['hp']; ?>" >
-                                </td>
+                               
                                 <td>
                                     <button type="button" class="btn btn-danger remove" id="<?php echo $row['id']; ?>">
                                         Remove
