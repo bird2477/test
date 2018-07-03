@@ -38,7 +38,7 @@ $query = "";
 
                     var checksheetId = "checksheetId=<?php echo $checksheetId; ?>";
                     $.ajax({data: checksheetId, url: "../../checksheet/query/ajaxSend.php", cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
-                           
+
                             window.location.replace("../../../?fragment=checksheet");
                         }});
                 });
@@ -46,18 +46,6 @@ $query = "";
                 function data() {
                     var checksheetId = "checksheetId=<?php echo $checksheetId; ?>";
                     $.ajax({url: "../../checksheet/query/ajaxLoaddata.php", data: checksheetId, cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
-
-                            var obj = JSON.parse(data);
-                            for (var i in obj) {
-                                var key = i;
-                                var val = obj[i];
-                                for (var j in val) {
-                                    var sub_key = j;
-                                    var sub_val = val[j];
-                                    $("#" + sub_key).text(sub_val);
-
-                                }
-                            }
 
                         }});
                     call1();
@@ -67,22 +55,31 @@ $query = "";
                         data();
                     }, 1000);
                 }
-                 
-                 $(".check").change(function(){
-                     var val = $(this).val();
-                     var status = $(this).attr("status");
-                     var checksheet = $(this).attr("checksheet");
-                     var subproductionlineid = $(this).attr("subproductionlineid");
-                     var key = $(this).attr("key");
-                     var data1="val="+val+"&status="+status+"&checksheet="+checksheet+"&subproductionlineid="+subproductionlineid+"&key="+key;
-                    $.ajax({type: 'POST',url: "../../checksheet/query/ajaxCheckUser.php",data: data1,cache: false,success: function (data, textStatus, jqXHR) {
-                         window.location.reload();
-                       
-                    }});
-                     
-                 });
-                 
-                 
+                $(".option").change(function () {
+                    var option = $(this).val();
+                    var step = $(this).attr("step");
+                    var subchecksheet = $(this).attr("subchecksheet");
+                    var dataString = "option=" + option + "&step=" + step + "&subchecksheet=" + subchecksheet;
+
+                    $.ajax({url: "../../checksheet/query/chengeOption.php", cache: false, type: 'POST', data: dataString, success: function (data, textStatus, jqXHR) {
+                           
+                        }});
+                });
+                $(".check").change(function () {
+                    var val = $(this).val();
+                    var status = $(this).attr("status");
+                    var checksheet = $(this).attr("checksheet");
+                    var subproductionlineid = $(this).attr("subproductionlineid");
+                    var key = $(this).attr("key");
+                    var data1 = "val=" + val + "&status=" + status + "&checksheet=" + checksheet + "&subproductionlineid=" + subproductionlineid + "&key=" + key;
+                    $.ajax({type: 'POST', url: "../../checksheet/query/ajaxCheckUser.php", data: data1, cache: false, success: function (data, textStatus, jqXHR) {
+                            window.location.reload();
+
+                        }});
+
+                });
+
+
             });
         </script>
         <meta charset="UTF-8">
@@ -100,132 +97,84 @@ $query = "";
                 </table>
             </div>
             <?php
-            $cout=1;
-            $query = "SELECT `subchecksheet`.`checksheet`, `subchecksheet`.`subproductionlineID`, `subproductionline`.`name`, `subchecksheet`.`target`, `subproductionline`.`actual_total`, `subproductionline`.`free_total`, `subproductionline`.`reject_total`
-FROM `subchecksheet`
-INNER JOIN `subproductionline` ON  `subchecksheet`.`subproductionlineID`= `subproductionline`.`id` WHERE subchecksheet.checksheet ='$checksheetId' ORDER BY `subchecksheet`. `id`";
-
+            $id = $_GET['id'];
+            $query = "SELECT * FROM `subchecksheet` WHERE `checksheet` ='$id'";
             $result = mysqli_query($connection, $query);
+
             while ($row = mysqli_fetch_array($result)) {
-                $subproductionlineID = $row['subproductionlineID'];
-                $target = $row['target'];
-                $query = "UPDATE `subproductionline` SET   `target`  ='$target' ,`status`='1' WHERE `id` ='$subproductionlineID'";
-                mysqli_query($connection, $query);
                 ?>
+                <div class="row" >
+                    Step : <?php echo $row['step']; ?>
+                    <table class="table"   >
+                        <thead>
+                            <tr>
+                                <th>Machine</th>
+                                <th>Target</th>
+                                <th>Actual</th>
+                                <th>Free</th>
+                                <th>Reject</th>
+                                <th>Total</th>
+                                <th>Tools</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr>
+                                <td >
+                                    <?php
+                                    $subproductionlineID = $row['subproductionlineID'];
+                                    $query = "SELECT * FROM `subproductionline` WHERE `id` ='$subproductionlineID'";
+                                    $result1 = mysqli_query($connection, $query);
+                                    $row1 = mysqli_fetch_array($result1);
+                                    ?>
+                                    <select id="machine" subchecksheet="<?php echo $row['id']; ?>" step="<?php echo $row['step']; ?>" class="option" >
 
-                <div class="panel panel-primary " style="margin: 3px;padding: 3px;"  >           
-                    <div class="panel-heading"><h3><?php 
-                    $checksheet=$row['checksheet'];
-                    
-                    $query="SELECT * FROM `checksheet` WHERE `id` ='$checksheet'";
-                    $result1=  mysqli_query($connection, $query);
-                    $row1=  mysqli_fetch_array($result1);
-                    
-                    $routing=$row1['routing'];
-                    $query="SELECT * FROM `subrouting` WHERE `routing` ='$routing' and `subproductiononline` ='$subproductionlineID' ";
-                    
-                    $result1=  mysqli_query($connection, $query);
-                    $row1=  mysqli_fetch_array($result1);
-                    $mold=$row1['mold'];
-                    $query="SELECT * FROM `mold` WHERE `id` ='$mold'";
-                    $result1=  mysqli_query($connection, $query);
-                    $row1=  mysqli_fetch_array($result1);
-                    if ($row1['moldcode'] != ""){
-                        $data=" Mold No : ".$row1['moldcode'] ."  : "."Step ".$cout." :";
-                    }else{
-                        $data="";
-                    }
-                    $cout++;
-                    echo $row['name'] . $data.urldecode($row1['detail']);  ?></h3></div>
-                    <div class="panel-body">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Target</th>
-                                    <th>Actual Total</th>
-                                    <th>Free Total</th>
-                                    <th>Reject Total</th>
-                                    <th>Tools</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><?php echo $row['target']; ?></td>
-                                    <td  id="actual<?php echo $subproductionlineID; ?>">
-                                        <?php echo $row['actual_total']; ?>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control chenge" subproductionlineID="<?php echo $subproductionlineID; ?>" key="free_total" value="<?php echo $row['free_total']; ?>" >
-                                    </td>
-                                    <td> 
-                                        <input type="text" class="form-control chenge" subproductionlineID="<?php echo $subproductionlineID; ?>" key="reject_total" value="<?php echo $row['reject_total']; ?>" >
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group" >
-                                            <button type="button" data-toggle="modal" data-target="#<?php echo $subproductionlineID; ?>"  class="btn btn-default">
-                                                <?php  
-                                                $query="SELECT * FROM `timestamp` WHERE `checksheetID` ='$checksheetId' and `subproductionlineID` ='$subproductionlineID'";
-                                                $result1=  mysqli_query($connection, $query);
-                                                $mod= mysqli_num_rows($result1) %2;
-                                                if($mod){
-                                                   
-                                                     echo 'Pause'; 
-                                                }else{
-                                                     echo 'Start';  
-                                                }
+                                        <option value="" >option</option>
+                                        <?php
+                                        $step = $row['step'];
+                                        $subid = $row['id'];
+                                        $query = "SELECT `json` FROM `listsubproductionline` WHERE `id` =(SELECT `listsubproductionline_id` FROM `subrouting` WHERE   `step`='$step'   and `routing` =(SELECT `routing`  FROM `checksheet` WHERE `id` =(SELECT `checksheet` FROM `subchecksheet` WHERE `id` ='$subid')))";
+                                        $re = mysqli_query($connection, $query);
+                                        $json = mysqli_fetch_array($re);
+                                        $json = $json['json'];
+                                        if ($json != "") {
+                                            $array = json_decode($json, TRUE);
+                                            foreach ($array as $data) {
                                                 ?>
-                                                
-                                            </button>
-                                            <a class="btn btn-primary" target="_blank" href="../views/paper.php?subproductionlineID=<?php echo $subproductionlineID; ?>&checksheetId=<?php echo $checksheetId; ?>" >Report</a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                                <option <?php
+                                                            
+                                                if ($data['subproductionline'] == $subproductionlineID) {
+                                                    echo 'selected';
+                                                }
+                                                ?>  value="<?php echo $data['subproductionline']; ?>" >
+                                                        <?php
+                                                        $subproductionline = $data['subproductionline'];
+                                                        $query = "SELECT * FROM `subproductionline` WHERE `id` ='$subproductionline'";
+                                                        $rq = mysqli_query($connection, $query);
+                                                        $r = mysqli_fetch_array($rq);
+                                                        echo $r['name'];
+                                                        ?>
+                                                </option>
+        <?php }
+    }
+    ?>
+                                    </select>
 
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-
-
-
-
-
-                <!-- Modal -->
-                <div class="modal fade" id="<?php echo $subproductionlineID; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">เตะบัตร</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="input-group mb-3">   
-                                    <input type="text" class="form-control check" status="<?php   if($mod){
-                                                    
-                                                        echo '0'; 
-                                                }else{
-                                                  echo '1'; 
-                                                } ?>" checksheet="<?php echo $checksheetId; ?>" subproductionlineID="<?php echo $subproductionlineID; ?>"  placeholder="Employee ID" key="employeeID" name="employeeID"   aria-describedby="basic-addon1">
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-                <?php
-            }
-            ?>
-
+                                </td>
+                                <td ><?php echo $row['target']; ?></td>
+                                <td id="actual<?php echo $row['step']; ?>" ></td>
+                                <td ><input step="<?php echo $row['step']; ?>"  id="free<?php echo $row['step']; ?>"  ></td>
+                                <td ><input step="<?php echo $row['step']; ?>"  id="reject<?php echo $row['step']; ?>"  ></td>
+                                <td ><input step="<?php echo $row['step']; ?>"  id="total<?php echo $row['step']; ?>"  ></td>
+                                <td >
+                                    <a class="btn btn-primary" target="_blank" href="../views/paper.php?subproductionlineID=<?php echo $row['subproductionlineID']; ?>&checksheetId=<?php echo $_GET['id']; ?>" >Report</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table> 
+                </div> 
+    <?php
+}
+?>
         </div>
     </body>
 </html>    

@@ -26,12 +26,18 @@
                 }});
 
         });
+        $('#lotno').change(function () {
+            var lotno = "lotno=" + $(this).val();
+            $.ajax({url: "./views/checksheet/query/checkActual.php", cache: false, data: lotno, type: 'POST', success: function (data, textStatus, jqXHR) {
+                        $("#target1").text(data);
+                }});
+        });
 
-        $('#productioncode').typeahead({
+        $('#lotno').typeahead({
             source: function (query, result) {
                 $.ajax({
                     url: "views/checksheet/query/productioncodeautocomplate.php",
-                    data: 'productioncode=' + $("#productioncode").val(),
+                    data: 'lotno=' + $("#lotno").val(),
                     dataType: "json",
                     type: "POST",
                     success: function (data) {
@@ -42,47 +48,30 @@
                 });
             }
         });
-        $('#productioncode').change(function () {
-            var productioncode = 'productioncode=' + $(this).val();
-
-            $.ajax({url: "./views/checksheet/query/ajaxOptionPartCode.php", cache: false, type: 'POST', data: productioncode, success: function (data, textStatus, jqXHR) {
-
-                    $("#partcode").html(data);
-
-                }});
-
-        });
-        $('#partcode').change(function () {
-            var partcode =$(this).val();
-            var productioncode =$('#productioncode').val();
-            var dataString ="partcode="+partcode+"&productioncode="+productioncode;
-
-            $.ajax({url: "./views/checksheet/query/ajaxOptionName.php", cache: false, type: 'POST', data: dataString, success: function (data, textStatus, jqXHR) {
-
-                    $("#partname").html(data);
-
-                }});
-
-        });
-
-
-
 
         $("#addChecksheet").click(function () {
-            if ($("#partname").val() != "") {
+            var lotno = $("#lotno").val();
+            var target = $("#target").val();
+            if(target != ""){
+            var dataString = "lotno="+lotno+"&target="+target;
+            $.ajax({data: dataString, type: 'POST', cache: false, url: "./views/checksheet/query/ajaxReport.php", success: function (data, textStatus, jqXHR) {
+                    if (data != "") {
+                        window.location.replace("./views/checksheet/views/report.php?id=" + data);
+                    }
+                }});
+        }else{
+            
+        }
+        });
+        
+        $("#target").change(function(){
+            var target = $("#target1").text()  - $(this).val();
+            if(target >=0){
                 
-                var productioncode = $("#productioncode").val();
-                var partcode = $("#partcode").val();
-                var partname = $("#partname").val();
-                var target = $('#target').val();
-                var dataString = "productioncode="+productioncode+"&partcode="+partcode+"&partname="+partname+"&target="+target;
-                $.ajax({data: dataString, type: 'POST', cache: false, url: "./views/checksheet/query/ajaxReport.php", success: function (data, textStatus, jqXHR) {
-                        if (data != "") {
-                            window.location.replace("./views/checksheet/views/report.php?id=" + data);
-                        }
-                    }});
-            } else {
-
+            }else{
+                $(this).val("");
+                alert("กรุณาใส่ใหม่ค่าเกินที่ต้องการ");
+                $(this).focus();
             }
         });
 
@@ -111,25 +100,12 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <label for="productioncode">Production Code</label>
-                    <input type="text" class="form-control" id="productioncode" required="">
+                    <label for="lotno">Lot No.</label>
+                    <input type="text" class="form-control" id="lotno" name="lotno" required="">
                 </div>
                 <div class="row">
-                    <label for="partcode">Part Code</label>       
-                    <select name="partcode" class="custom-select d-block w-100 " id="partcode" required="">
-                        <option value="">Choose...</option>
 
-                    </select>
-                </div>
-                <div class="row">
-                    <label for="partname">Part Name</label>       
-                    <select name="partname" class="custom-select d-block w-100 " id="partname" required="">
-                        <option value="">Choose...</option>
-
-                    </select>
-                </div>
-                <div class="row">
-                    <label for="target">Target</label>       
+                    <label for="target">Target <span id="target1" >0</span>  </label>       
                     <input type="text" class="form-control" id="target" name="target" placeholder="5000" required="">
                 </div>
 
@@ -172,6 +148,7 @@
     <table class="table table-condensed">
         <thead>
             <tr>
+                <th>Lot No.</th>
                 <th>Date</th>
                 <th>
                     Production Code
@@ -182,21 +159,21 @@
                 <th>
                     Part Code
                 </th>
-                
+
                 <th colspan="2" style="text-align: center;">Tools</th>
             </tr>
         </thead>
         <tbody>
             <?php
-            $page=  isset($_GET['page']) ? $_GET['page']: 1;
+            $page = isset($_GET['page']) ? $_GET['page'] : 1;
             $to = isset($_GET['to']) ? $_GET['to'] : "";
             $from = isset($_GET['from']) ? $_GET['from'] : "";
-             if($page==1){
-               $page1="0,10";
-             }else{
-               $page1=($page-1)."0,".($page)."0";  
-             }
-            
+            if ($page == 1) {
+                $page1 = "0,10";
+            } else {
+                $page1 = ($page - 1) . "0," . ($page) . "0";
+            }
+
             if ($to != "" && $from != "") {
                 $query = "SELECT  `routing`.`partcode` ,`checksheet`.`date`,`routing`.`productioncode`,  `routing`.`partname` ,`checksheet`.`status` ,`routing` .`id`  as routingid , `checksheet`.`id`
 FROM  `checksheet`
@@ -207,11 +184,12 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
                 while ($row1 = mysqli_fetch_array($result)) {
                     ?>
                     <tr>
+                        <td><?php echo $row1['lotno']; ?></td>
                         <td><?php echo $row1['date']; ?></td>
                         <td><?php echo $row1['productioncode']; ?></td>
-                         <td><?php echo $row1['partname']; ?></td>
+                        <td><?php echo $row1['partname']; ?></td>
                         <td><?php echo $row1['partcode']; ?></td>
-                       
+
                         <td>
                             <?php
                             if (($row1['status'] == 0)) {
@@ -282,11 +260,12 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`
                     while ($row2 = mysqli_fetch_array($result)) {
                         ?>
                         <tr>
+                            <td><?php echo $row2['lotno']; ?></td>
                             <td><?php echo $row2['date']; ?></td>
                             <td><?php echo $row2['productioncode']; ?></td>
-                             <td><?php echo $row2['partname']; ?></td>
+                            <td><?php echo $row2['partname']; ?></td>
                             <td><?php echo $row2['partcode']; ?></td>
-                           
+
                             <td>
                                 <?php
                                 if (($row2['status'] == 0)) {
@@ -358,31 +337,43 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`
             ?>
         </tbody>
     </table>
-      <div class="container">
+    <div class="container">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-                <?php 
-                if($from == "" && $to==""){
-                     $query="SELECT * FROM `checksheet` WHERE 1";
-                }else{
-                    $query="SELECT * FROM `checksheet` WHERE `date` BETWEEN '$from' and '$to'";
+                <?php
+                if ($from == "" && $to == "") {
+                    $query = "SELECT * FROM `checksheet` WHERE 1";
+                } else {
+                    $query = "SELECT * FROM `checksheet` WHERE `date` BETWEEN '$from' and '$to'";
                 }
-                
-                $result=  mysqli_query($connection, $query);
-                $num=  mysqli_num_rows($result)/10;
-                $numrow=ceil($num);
+
+                $result = mysqli_query($connection, $query);
+                $num = mysqli_num_rows($result) / 10;
+                $numrow = ceil($num);
                 ?>
-                <li class="page-item <?php if($page==1){ echo 'disabled';} ?>">
-                    <a class="page-link " href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $page-1; ?>" tabindex="-1">Previous</a>
+                <li class="page-item <?php
+                if ($page == 1) {
+                    echo 'disabled';
+                }
+                ?>">
+                    <a class="page-link " href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $page - 1; ?>" tabindex="-1">Previous</a>
                 </li>
-                <?php for($i=1;$i<=$numrow;$i++){   ?>
-                <li class="page-item <?php if($page==$i){    echo 'active';} ?>  "><a class="page-link" href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
-               
+                <?php for ($i = 1; $i <= $numrow; $i++) { ?>
+                    <li class="page-item <?php
+                    if ($page == $i) {
+                        echo 'active';
+                    }
+                    ?>  "><a class="page-link" href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+
                 <?php } ?>
-                <li class="page-item <?php if($page>=$numrow){ echo 'disabled';} ?>">
-                    <a class="page-link " href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $page+1; ?>">Next</a>
+                <li class="page-item <?php
+                if ($page >= $numrow) {
+                    echo 'disabled';
+                }
+                ?>">
+                    <a class="page-link " href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $page + 1; ?>">Next</a>
                 </li>
-                
+
             </ul>
         </nav>
     </div>

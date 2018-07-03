@@ -1,12 +1,11 @@
 <?php
 date_default_timezone_set("Asia/Bangkok");
 include '../../../../config/database.php';
-$productioncode=$_POST['productioncode'];
-$partcode=$_POST['partcode'];
-$partname=$_POST['partname'];
-$target=$_POST['target'];
 
-$query="SELECT `id` FROM `routing` WHERE  `productioncode` like '$productioncode' and `partcode` like '$partcode' and `partname` like '$partname'";
+$target=$_POST['target'];
+$lotno=$_POST['lotno'];
+
+$query="SELECT * FROM `routing` WHERE `lotno` LIKE '$lotno'";
 $result=  mysqli_query($connection, $query);
 $row=  mysqli_fetch_array($result);
 $routing=$row['id'];
@@ -18,13 +17,13 @@ mysqli_query($connection, $query);
 $checksheetId=  mysqli_insert_id($connection);
 
 
-$query = "SELECT * FROM `subrouting` WHERE `routing` ='$routing'";
+$query = "SELECT * FROM `subrouting` WHERE `routing` ='$routing' ORDER BY `step` ASC";
 $result =  mysqli_query($connection, $query);
 
 while ($row1 = mysqli_fetch_array($result)) {
-    $subproductionlineID=$row1['subproductiononline'];
-    $query="INSERT INTO `subchecksheet`(`id`, `checksheet`, `subproductionlineID`, `target`, `actual_total`, `free_total`, `reject_total`) VALUES"
-                                    . " (null,'$checksheetId','$subproductionlineID','$target','0','0','')";
+    $step=$row1['step'];
+    $query="INSERT INTO `subchecksheet`(`id`, `checksheet`, `subproductionlineID`, `target`, `actual_total`, `free_total`, `reject_total`, `speed`, `step`) VALUES "
+                                    . "(null,'$checksheetId','0','$target','0','0','0','0','$step')";
     mysqli_query($connection, $query);
 }
 echo $checksheetId;

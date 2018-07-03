@@ -1,6 +1,7 @@
 <?php
 include '../../../../config/database.php';
 session_start();
+$routing = $_GET['id'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,30 +25,28 @@ session_start();
                         }});
                 });
 
-                $('#productionline').change(function () {
+                $('.productionline').change(function () {
                     var id = 'id=' + $(this).val();
                     $.ajax({data: id, url: "../../routing/query/ajaxOptionSubproductionline.php", cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
 
-                            $('#subproductionline').html(data);
+                            $('.subproductionline').html(data);
                         }});
                 });
-                
-                $("#customer").change(function(){
-                     var id = 'id=' + $(this).val();
+
+                $("#customer").change(function () {
+                    var id = 'id=' + $(this).val();
                     $.ajax({data: id, url: "../../routing/query/ajaxOptionMold.php", cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
 
                             $('#moldcode').html(data);
                         }});
                 });
-                
-                
-                
+
+
+
                 $("#addmachine").click(function () {
-                    var subproductiononline = $("#subproductionline").val();
-                    var id = "<?php echo $_GET['id']; ?>";
-                    var mold = $("#moldcode").val();
-                    var dataString = "routing=" + id + "&subproductiononline=" + subproductiononline+"&mold="+mold;
+                    var dataString = $('#addmachineSub').serialize() + "&routing=<?php echo $_GET['id']; ?>";
                     $.ajax({data: dataString, url: "../../routing/query/ajaxAddSubRouting.php", type: 'POST', cache: false, success: function (data, textStatus, jqXHR) {
+
                             if (data == 1) {
                                 window.location.reload();
                             }
@@ -80,74 +79,52 @@ session_start();
                         <div class="modal-header">
                             Sub Machine
                         </div>
-                        <div class="modal-body">
-                            
-                             <div class="row">
-                                <label for="customer">Customer</label>
-                                <div class="input-group">
 
-                                    <select name="customer" class="custom-select d-block w-100" id="customer" required="">
-                                        <option value="">Choose...</option>
-                                        <?php
-                                        $query = "SELECT * FROM `customer` WHERE 1";
-                                        $result = mysqli_query($connection, $query);
-                                        while ($row1 = mysqli_fetch_array($result)) {
-                                            ?>
-                                            <option value="<?php echo $row1['id']; ?>" ><?php echo $row1['name']; ?></option>
+                        <form id="addmachineSub" >
+                            <div class="modal-body">
+                                <div class="row">
+                                    <label for="step">Step</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="step" id="step" placeholder="Step" >
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <label for="customer">Customer</label>
+                                    <div class="input-group">
+
+                                        <select name="customer" class="custom-select d-block w-100" id="customer" required="">
+                                            <option value="">Choose...</option>
                                             <?php
-                                        }
-                                        ?>
-                                    </select>
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label for="moldcode">Mold No</label>
-                                <div class="input-group">
-
-                                    <select name="moldcode" class="custom-select d-block w-100" id="moldcode" required="">
-                                        <option value="">Choose...</option>
-                                      
-                                    </select>
-
-                                </div>
-                            </div>
-
-                            
-                            <div class="row">
-                                <label for="productionline">Production Line</label>
-                                <div class="input-group">
-
-                                    <select name="productionline" class="custom-select d-block w-100" id="productionline" required="">
-                                        <option value="">Choose...</option>
-                                        <?php
-                                        $query = "SELECT * FROM `productionline` WHERE 1";
-                                        $result = mysqli_query($connection, $query);
-                                        while ($row1 = mysqli_fetch_array($result)) {
+                                            $query = "SELECT * FROM `customer` WHERE 1";
+                                            $result = mysqli_query($connection, $query);
+                                            while ($row1 = mysqli_fetch_array($result)) {
+                                                ?>
+                                                <option value="<?php echo $row1['id']; ?>" ><?php echo $row1['name']; ?></option>
+                                                <?php
+                                            }
                                             ?>
-                                            <option value="<?php echo $row1['id']; ?>" ><?php echo $row1['machine']; ?></option>
-                                            <?php
-                                        }
-                                        ?>
-                                    </select>
+                                        </select>
 
+                                    </div>
                                 </div>
+                                <div class="row">
+                                    <label for="moldcode">Mold No</label>
+                                    <div class="input-group">
+
+                                        <select name="moldcode" class="custom-select d-block w-100" id="moldcode" required="">
+                                            <option value="">Choose...</option>
+
+                                        </select>
+
+                                    </div>
+                                </div>
+
+
+
                             </div>
 
-                            <div class="row">
-                                <label for="subproductionline">Machine Code</label>
-                                <div class="input-group">
-
-                                    <select name="subproductionline" class="custom-select d-block w-100" id="subproductionline" required="">
-                                        <option value="">Choose...</option>
-
-                                    </select>
-
-                                </div>
-                            </div>
-                           
-
-                        </div>
+                        </form>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" id="addmachine" data-dismiss="modal">Add</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -160,58 +137,111 @@ session_start();
                 <table class="table">
                     <thead>
                         <tr>
-                             <th>Mold No</th>
-                             <th>Step</th>
-                            <th>Line</th>
+                            <th>Step</th>
+                            <th>Mold No</th>
+                            <th>Detail</th>
                             <th>Machine Code</th>
-                           
-                            <th>Tools</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $id = $_GET['id'];
-                        $query = "SELECT  `subproductionline`.`id` as  subproductionline,   `subrouting`.`mold`,  `subproductionline`.`name`  ,  `subrouting`.`id` FROM `subrouting` INNER JOIN `subproductionline` ON `subrouting`.`subproductiononline`= `subproductionline`.`id` WHERE `routing` = '$id'";
-                        
+                        $query = "SELECT * FROM `subrouting` WHERE  `routing` ='$routing'  ORDER BY `step`  ASC";
                         $result = mysqli_query($connection, $query);
                         while ($row = mysqli_fetch_array($result)) {
+                            $listsubproductionline_id = $row['listsubproductionline_id'];
                             ?>
                             <tr>
-                                 <td><?php
-                                $mold=$row['mold']; 
-                                $query="SELECT * FROM `mold` WHERE `id` ='$mold'";
-                                $result1=  mysqli_query($connection, $query);
-                                
-                                $row1=  mysqli_fetch_array($result1);
-                                echo $row1['moldcode'];
-                                ?></td>
-                                <td><?php 
-                                echo urldecode($row1['detail']) ; 
-                                
-                                ?></td>
-                                <td><?php 
-                                $subproductionline=$row['subproductionline'];
-                                $query="SELECT * FROM `subproductionline` WHERE `id` ='$subproductionline'";
-                               
-                                $c=  mysqli_query($connection, $query);
-                                $row8=  mysqli_fetch_array($c);
-                                $productionline=$row8['productionline'];
-                                $query="SELECT * FROM `productionline` WHERE `id` ='$productionline'";
-                             
-                                $c=  mysqli_query($connection, $query);
-                                $r=  mysqli_fetch_array($c);
-                                echo $r['machine'];
-                                
-                                ?></td>
-                                <td><?php echo $row['name']; ?></td>
-                               
+                                <td colspan="3"></td>
                                 <td>
-                                    <button type="button" class="btn btn-danger remove" id="<?php echo $row['id']; ?>">
-                                        Remove
-                                    </button> 
+                                    <button type="button" class="btn btn-info " data-toggle="modal" data-target="#addmachine<?php echo $row['step']; ?>">Add machine</button>
+                                    <div id="addmachine<?php echo $row['step']; ?>" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
 
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+
+                                                    <h4 class="modal-title">Add Machine</h4>
+                                                </div>
+                                                <form  method="post" action="../../routing/query/ajaxAddlistsubproductionline.php" >
+
+                                                    <input type="hidden" value="<?php echo $row['step']; ?>"  name="step" >
+                                                    <input type="hidden" value="<?php echo $_GET['id']; ?>"  name="id" >
+                                                    <input type="hidden" value="<?php echo $_GET['partname']; ?>"  name="partname" >
+                                                    <input type="hidden" value="<?php echo $_GET['partcode']; ?>"  name="partcode" >
+                                                    <input type="hidden" value="<?php echo $_GET['productioncode']; ?>"  name="productioncode" >
+                                                    <input type="hidden" value="<?php echo $listsubproductionline_id; ?>"  name="listsubproductionline_id" >
+                                                    <div class="modal-body">
+
+                                                        <div class="row" >
+                                                            <label for="productionline">Production Line</label>
+                                                            <select class="custom-select d-block w-100 productionline" name="productionline" step="<?php echo $row['step']; ?>" id="productionline" required="">
+                                                                <option value="">Choose...</option>
+                                                                <?php
+                                                                $query = "SELECT * FROM `productionline` WHERE 1";
+                                                                $result1 = mysqli_query($connection, $query);
+                                                                while ($row3 = mysqli_fetch_array($result1)) {
+                                                                    ?>
+                                                                    <option value="<?php echo $row3['id']; ?>"><?php echo $row3['machine']; ?></option>
+                                                                <?php } ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="row" >
+
+                                                            <label for="subproductionline">Subproduction Line</label>
+                                                            <select class="custom-select d-block w-100 subproductionline" name="subproductionline" step="<?php echo $row['step']; ?>" id="subproductionline" required="">
+                                                                <option value="">Choose...</option>
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-default ">add</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </td>
-                            </tr>       
+                            </tr>
+                            <tr>
+                                <td>
+                                    <?php echo $row['step']; ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    $mold = $row['mold'];
+                                    $query = "SELECT * FROM `mold` WHERE `id` ='$mold'";
+                                    $result1 = mysqli_query($connection, $query);
+                                    $row1 = mysqli_fetch_array($result1);
+                                    echo $row1['moldcode'];
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php echo $row1['detail']; ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    $query = "SELECT * FROM `listsubproductionline` WHERE `id` ='$listsubproductionline_id'";
+                                    $result2 = mysqli_query($connection, $query);
+                                    $row2 = mysqli_fetch_array($result2);
+                                    $json = $row2['json'];
+                                    if ($json != "") {
+                                        $array = json_decode($json, TRUE);
+                                        foreach ($array as $data) {
+                                            $productionline = $data['productionline'];
+                                            $subproductionline = $data['subproductionline'];
+                                            $query = "SELECT * FROM `subproductionline` WHERE `id` ='$subproductionline' and `productionline` ='$productionline'";
+                                           
+                                            $result5=  mysqli_query($connection, $query);
+                                            $ro=  mysqli_fetch_array($result5);
+                                            echo $ro['name']."<br>";
+                                        }
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
                             <?php
                         }
                         ?>

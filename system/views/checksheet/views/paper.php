@@ -52,7 +52,7 @@ $row2=  mysqli_fetch_array($result);
     </tr>
      <tr>
          <td class="frame" ><?php echo $row1['target']; ?></td>
-        <td class="frame" ><?php echo $row1['actual_total']; ?></td>
+        <td class="frame" ><?php echo $row1['actual_total']-$row1['free_total']-$row1['reject_total']; ?></td>
         <td class="frame" ><?php echo $row1['free_total']; ?></td>
         <td class="frame" ><?php echo $row1['reject_total']; ?></td>
         <td class="frame" colspan="2" ><?php 
