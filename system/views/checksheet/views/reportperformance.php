@@ -45,10 +45,9 @@ function sum_the_time($time1, $time2) {
             <th class="frame">จำนวนงานดี</th>
             <th class="frame">Free shot</th>
             <th class="frame">จำนวนงานเสีย</th>
-
-            <th class="frame">ชื่องาน</th>
             <th class="frame">จำนวนรวม</th>
-            <th class="frame">ชือพนักงานผู้ผลิต</th>
+              <th class="frame">ชื่องาน</th>
+            <th class="frame">ชือพนักงาน</th>
         </tr>
     </thead>
     <tbody >
@@ -70,8 +69,66 @@ function sum_the_time($time1, $time2) {
                 echo $ro['name'];
                 ?>
             </td>
-            <td class="frame"></td>
-            <td class="frame"></td>
+            <td class="frame">
+                <?php 
+                $start_datetime=$row['start_datetime'];
+                $end_datetime=$row['end_datetime'];
+                $query="SELECT TIMEDIFF('$end_datetime','$start_datetime') as time";
+                $r= mysqli_query($connection, $query);
+                $w=  mysqli_fetch_array($r);
+                echo $w['time'];
+                ?>
+            </td>
+            <td class="frame">
+                <?php
+                
+                $query="SELECT `step` FROM `subchecksheet` WHERE `id` ='$subchecksheetID'";     
+                $rt=  mysqli_query($connection, $query);
+                $t=  mysqli_fetch_array($rt);
+                $step=$t['step'];
+                $query="SELECT * FROM `mold` WHERE `id` =(SELECT `mold` FROM `subrouting` WHERE `routing` =(SELECT `routing` FROM `checksheet` WHERE `id`='$checksheetID') and `step` ='$step' )";
+                 $rt=  mysqli_query($connection, $query);
+                  $t=  mysqli_fetch_array($rt);
+                  echo "Step ".$step." :".$t['detail'];
+                 
+                ?>
+                
+            </td>
+            <td class="frame" >
+                <?php echo $start_datetime; ?>
+            </td>
+            <td class="frame">
+                 <?php echo $end_datetime; ?>
+            </td>
+            <td class="frame">
+                <?php echo $row['actual']; ?>
+            </td>
+            <td class="frame">
+                <?php echo $row['free']; ?>
+            </td>
+            <td class="frame">
+                <?php echo $row['reject']; ?>
+            </td>
+            <td class="frame">
+                <?php echo $row['actual']+$row['free']+$row['reject']; ?>
+            </td>
+            <td class="frame">
+                <?php 
+                $query="SELECT * FROM `routing` WHERE `id` =(SELECT `routing` FROM `checksheet` WHERE `id`='$checksheetID')";
+                $r=  mysqli_query($connection, $query);
+                $t=  mysqli_fetch_array($r);
+                echo $t['partname'];
+                ?>
+            </td>
+            <td class="frame">
+                <?php 
+                $employeeID=$row['employeeID'];
+                $query="SELECT * FROM `users` WHERE `employeeID` LIKE '$employeeID'";
+                $r=  mysqli_query($connection, $query);
+                $t=  mysqli_fetch_array($r);
+                echo $t['name'];
+                ?>
+            </td>
         </tr>
         <?php } ?>
     </tbody>
