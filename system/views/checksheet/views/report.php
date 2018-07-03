@@ -26,14 +26,11 @@ $query = "";
                     var subproductionlineID = $(this).attr("subproductionlineID");
                     var dataString = "subproductionlineID=" + subproductionlineID + "&key=" + key + "&val=" + val;
                     $.ajax({url: "../../checksheet/query/ajaxUpdateAcutal.php", cache: false, type: 'POST', data: dataString, success: function (data, textStatus, jqXHR) {
-
+                                console.log(data);
                         }});
 
 
                 });
-
-
-
                 $("#send").click(function () {
 
                     var checksheetId = "checksheetId=<?php echo $checksheetId; ?>";
@@ -46,14 +43,20 @@ $query = "";
                 function data() {
                     var checksheetId = "checksheetId=<?php echo $checksheetId; ?>";
                     $.ajax({url: "../../checksheet/query/ajaxLoaddata.php", data: checksheetId, cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
-
+                            var array = JSON.parse(data);
+                            var i=1;
+                            for (var key in array) {
+                                $('#actual'+i).text(array[key]["actual"+i]);
+                                $('#total'+i).text(array[key]["total"+i]);
+                                i++;
+                            }
                         }});
                     call1();
                 }
                 function call1() {
                     setTimeout(function () {
                         data();
-                    }, 1000);
+                    }, 10000);
                 }
                 $(".option").change(function () {
                     var option = $(this).val();
@@ -74,16 +77,12 @@ $query = "";
                     var checksheet = $(this).attr("checksheet");
                     var subchecksheet = $(this).attr("subchecksheet");
                     var subproductionlineid = $(this).attr("subproductionlineid");
-                   
+
                     var data1 = "val=" + val + "&status=" + status + "&checksheet=" + checksheet + "&subproductionlineid=" + subproductionlineid + "&subchecksheet=" + subchecksheet;
                     $.ajax({type: 'POST', url: "../../checksheet/query/ajaxCheckUser.php", data: data1, cache: false, success: function (data, textStatus, jqXHR) {
                             window.location.reload();
-                            
                         }});
-
                 });
-
-
             });
         </script>
         <meta charset="UTF-8">
@@ -156,6 +155,7 @@ $query = "";
                                                         <?php
                                                         $subproductionline = $data['subproductionline'];
                                                         $query = "SELECT * FROM `subproductionline` WHERE `id` ='$subproductionline'";
+                                                        
                                                         $rq = mysqli_query($connection, $query);
                                                         $r = mysqli_fetch_array($rq);
                                                         echo $r['name'];
@@ -169,22 +169,29 @@ $query = "";
 
                                 </td>
                                 <td ><?php echo $row['target']; ?></td>
-                                <td id="actual<?php echo $row['step']; ?>" ></td>
-                                <td ><input step="<?php echo $row['step']; ?>"  id="free<?php echo $row['step']; ?>"  ></td>
-                                <td ><input step="<?php echo $row['step']; ?>"  id="reject<?php echo $row['step']; ?>"  ></td>
-                                <td ><input step="<?php echo $row['step']; ?>"  id="total<?php echo $row['step']; ?>"  ></td>
+                                <td id="actual<?php echo $row['step']; ?>" >
+                                    <?php
+                                        
+                                    echo $r['actual_total'] - $r['free_total'] - $r['reject_total'];
+                                    ?>
+                                </td>
+                                <td ><input class="chenge" subproductionlineID="<?php echo $subproductionlineID; ?>" key="free_total" step="<?php echo $row['step']; ?>" value="<?php echo $r['free_total']; ?>"  id="free<?php echo $row['step']; ?>"  ></td>
+                                <td ><input class="chenge" subproductionlineID="<?php echo $subproductionlineID; ?>" key="reject_total" step="<?php echo $row['step']; ?>" value="<?php echo $r['reject_total']; ?>"  id="reject<?php echo $row['step']; ?>"  ></td>
+                                <td step="<?php echo $row['step']; ?>"  id="total<?php echo $row['step']; ?>">
+                                <?php echo $r['actual_total']; ?>
+                                </td>
                                 <td >
                                     <button type="button" class="btn btn-info " data-toggle="modal" data-target="#<?php echo $row['id']; ?>">
-                                            <?php 
-                                            $query="SELECT * FROM `timestamp` WHERE `checksheetID` ='$id' and `subproductionlineID` ='$subproductionlineID' and status ='1'";
-                                            $res=  mysqli_query($connection, $query);
-                                            $r=  mysqli_fetch_array($res);
-                                            if($r['status']==1){
-                                                echo "stop";
-                                            }else{
-                                                echo 'start';
-                                            }
-                                            ?>
+                                        <?php
+                                        $query = "SELECT * FROM `timestamp` WHERE `checksheetID` ='$id' and `subproductionlineID` ='$subproductionlineID' and status ='1'";
+                                        $res = mysqli_query($connection, $query);
+                                        $r = mysqli_fetch_array($res);
+                                        if ($r['status'] == 1) {
+                                            echo "stop";
+                                        } else {
+                                            echo 'start';
+                                        }
+                                        ?>
 
                                     </button>
 
@@ -195,20 +202,20 @@ $query = "";
                     </table> 
                 </div> 
 
-            <div id="<?php echo $row['id']; ?>" class="modal fade" role="dialog">
+                <div id="<?php echo $row['id']; ?>" class="modal fade" role="dialog">
                     <div class="modal-dialog">
 
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                               
+
                                 <h4 class="modal-title">แตะบัตร</h4>
                             </div>
                             <div class="modal-body">
-                                <input  class="check form-control" subchecksheet="<?php echo $row['id']; ?>" subproductionlineid="<?php echo $subproductionlineID; ?>"  checksheet="<?php echo $id; ?>"  status="<?php echo $r['status']==1? "0":"1";   ?>"   >
+                                <input  class="check form-control" subchecksheet="<?php echo $row['id']; ?>" subproductionlineid="<?php echo $subproductionlineID; ?>"  checksheet="<?php echo $id; ?>"  status="<?php echo $r['status'] == 1 ? "0" : "1"; ?>"   >
                             </div>
                             <div class="modal-footer">
-                             
+
                             </div>
                         </div>
 

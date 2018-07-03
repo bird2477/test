@@ -12,14 +12,14 @@ while ($row = mysqli_fetch_assoc($result)) {
     $query="SELECT * FROM `subproductionline` WHERE `id` like '$subproductionlineID'";
     $result1=  mysqli_query($connection, $query);
     $row1=  mysqli_fetch_array($result1);
+    
     $data= array();
-    $data['actual'.$subproductionlineID]=$row1['actual_total'];
+    $data['actual'.$row['step']]=$row1['actual_total'] ==NULL? "0":$row1['actual_total']-$row1['free_total']-$row1['reject_total'];
+    $data['free'.$row['step']]= $row1['free_total'] ==NULL ? "0":$row1['free_total'];
+    $data['reject'.$row['step']]=$row1['reject_total'] ==NULL?"0":$row1['reject_total'];
+    $data['total'.$row['step']]=$row1['actual_total'] ==NULL? "0":$row1['actual_total'];
     $array[$cou]=$data;
     $cou++;
-    $actual_total=$row1['actual_total'];
-    $free_total=$row1['free_total'];
-    $reject_total=$row1['reject_total'];
-   
 }
 echo json_encode($array);
 

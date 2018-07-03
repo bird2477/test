@@ -38,7 +38,8 @@ $row2=  mysqli_fetch_array($result);
     <tr>
         <td class="frame" >Part Name</td>
         <td class="frame" colspan="3"><?php echo $row['partname']; ?></td>
-        <td class="frame" colspan="2" >&nbsp;</td>
+        <td class="frame">วันที่ส่งใบงาน</td>
+        <td class="frame"><?php echo $row1['date']; ?></td>
     </tr>
     <tr>
         <td colspan="6" >&nbsp;</td>
@@ -56,8 +57,8 @@ $row2=  mysqli_fetch_array($result);
         <td class="frame" ><?php echo $row1['free_total']; ?></td>
         <td class="frame" ><?php echo $row1['reject_total']; ?></td>
         <td class="frame" colspan="2" ><?php 
-        $query="SELECT * FROM `users` WHERE  `privilege`='1' and `employeeID` like (SELECT `employeeID`  FROM `timestamp` WHERE `checksheetID` = '$checksheetId' and `subproductionlineID` ='$subproductionlineID'  order by id desc  limit 0,1)";
-       
+        $query="SELECT * FROM `users` WHERE  `privilege`='1' and `employeeID` like (SELECT `employeeID`  FROM `timestamp` WHERE `checksheetID` = '$checksheetId' and `subproductionlineID` ='$subproductionlineID'  order by `timestamp`.`id` desc  limit 0,1)";
+      
         $result=  mysqli_query($connection, $query);
         $row5= mysqli_fetch_array($result);
         echo $row5['name'];
