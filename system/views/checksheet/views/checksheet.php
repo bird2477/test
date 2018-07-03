@@ -175,7 +175,7 @@
             }
 
             if ($to != "" && $from != "") {
-                $query = "SELECT  `routing`.`partcode` ,`checksheet`.`date`,`routing`.`productioncode`,  `routing`.`partname` ,`checksheet`.`status` ,`routing` .`id`  as routingid , `checksheet`.`id`
+                $query = "SELECT `routing`.`lotno`, `routing`.`partcode` ,`checksheet`.`date`,`routing`.`productioncode`,  `routing`.`partname` ,`checksheet`.`status` ,`routing` .`id`  as routingid , `checksheet`.`id`
 FROM  `checksheet`
 INNER JOIN `routing` 
 ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEEN  '$from' and '$to'    ORDER by `checksheet`.`id` DESC limit $page1";
@@ -251,10 +251,11 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
                     <?php
                 }
             } else {
-                $query = "SELECT  `routing`.`partcode`, `checksheet`.`date`,`routing`.`productioncode`,  `routing`.`partname` ,`checksheet`.`status` ,`routing` .`id`  as routingid , `checksheet`.`id`
+                $query = "SELECT   `routing`.`lotno`, `routing`.`partcode`, `checksheet`.`date`,`routing`.`productioncode`,  `routing`.`partname` ,`checksheet`.`status` ,`routing` .`id`  as routingid , `checksheet`.`id`
 FROM  `checksheet`
 INNER JOIN `routing` 
 ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`id` DESC LIMIT $page1";
+               
                 $result = mysqli_query($connection, $query);
                 if (mysqli_num_rows($result) > 0) {
                     while ($row2 = mysqli_fetch_array($result)) {

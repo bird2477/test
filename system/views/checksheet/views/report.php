@@ -100,8 +100,12 @@ $query = "";
             $id = $_GET['id'];
             $query = "SELECT * FROM `subchecksheet` WHERE `checksheet` ='$id'";
             $result = mysqli_query($connection, $query);
-
             while ($row = mysqli_fetch_array($result)) {
+                $target=$row['target'];
+                $subproductionlineID=$row['subproductionlineID'];
+                $query="UPDATE `subproductionline` SET `status` = '1' ,`target` ='$target'  WHERE `id` ='$subproductionlineID'";
+               
+                mysqli_query($connection, $query);
                 ?>
                 <div class="row" >
                     Step : <?php echo $row['step']; ?>
