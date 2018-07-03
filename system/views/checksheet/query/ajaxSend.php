@@ -14,18 +14,25 @@ INNER JOIN `subproductionline` ON  `subchecksheet`.`subproductionlineID`= `subpr
 $result = mysqli_query($connection, $query);
 while ($row = mysqli_fetch_array($result)) {
     $subproductionlineID = $row['subproductionlineID'];
-    $query="SELECT * FROM `subproductionline` WHERE `id` ='$subproductionlineID'";
-    
-    $result1=  mysqli_query($connection, $query);
-    $row1=  mysqli_fetch_array($result1);
-    $speed=$row['speed'];
-    $reject_total=$row1['reject_total'];
-    $free_total=$row1['free_total'];
-    $actual_total=$row1['actual_total'];
-    $target=$row1['target'];
-    $query=" UPDATE `subchecksheet` SET  `target` ='$target',`actual_total`='$actual_total',`free_total`='$free_total',`reject_total`='$reject_total',`speed`='$speed'   WHERE      `checksheet` ='$checksheetId' and `subproductionlineID` ='$subproductionlineID'";
-  
+    $query = "SELECT * FROM `subproductionline` WHERE `id` ='$subproductionlineID'";
+
+    $result1 = mysqli_query($connection, $query);
+    $row1 = mysqli_fetch_array($result1);
+    $speed = $row['speed'];
+    $reject_total = $row1['reject_total'];
+    $free_total = $row1['free_total'];
+    $actual_total = $row1['actual_total'];
+    $target = $row1['target'];
+    $query = " UPDATE `subchecksheet` SET  `target` ='$target',`actual_total`='$actual_total',`free_total`='$free_total',`reject_total`='$reject_total',`speed`='$speed'   WHERE      `checksheet` ='$checksheetId' and `subproductionlineID` ='$subproductionlineID'";
+
     mysqli_query($connection, $query);
     $query = "UPDATE `subproductionline` SET  `speed`='0',`reject_total`='0' ,`free_total`='0' ,`actual_total`='0' ,`target`  ='0' ,`status`='0' WHERE `id` ='$subproductionlineID'";
     mysqli_query($connection, $query);
 }
+$query = "SELECT * FROM `routing` WHERE `id` =(SELECT `routing` FROM `checksheet` WHERE `id` ='$checksheetId')";
+$re = mysqli_query($connection, $query);
+$row = mysqli_fetch_array($re);
+$routing=$row['id'];
+$routing_actual=$row['actual']+$actual_total-$free_total-$reject_total;
+$query="UPDATE `routing` SET `actual`='$routing_actual' WHERE `id` ='$routing'";
+mysqli_query($connection, $query);

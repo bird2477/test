@@ -45,13 +45,34 @@ function sum_the_time($time1, $time2) {
             <th class="frame">จำนวนงานดี</th>
             <th class="frame">Free shot</th>
             <th class="frame">จำนวนงานเสีย</th>
-            
+
             <th class="frame">ชื่องาน</th>
             <th class="frame">จำนวนรวม</th>
             <th class="frame">ชือพนักงานผู้ผลิต</th>
         </tr>
     </thead>
     <tbody >
-        
+        <?php
+        $date = $_GET['date'];
+        $query = "SELECT * FROM `timestamp` WHERE `start_datetime` like '%$date%' ORDER BY `id` ";
+        $result=  mysqli_query($connection, $query);
+        while ($row = mysqli_fetch_array($result)) {
+        ?>
+        <tr>
+            <td class="frame">
+                <?php  
+                $checksheetID=$row['checksheetID'];
+                $subchecksheetID=$row['subchecksheetID'];
+                $subproductionlineID=$row['subproductionlineID'];
+                $query="SELECT * FROM `subproductionline` WHERE `id` ='$subproductionlineID'";
+                $re=  mysqli_query($connection, $query);
+                $ro=  mysqli_fetch_array($re);
+                echo $ro['name'];
+                ?>
+            </td>
+            <td class="frame"></td>
+            <td class="frame"></td>
+        </tr>
+        <?php } ?>
     </tbody>
 </table>
