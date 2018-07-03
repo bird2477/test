@@ -62,19 +62,23 @@ $query = "";
                     var dataString = "option=" + option + "&step=" + step + "&subchecksheet=" + subchecksheet;
 
                     $.ajax({url: "../../checksheet/query/chengeOption.php", cache: false, type: 'POST', data: dataString, success: function (data, textStatus, jqXHR) {
-                           
+                            if (data != "") {
+                                alert(data);
+                                window.location.reload();
+                            }
                         }});
                 });
                 $(".check").change(function () {
                     var val = $(this).val();
                     var status = $(this).attr("status");
                     var checksheet = $(this).attr("checksheet");
+                    var subchecksheet = $(this).attr("subchecksheet");
                     var subproductionlineid = $(this).attr("subproductionlineid");
-                    var key = $(this).attr("key");
-                    var data1 = "val=" + val + "&status=" + status + "&checksheet=" + checksheet + "&subproductionlineid=" + subproductionlineid + "&key=" + key;
+                   
+                    var data1 = "val=" + val + "&status=" + status + "&checksheet=" + checksheet + "&subproductionlineid=" + subproductionlineid + "&subchecksheet=" + subchecksheet;
                     $.ajax({type: 'POST', url: "../../checksheet/query/ajaxCheckUser.php", data: data1, cache: false, success: function (data, textStatus, jqXHR) {
                             window.location.reload();
-
+                            
                         }});
 
                 });
@@ -101,10 +105,10 @@ $query = "";
             $query = "SELECT * FROM `subchecksheet` WHERE `checksheet` ='$id'";
             $result = mysqli_query($connection, $query);
             while ($row = mysqli_fetch_array($result)) {
-                $target=$row['target'];
-                $subproductionlineID=$row['subproductionlineID'];
-                $query="UPDATE `subproductionline` SET `status` = '1' ,`target` ='$target'  WHERE `id` ='$subproductionlineID'";
-               
+                $target = $row['target'];
+                $subproductionlineID = $row['subproductionlineID'];
+                $query = "UPDATE `subproductionline` SET `status` = '1' ,`target` ='$target'  WHERE `id` ='$subproductionlineID'";
+
                 mysqli_query($connection, $query);
                 ?>
                 <div class="row" >
@@ -145,7 +149,6 @@ $query = "";
                                             foreach ($array as $data) {
                                                 ?>
                                                 <option <?php
-                                                            
                                                 if ($data['subproductionline'] == $subproductionlineID) {
                                                     echo 'selected';
                                                 }
@@ -158,9 +161,10 @@ $query = "";
                                                         echo $r['name'];
                                                         ?>
                                                 </option>
-        <?php }
-    }
-    ?>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
                                     </select>
 
                                 </td>
@@ -170,15 +174,52 @@ $query = "";
                                 <td ><input step="<?php echo $row['step']; ?>"  id="reject<?php echo $row['step']; ?>"  ></td>
                                 <td ><input step="<?php echo $row['step']; ?>"  id="total<?php echo $row['step']; ?>"  ></td>
                                 <td >
-                                    <a class="btn btn-primary" target="_blank" href="../views/paper.php?subproductionlineID=<?php echo $row['subproductionlineID']; ?>&checksheetId=<?php echo $_GET['id']; ?>" >Report</a>
+                                    <button type="button" class="btn btn-info " data-toggle="modal" data-target="#<?php echo $row['id']; ?>">
+                                            <?php 
+                                            $query="SELECT * FROM `timestamp` WHERE `checksheetID` ='$id' and `subproductionlineID` ='$subproductionlineID' and status ='1'";
+                                            $res=  mysqli_query($connection, $query);
+                                            $r=  mysqli_fetch_array($res);
+                                            if($r['status']==1){
+                                                echo "stop";
+                                            }else{
+                                                echo 'start';
+                                            }
+                                            ?>
+
+                                    </button>
+
+                                    <a class="btn btn-info" target="_blank" href="../views/paper.php?subproductionlineID=<?php echo $row['subproductionlineID']; ?>&checksheetId=<?php echo $_GET['id']; ?>" >Report</a>
                                 </td>
                             </tr>
                         </tbody>
                     </table> 
                 </div> 
-    <?php
-}
-?>
+
+            <div id="<?php echo $row['id']; ?>" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                               
+                                <h4 class="modal-title">แตะบัตร</h4>
+                            </div>
+                            <div class="modal-body">
+                                <input  class="check form-control" subchecksheet="<?php echo $row['id']; ?>" subproductionlineid="<?php echo $subproductionlineID; ?>"  checksheet="<?php echo $id; ?>"  status="<?php echo $r['status']==1? "0":"1";   ?>"   >
+                            </div>
+                            <div class="modal-footer">
+                             
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <?php
+            }
+            ?>
         </div>
     </body>
 </html>    

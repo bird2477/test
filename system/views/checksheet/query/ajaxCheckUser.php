@@ -1,18 +1,37 @@
 <?php
 date_default_timezone_set("Asia/Bangkok");
 include '../../../../config/database.php';
-
-
 $checksheet=$_POST['checksheet'];
+$subchecksheet=$_POST['subchecksheet'];
 $status=$_POST['status'];
 $subproductionlineid=$_POST['subproductionlineid'];
-$key=$_POST['key'];
 $val=$_POST['val'];
 $date=  date('Y-m-d H:i:s');
-$query="INSERT INTO `timestamp`(`checksheetID`, `subproductionlineID`, `employeeID`, `datetime`, `status`) VALUES "
-                                 . "('$checksheet','$subproductionlineid','$val','$date','$status')";
 
-                         mysqli_query($connection, $query);
+if($status==1){
+    $query="INSERT INTO `timestamp`(`id`, `checksheetID`, `subchecksheetID`, `subproductionlineID`, `employeeID`, `start_datetime`, `end_datetime`, `actual`, `free`, `reject`, `status`) VALUES "
+                                 . "(null,'$checksheet','$subchecksheet','$subproductionlineid','$val','$date','','0','0','0','1')";
+}else{
+    $query="SELECT * FROM `subproductionline` WHERE `id` ='$subproductionlineid'";
+    $re=  mysqli_query($connection, $query);
+    $row=  mysqli_fetch_array($re);
+    $free=$row['free_total'];
+    $reject=$row['reject_total'];
+    $actual=$row['actual_total']-$free-$reject;
+    $query="UPDATE `timestamp` SET `status`='0'  ,`end_datetime` ='$date' ,  `actual` ='$actual' ,`free` ='$free' ,`reject` ='$reject'   WHERE `checksheetID` ='$checksheet' and `subchecksheetID` ='$subchecksheet' and `subproductionlineID` ='$subproductionlineid' and `status` ='1'";
+    
+}
+
+mysqli_query($connection, $query);
+
+
+
                          
- $query="UPDATE `subproductionline` SET  `statusUser` ='$status' WHERE `id`='$subproductionlineid'";  
- mysqli_query($connection, $query);
+                         
+                         
+                         
+                         
+                         
+                         
+// $query="UPDATE `subproductionline` SET  `statusUser` ='$status' WHERE `id`='$subproductionlineid'";  
+ //mysqli_query($connection, $query);
