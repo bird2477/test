@@ -6,6 +6,7 @@ $query="SELECT * FROM `routing` WHERE `id` = (SELECT routing FROM `checksheet` W
 
 $result = mysqli_query($connection, $query);
 $row=  mysqli_fetch_array($result);
+$deadline=$row['deadline'];
 
 $query="SELECT  `checksheet`.`date`,`subchecksheet`.`target`,`subchecksheet`.`actual_total`,`subchecksheet`.`free_total`,`subchecksheet`.`reject_total`
 FROM  `checksheet` 
@@ -38,8 +39,8 @@ $row2=  mysqli_fetch_array($result);
     <tr>
         <td class="frame" >Part Name</td>
         <td class="frame" colspan="3"><?php echo $row['partname']; ?></td>
-        <td class="frame">วันที่ส่งใบงาน</td>
-        <td class="frame"><?php echo $row1['date']; ?></td>
+        <td class="frame">วันที่ต้องการงานทั้งหมด</td>
+        <td class="frame"><?php echo $deadline; ?></td>
     </tr>
     <tr>
         <td colspan="6" >&nbsp;</td>

@@ -9,13 +9,13 @@ $productioncode = isset($_GET['productioncode']) ? $_GET['productioncode'] : "";
     $(document).ready(function () {
         $("#routingadd").click(function () {
 
-            var dataSting =$('#formrouting').serialize();
-                    $.ajax({data: dataSting, type: 'POST', cache: false, url: "views/routing/query/ajaxAddrouting.php", success: function (data, textStatus, jqXHR) {
-
-                            if (data != "") {
-                                window.location.replace(data);
-                            }
-                        }});
+            var dataSting = $('#formrouting').serialize();
+            $.ajax({data: dataSting, type: 'POST', cache: false, url: "views/routing/query/ajaxAddrouting.php", success: function (data, textStatus, jqXHR) {
+                      console.log(data);
+                    if (data != "") {
+                        window.location.replace(data);
+                    }
+                }});
 
         });
 
@@ -112,6 +112,12 @@ $productioncode = isset($_GET['productioncode']) ? $_GET['productioncode'] : "";
             <div class="modal-body">
                 <form id="formrouting" >
                     <div class="row">
+                        <label for="lotno">Lot No.</label>
+                        <div class="input-group ">
+                            <input type="text" class="form-control " id="lotno" name="lotno" placeholder="Lot No" required="">
+                        </div>
+                    </div>
+                    <div class="row">
                         <label for="productioncode">Production Code</label>
 
                         <div class="input-group ">
@@ -137,12 +143,13 @@ $productioncode = isset($_GET['productioncode']) ? $_GET['productioncode'] : "";
                             <input type="text" class="form-control " id="target" name="target" placeholder="Target" required="">
                         </div>
                     </div>
-                    <div class="row">
-                        <label for="lotno">Lot No.</label>
+                      <div class="row">
+                        <label for="deadline">วันที่ต้องส่งของ</label>
                         <div class="input-group ">
-                            <input type="text" class="form-control " id="lotno" name="lotno" placeholder="Lot No" required="">
+                            <input type="date" class="form-control " id="deadline" name="deadline" placeholder="วันที่ต้องส่งของ" required="">
                         </div>
                     </div>
+
                 </form>
 
 
@@ -240,17 +247,17 @@ $productioncode = isset($_GET['productioncode']) ? $_GET['productioncode'] : "";
                             </button>   
                         </td>
                     </tr>
-        <?php
-    }
-} else {
-    $query = "SELECT * FROM `routing` WHERE 1 ORDER by `id` DESC  limit $page1";
-    $result = mysqli_query($connection, $query);
-    if (mysqli_num_rows($result) > 0) {
-        while ($row2 = mysqli_fetch_array($result)) {
-            $arrays[] = $row2;
-        }
-        foreach ($arrays as $row2) {
-            ?>
+                    <?php
+                }
+            } else {
+                $query = "SELECT * FROM `routing` WHERE 1 ORDER by `id` DESC  limit $page1";
+                $result = mysqli_query($connection, $query);
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row2 = mysqli_fetch_array($result)) {
+                        $arrays[] = $row2;
+                    }
+                    foreach ($arrays as $row2) {
+                        ?>
                         <tr>
                             <td><?php echo $row2['lotno']; ?></td>
                             <td><?php echo $row2['productioncode']; ?></td>
@@ -265,35 +272,35 @@ $productioncode = isset($_GET['productioncode']) ? $_GET['productioncode'] : "";
                                 </button>   
                             </td>
                         </tr>
-            <?php
-        }
-    } else {
-        ?>
+                        <?php
+                    }
+                } else {
+                    ?>
                     <tr style="text-align: center;">
                         <td colspan="4"> No data</td>
 
                     </tr>
-        <?php
-    }
-}
-?>
+                    <?php
+                }
+            }
+            ?>
         </tbody>
     </table>
     <div class="container">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-<?php
-if ($partcode == "" && $partname == "" && $productioncode == "") {
-    $query = "SELECT * FROM `routing` WHERE 1";
-} else {
-    $query = "SELECT * FROM `routing` WHERE `productioncode` like '$productioncode' and `partcode` like '$partcode' and `partname` like '$partname'";
-}
+                <?php
+                if ($partcode == "" && $partname == "" && $productioncode == "") {
+                    $query = "SELECT * FROM `routing` WHERE 1";
+                } else {
+                    $query = "SELECT * FROM `routing` WHERE `productioncode` like '$productioncode' and `partcode` like '$partcode' and `partname` like '$partname'";
+                }
 
 
-$result = mysqli_query($connection, $query);
-$num = mysqli_num_rows($result) / 10;
-$numrow = ceil($num);
-?>
+                $result = mysqli_query($connection, $query);
+                $num = mysqli_num_rows($result) / 10;
+                $numrow = ceil($num);
+                ?>
                 <li class="page-item <?php
                 if ($page == 1) {
                     echo 'disabled';
@@ -301,7 +308,7 @@ $numrow = ceil($num);
                 ?> ">
                     <a class="page-link " href="?fragment=routing&component=routing&partname=<?php echo $partname; ?>&partcode=<?php echo $partcode; ?>&productioncode=<?php echo $productioncode; ?>&page=<?php echo $page - 1; ?>" tabindex="-1">Previous</a>
                 </li>
-<?php for ($i = 1; $i <= $numrow; $i++) { ?>
+                <?php for ($i = 1; $i <= $numrow; $i++) { ?>
                     <li class="page-item <?php
                     if ($page == $i) {
                         echo 'active';

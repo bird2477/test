@@ -180,8 +180,9 @@
                         <label for="privilege">Privilege</label>
                         <select name="privilege" class="custom-select d-block w-100" id="privilege" required="">
                             <option value="">Choose...</option>
+                             <option value="1">operator</option>
                             <option value="0">technician</option>
-                            <option value="1">operator</option>
+                           
                             <option value="2">lineleadder</option>
                             <option value="3">shifleadder</option>
                         </select>
@@ -230,16 +231,17 @@ $page=  isset($_GET['page']) ? $_GET['page']: 1;
                 echo 'selected';
             }
             ?>>Choose...</option>
-            <option <?php
-            if (intval($privilege) === 0) {
-                echo 'selected';
-            }
-            ?> value="0">technician</option>
+          
             <option <?php
             if (intval($privilege) === 1) {
                 echo 'selected';
             }
             ?> value="1">operator</option>
+              <option <?php
+            if (intval($privilege) === 0) {
+                echo 'selected';
+            }
+            ?> value="0">technician</option>
             <option <?php
             if (intval($privilege) === 2) {
                 echo 'selected';
