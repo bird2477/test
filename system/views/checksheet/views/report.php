@@ -80,6 +80,7 @@ $query = "";
 
                     var data1 = "val=" + val + "&status=" + status + "&checksheet=" + checksheet + "&subproductionlineid=" + subproductionlineid + "&subchecksheet=" + subchecksheet;
                     $.ajax({type: 'POST', url: "../../checksheet/query/ajaxCheckUser.php", data: data1, cache: false, success: function (data, textStatus, jqXHR) {
+                        
                             window.location.reload();
                         }});
                 });
