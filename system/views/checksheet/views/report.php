@@ -110,9 +110,17 @@ $query = "";
                 $query = "UPDATE `subproductionline` SET `status` = '1' ,`target` ='$target'  WHERE `id` ='$subproductionlineID'";
 
                 mysqli_query($connection, $query);
+                $step= $row['step'] ;
+                $query="SELECT * FROM `mold` WHERE `id` =(SELECT `mold` FROM `subrouting` WHERE `routing` =(SELECT `routing` FROM `checksheet` WHERE `id` ='$id') and `step` ='$step')";
+                $e=  mysqli_query($connection, $query);
+                $r=  mysqli_fetch_array($e);
+                
+                $query="SELECT * FROM `subrouting` WHERE `routing` =(SELECT `routing` FROM `checksheet` WHERE `id` ='$id') and `step` ='$step'";
+                $t=  mysqli_query($connection, $query);
+                $y=  mysqli_fetch_array($t);
                 ?>
                 <div class="row" >
-                    Step : <?php echo $row['step']; ?>
+                    Step : <?php echo $row['step'] ?>  Detail: <?php echo $y['detail']; ?>   Production Code : <?php echo $r['productioncode']; ?>  Part Code : <?php echo $r['partcode']; ?>  Part Name : <?php echo $r['partname']; ?>  
                     <table class="table"   >
                         <thead>
                             <tr>

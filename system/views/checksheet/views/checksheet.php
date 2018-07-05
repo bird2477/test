@@ -175,7 +175,7 @@
             }
 
             if ($to != "" && $from != "") {
-                $query = "SELECT `routing`.`lotno`, `routing`.`partcode` ,`checksheet`.`date`,`routing`.`productioncode`,  `routing`.`partname` ,`checksheet`.`status` ,`routing` .`id`  as routingid , `checksheet`.`id`
+                $query = "SELECT `routing`.`lotno` ,`checksheet`.`date` ,`checksheet`.`status` ,`routing` .`id`  as routingid , `checksheet`.`id`
 FROM  `checksheet`
 INNER JOIN `routing` 
 ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEEN  '$from' and '$to'    ORDER by `checksheet`.`id` DESC limit $page1";
@@ -186,9 +186,7 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
                     <tr>
                         <td><?php echo $row1['lotno']; ?></td>
                         <td><?php echo $row1['date']; ?></td>
-                        <td><?php echo $row1['productioncode']; ?></td>
-                        <td><?php echo $row1['partname']; ?></td>
-                        <td><?php echo $row1['partcode']; ?></td>
+                      
 
                         <td>
                             <?php
@@ -252,7 +250,7 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
                     <?php
                 }
             } else {
-                $query = "SELECT   `routing`.`lotno`, `routing`.`partcode`, `checksheet`.`date`,`routing`.`productioncode`,  `routing`.`partname` ,`checksheet`.`status` ,`routing` .`id`  as routingid , `checksheet`.`id`
+                $query = "SELECT   `routing`.`lotno`, `checksheet`.`date`, `checksheet`.`status` ,`routing` .`id`  as routingid , `checksheet`.`id`
 FROM  `checksheet`
 INNER JOIN `routing` 
 ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`id` DESC LIMIT $page1";
@@ -264,9 +262,7 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`
                         <tr>
                             <td><?php echo $row2['lotno']; ?></td>
                             <td><?php echo $row2['date']; ?></td>
-                            <td><?php echo $row2['productioncode']; ?></td>
-                            <td><?php echo $row2['partname']; ?></td>
-                            <td><?php echo $row2['partcode']; ?></td>
+                            
 
                             <td>
                                 <?php

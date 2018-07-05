@@ -156,8 +156,8 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
             if (($lotno != "")) {
 
-                $query = "SELECT * FROM `routing` WHERE `productioncode` like '%$lotno%'  limit $page1";
-
+                $query = "SELECT * FROM `routing` WHERE `lotno` like '%$lotno%'  limit $page1";
+               
                 $result = mysqli_query($connection, $query);
                 $arrays = array();
                 while ($row1 = mysqli_fetch_array($result)) {

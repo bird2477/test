@@ -7,12 +7,20 @@ $query="SELECT * FROM `routing` WHERE `id` = (SELECT routing FROM `checksheet` W
 $result = mysqli_query($connection, $query);
 $row=  mysqli_fetch_array($result);
 $deadline=$row['deadline'];
+$routing_id=$row['id'];
 
-$query="SELECT  `checksheet`.`date`,`subchecksheet`.`target`,`subchecksheet`.`actual_total`,`subchecksheet`.`free_total`,`subchecksheet`.`reject_total`
+
+$query="SELECT  `checksheet`.`date`,`subchecksheet`.`target`,`subchecksheet`.`actual_total`,`subchecksheet`.`free_total`,`subchecksheet`.`reject_total`,`subchecksheet`.`step`
 FROM  `checksheet` 
 INNER JOIN `subchecksheet` ON  `subchecksheet`.`checksheet`=`checksheet`.`id` WHERE  `subchecksheet`.`checksheet` ='$checksheetId' and `subchecksheet`.`subproductionlineID` ='$subproductionlineID'";
 $result=  mysqli_query($connection, $query);
 $row1= mysqli_fetch_array($result);
+$step=$row1['step'];
+$query="SELECT * FROM `mold` WHERE `id`=(SELECT `mold` FROM `subrouting` WHERE `routing` ='$routing_id' and `step` ='$step')";
+$r=  mysqli_query($connection, $query);
+$rt=  mysqli_fetch_array($r);
+
+
 
 $query="SELECT * FROM `subproductionline` WHERE `id` = '$subproductionlineID'";
 $result=  mysqli_query($connection, $query);
@@ -30,15 +38,15 @@ $row2=  mysqli_fetch_array($result);
 <table border="0" align="center"  style="width: 650px; text-align: center;" class="frame"  >
     <tr>
         <td class="frame">Production Code</td>
-        <td class="frame"><?php echo $row['productioncode']; ?></td>
+        <td class="frame"><?php echo $rt['productioncode']; ?></td>
         <td class="frame">Part Code</td>
-        <td class="frame"><?php echo $row['partcode']; ?></td>
+        <td class="frame"><?php echo $rt['partcode']; ?></td>
         <td class="frame">วันที่ออกใบงาน</td>
         <td class="frame"><?php echo $row1['date']; ?></td>
     </tr>
     <tr>
         <td class="frame" >Part Name</td>
-        <td class="frame" colspan="3"><?php echo $row['partname']; ?></td>
+        <td class="frame" colspan="3"><?php echo $rt['partname']; ?></td>
         <td class="frame">วันที่ต้องการงานทั้งหมด</td>
         <td class="frame"><?php echo $deadline; ?></td>
     </tr>
