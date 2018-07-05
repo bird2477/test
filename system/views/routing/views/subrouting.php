@@ -11,7 +11,7 @@ $routing = $_GET['id'];
         <script src="../../../../js/jquery.min.js" crossorigin="anonymous"></script>
         <script src="../../../../js/poper.js"  crossorigin="anonymous"></script>
         <script src="../../../../js/bootstrap.js"  crossorigin="anonymous"></script>
-
+        <script src="../../../../vender/typeahead.js" ></script>
         <script >
             $(document).ready(function () {
 
@@ -33,15 +33,46 @@ $routing = $_GET['id'];
                         }});
                 });
 
-                $("#customer").change(function () {
-                    var id = 'id=' + $(this).val();
-                    $.ajax({data: id, url: "../../routing/query/ajaxOptionMold.php", cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
+                $("#productioncode").change(function () {
+                    var id = 'productioncode=' + $(this).val();
+                    $.ajax({data: id, url: "../../routing/query/ajaxOptionPartName.php", cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
 
-                            $('#moldcode').html(data);
+                            $('#partcode').html(data);
                         }});
                 });
+                
+                $("#partcode").change(function () {
+                    var id = 'partcode=' + $(this).val();
+                    $.ajax({data: id, url: "../../routing/query/ajaxOptionpartcode.php", cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
 
+                            $('#partname').html(data);
+                        }});
+                });
+                
+                $("#partname").change(function () {
+                    var id = 'partname=' + $(this).val();
+                    $.ajax({data: id, url: "../../routing/query/ajaxOptionproductioncode.php", cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
 
+                            $('#customer').html(data);
+                        }});
+                });
+                
+
+                $('#productioncode').typeahead({
+                    source: function (query, result) {
+                        $.ajax({
+                            url: "../../routing/query/productioncodeautocomplate.php",
+                            data: 'productioncode=' + $("#productioncode").val(),
+                            dataType: "json",
+                            type: "POST",
+                            success: function (data) {
+                                result($.map(data, function (item) {
+                                    return item;
+                                }));
+                            }
+                        });
+                    }
+                });
 
                 $("#addmachine").click(function () {
                     var dataString = $('#addmachineSub').serialize() + "&routing=<?php echo $_GET['id']; ?>";
@@ -90,36 +121,44 @@ $routing = $_GET['id'];
 
                                 </div>
                                 <div class="row">
-                                    <label for="customer">Customer</label>
+                                    <label for="detail">Detail</label>
                                     <div class="input-group">
-
-                                        <select name="customer" class="custom-select d-block w-100" id="customer" required="">
-                                            <option value="">Choose...</option>
-                                            <?php
-                                            $query = "SELECT * FROM `customer` WHERE 1";
-                                            $result = mysqli_query($connection, $query);
-                                            while ($row1 = mysqli_fetch_array($result)) {
-                                                ?>
-                                                <option value="<?php echo $row1['id']; ?>" ><?php echo $row1['name']; ?></option>
-                                                <?php
-                                            }
-                                            ?>
-                                        </select>
-
+                                        <input type="text" class="form-control" name="detail" id="detail" placeholder="Detail" >
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label for="moldcode">Mold No</label>
+                                    <label for="productioncode">Production Code</label>
                                     <div class="input-group">
+                                        <input type="text" class="form-control" name="productioncode" id="productioncode" placeholder="Production Code" >
+                                    </div>
 
-                                        <select name="moldcode" class="custom-select d-block w-100" id="moldcode" required="">
-                                            <option value="">Choose...</option>
-
+                                </div>
+                                <div class="row">
+                                    <label for="partcode">Part Code</label>
+                                    <div class="input-group">
+                                        <select  class="form-control" name="partcode" id="partcode"  >
+                                            <option >Part Code</option>
                                         </select>
 
                                     </div>
-                                </div>
 
+                                </div>
+                                <div class="row">
+                                    <label for="partname">Part Name</label>
+                                    <div class="input-group">
+                                        <select  class="form-control" name="partname" id="partname"  >
+                                            <option >Part Name</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label for="customer">Customer</label>
+                                    <div class="input-group">
+                                        <select  class="form-control" name="customer" id="customer"  >
+                                            <option >Customer</option>
+                                        </select>
+                                    </div>
+                                </div>
 
 
                             </div>
@@ -138,8 +177,12 @@ $routing = $_GET['id'];
                     <thead>
                         <tr>
                             <th>Step</th>
-                            <th>Mold No</th>
+                           
                             <th>Detail</th>
+                             <th>Mold No</th>
+                             <th>Production Code</th>
+                             <th>Part Code</th>
+                             <th>Part Name</th>
                             <th>Machine Code</th>
                         </tr>
                     </thead>
@@ -151,7 +194,7 @@ $routing = $_GET['id'];
                             $listsubproductionline_id = $row['listsubproductionline_id'];
                             ?>
                             <tr>
-                                <td colspan="3"></td>
+                                <td colspan="6"></td>
                                 <td>
                                     <button type="button" class="btn btn-info " data-toggle="modal" data-target="#addmachine<?php echo $row['step']; ?>">Add machine</button>
                                     <div id="addmachine<?php echo $row['step']; ?>" class="modal fade" role="dialog">
@@ -164,12 +207,18 @@ $routing = $_GET['id'];
                                                     <h4 class="modal-title">Add Machine</h4>
                                                 </div>
                                                 <form  method="post" action="../../routing/query/ajaxAddlistsubproductionline.php" >
-
+                                                    <?php $mold = $row['mold'];
+                                    $query = "SELECT * FROM `mold` WHERE `id` ='$mold'";
+                                    $result1 = mysqli_query($connection, $query);
+                                    $row1 = mysqli_fetch_array($result1);
+                                    ?>
                                                     <input type="hidden" value="<?php echo $row['step']; ?>"  name="step" >
                                                     <input type="hidden" value="<?php echo $_GET['id']; ?>"  name="id" >
-                                                    <input type="hidden" value="<?php echo $_GET['partname']; ?>"  name="partname" >
-                                                    <input type="hidden" value="<?php echo $_GET['partcode']; ?>"  name="partcode" >
-                                                    <input type="hidden" value="<?php echo $_GET['productioncode']; ?>"  name="productioncode" >
+                                                    <input type="hidden" value="<?php echo $_GET['lotno']; ?>"  name="lotno" >
+                                                    <input type="hidden" value="<?php echo $row1['partcode']; ?>"  name="partcode" >
+                                                    <input type="hidden" value="<?php echo $row1['partname']; ?>"  name="partname" >
+                                                    <input type="hidden" value="<?php echo $row1['productioncode']; ?>"  name="productioncode" >
+                                                    
                                                     <input type="hidden" value="<?php echo $listsubproductionline_id; ?>"  name="listsubproductionline_id" >
                                                     <div class="modal-body">
 
@@ -209,17 +258,24 @@ $routing = $_GET['id'];
                                 <td>
                                     <?php echo $row['step']; ?>
                                 </td>
+                               
                                 <td>
+                                    <?php echo $row['detail']; ?>
+                                </td>
+                                 <td>
                                     <?php
-                                    $mold = $row['mold'];
-                                    $query = "SELECT * FROM `mold` WHERE `id` ='$mold'";
-                                    $result1 = mysqli_query($connection, $query);
-                                    $row1 = mysqli_fetch_array($result1);
+                                    
                                     echo $row1['moldcode'];
                                     ?>
                                 </td>
-                                <td>
-                                    <?php echo $row1['detail']; ?>
+                                <td >
+                                    <?php echo $row1['productioncode']; ?>
+                                </td>
+                                <td >
+                                    <?php echo $row1['partcode']; ?>
+                                </td>
+                                 <td >
+                                    <?php echo $row1['partname']; ?>
                                 </td>
                                 <td>
                                     <?php
@@ -233,10 +289,10 @@ $routing = $_GET['id'];
                                             $productionline = $data['productionline'];
                                             $subproductionline = $data['subproductionline'];
                                             $query = "SELECT * FROM `subproductionline` WHERE `id` ='$subproductionline' and `productionline` ='$productionline'";
-                                           
-                                            $result5=  mysqli_query($connection, $query);
-                                            $ro=  mysqli_fetch_array($result5);
-                                            echo $ro['name']."<br>";
+
+                                            $result5 = mysqli_query($connection, $query);
+                                            $ro = mysqli_fetch_array($result5);
+                                            echo $ro['name'] . "<br>";
                                         }
                                     }
                                     ?>
