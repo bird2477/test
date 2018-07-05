@@ -87,7 +87,10 @@ if ($page == 1) {
             <tr>
                
                 <th>Mold No</th>
-                <th>Detail</th>
+                <th>Production Code</th>
+                <th>Part Code</th>
+                <th>Part Name</th>
+                
                 <th>Customer</th>
                 <th>Tools</th>
             </tr>
@@ -106,7 +109,9 @@ if ($page == 1) {
                     <tr>
                         
                         <td><?php echo urldecode($row1['moldcode']); ?></td>
-                        <td><?php echo urldecode($row1['detail']); ?></td>
+                        <td><?php echo urldecode($row1['productioncode']); ?></td>
+                        <td><?php echo urldecode($row1['partcode']); ?></td>
+                        <td><?php echo urldecode($row1['partname']); ?></td>
                         <td><?php
             $id = $row1['customer'];
             $query = "SELECT * FROM `customer` WHERE `id` ='$id'";
@@ -134,7 +139,9 @@ if ($page == 1) {
                         <tr>
                            
                             <td><?php echo urldecode(  $row2['moldcode']); ?></td>
-                            <td><?php echo urldecode($row2['detail']); ?></td>
+                            <td><?php echo urldecode($row2['productioncode']); ?></td>
+                            <td><?php echo urldecode($row2['partcode']); ?></td>
+                            <td><?php echo urldecode($row2['partname']); ?></td>
                             <td><?php
                              $id = $row2['customer'];
                             $query = "SELECT * FROM `customer` WHERE `id` ='$id'";
@@ -218,8 +225,22 @@ if ($page == 1) {
                         </div>
                     </div>
                     <div class="row">
-                        <label for="detail">Detail</label>
-                        <input type="text" class="form-control" id="detail" name="detail" placeholder="" required="">
+                        <label for="productioncode">Production Code</label>
+                        <input type="text" class="form-control" id="productioncode" name="productioncode" placeholder="" required="">
+                        <div class="invalid-feedback">
+                            Please enter your shipping address.
+                        </div>
+                    </div>
+                     <div class="row">
+                        <label for="partcode">Part Code</label>
+                        <input type="text" class="form-control" id="partcode" name="partcode" placeholder="" required="">
+                        <div class="invalid-feedback">
+                            Please enter your shipping address.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label for="partname">Part Name</label>
+                        <input type="text" class="form-control" id="partname" name="partname" placeholder="" required="">
                         <div class="invalid-feedback">
                             Please enter your shipping address.
                         </div>
