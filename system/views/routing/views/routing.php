@@ -116,7 +116,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
     <div class="col-md-3 mb-3">
         <label for="lotno">Lot No.</label>
         <div class="input-group ">
-            <input type="text" class="form-control " value="<?php echo $lotno; ?>" id="searchproductioncode" name="searchlotno" placeholder="Lot No." required="">
+            <input type="text" class="form-control " value="<?php echo $lotno; ?>" id="searchlotno" name="searchlotno" placeholder="Lot No." required="">
 
         </div>
     </div>
