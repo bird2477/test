@@ -94,7 +94,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                Add Customer
+                Add User
             </div>
             <div class="modal-body"> <form id="formuser" >
                     <div class=" mb-3">

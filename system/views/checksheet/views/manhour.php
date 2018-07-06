@@ -1,10 +1,34 @@
-<?php
-$employeeID = isset($_GET['employeeID']) ? $_GET['employeeID'] : "";
-$from = isset($_GET['from']) ? $_GET['from'] : "";
-$to = isset($_GET['to']) ? $_GET['to'] : "";
-$page = isset($_GET['page']) ? $_GET['page'] : 1;
+<script src="../vender/typeahead.js" ></script>
+<script >
+    $(document).ready(function () {
+        
+        $('#employeeID').typeahead({
+            source: function (query, result) {
+                $.ajax({
+                    url: "views/managementuser/query/employeeIDautocomplate.php",
+                    data: 'employeeID=' + $("#employeeID").val(),
+                    dataType: "json",
+                    type: "POST",
+                    success: function (data) {
+                        result($.map(data, function (item) {
+                            return item;
+                        }));
+                    }
+                });
+            }
+        });
+        
+        $("#search").click(function(){
+             var url="&employeeID="+$("#employeeID").val()+"&from=" +$("#from").val()+"&to="+$("#to").val();
+           
+            window.location.replace("?fragment=checksheet&component=manhour" + url);
+        });
 
 
+
+    });
+</script>
+<?php 
 function sum_the_time($time1, $time2) {
     $times = array($time1, $time2);
     $seconds = 0;
@@ -21,135 +45,93 @@ function sum_the_time($time1, $time2) {
     // return "{$hours}:{$minutes}:{$seconds}";
     return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds); // Thanks to Patrick
 }
+$time="00:00:00";
 ?>
-<script src="../vender/typeahead.js" ></script>
-<script >
-    $(document).ready(function () {
-        $('.name').typeahead({
-            source: function (query, result) {
-                $.ajax({
-                    url: "views/checksheet/query/usernameautocomplate.php",
-                    data: 'name=' + $("#name1").val(),
-                    dataType: "json",
-                    type: "POST",
-                    success: function (data) {
-
-                        result($.map(data, function (item) {
-                            return item;
-                        }));
-                    }
-                });
-            }
-        });
-
-        $("#search").click(function () {
-            var url = $("#form").serialize();
-            window.location.replace("?fragment=checksheet&component=manhour&" + url);
-
-        });
-
-    });
-
-
-</script>
-<form id="form" >
-    <div class="row" style="background: buttonhighlight;" >
-
-        <div class=" col-3">
-            <label for="employeeID">Employee ID</label>
-            <input type="text" class="form-control name " id="employeeID" name="employeeID" value="<?php echo $employeeID; ?>"  placeholder="Employee ID" required="">
-        </div>
-        <div class=" col-3">
-            <label for="from">From</label>
-            <input class="form-control" type="date" value="<?php
-            if (isset($_GET['from'])) {
-                echo $_GET['from'];
-            }
-            ?>" name="from" id="from">
-        </div>
-        <div  class=" col-3">
-            <label for="to">To</label>
-            <input class="form-control" type="date" value="<?php
-            if (isset($_GET['to'])) {
-                echo $_GET['to'];
-            }
-            ?>" name="to" id="to" >
-        </div>
-
-        <div class="col-3">
-            <label for="search">Search</label>
-            <input type="button" class="form-control filter"  value="Search" id="search" placeholder="Search" required="">
-            <div class="invalid-feedback">
-                search required.
-            </div>
-        </div>
-
-
+<div class="row" style="background: buttonhighlight;" >
+ 
+    <div  class="mb-3">
+        <label for="employeeID">Employee ID</label>
+        <input type="text" class="form-control " id="employeeID" name="employeeID" value=""  placeholder="Employee ID" required="">
     </div>
-</form>
-<table class="table table-condensed">
-    <thead>
+    <div  class="mb-3">
+        <label for="from">From</label>
+        <input type="date" class="form-control " id="from" name="from" value=""  placeholder="Name" required="">
+    </div>
+    <div  class="mb-3">
+        <label for="to">To</label>
+        <input type="date" class="form-control " id="to" name="to" value=""  placeholder="Name" required="">
+    </div>
+    <div class="col-md-3 mb-3">
+        <label for="search">Search</label>
+        <input type="button" class="form-control filter"  value="Search" id="search" placeholder="Search" required="">  
+    </div>
+</div>
+
+<div class="row" >
+    <table class="table" >
+        <thead>
         <tr>
+            <th>Name</th>
+            <th>Lastname</th>
             <th>Employee ID</th>
-            <th>name</th>
-            <th>Total Time</th>
+            <th>Machine</th>
+            <th>Work Time</th>
         </tr>
-    </thead>
-    <tbody>
-
-        <?php
-        $query = "SELECT  `datetime` FROM `timestamp` WHERE `employeeID` LIKE '$employeeID' and `datetime` BETWEEN '$from' and '$to' and  `status` ='1' ";
-        $result = mysqli_query($connection, $query);
-        $time1=array();
-        while ($row = mysqli_fetch_array($result)) {
-            $time1[] =$row['datetime'];
-        }
-        
-        $query = "SELECT  `datetime` FROM `timestamp` WHERE `employeeID` LIKE '$employeeID' and `datetime` BETWEEN '$from' and '$to' and  `status` ='0' ";
-        $result = mysqli_query($connection, $query);
-        $time2=array();
-        while ($row = mysqli_fetch_array($result)) {
-            $time2[] =$row['datetime'];
-        }
-             $cout = 0;
-                        $time = array();
-                        foreach ($time1 as $r) {
-                            $r3 = $time2[$cout];
-                            $query = "SELECT TIMEDIFF('$r3','$r') as diff";
-
-                            $c1 = mysqli_query($connection, $query);
-                            $r4 = mysqli_fetch_array($c1);
-                            $time[] = $r4['diff'];
-                            $cout++;
-                        }
+        </thead>
+        <tbody>
+            <?php 
+            $employeeID= isset($_GET['employeeID']) ? $_GET['employeeID']:"" ;
+            $from= isset($_GET['from'] ) ? $_GET['from']:"" ;
+            $to=isset($_GET['to']) ? $_GET['to']:"" ;
+            if($employeeID==""){
+                ?>
+            <tr>
+                <td colspan="5" style="text-align: center;"> Need Filter</td>
+            </tr>
+            <?php
+            }else{
+            $to=$to." 23:59:59";
+            $query="SELECT * FROM `timestamp` WHERE `employeeID` like '$employeeID' and  `start_datetime` BETWEEN '%$from%' AND '$to'";
+            $result=  mysqli_query($connection, $query);
+           
+            while ($row = mysqli_fetch_array($result)) {
+                $subproductionlineID=$row['subproductionlineID'];
+                $query="SELECT * FROM `users` WHERE `employeeID` like '$employeeID'";
+                $r=  mysqli_query($connection, $query);
+                $t=  mysqli_fetch_array($r);
+            ?>
+            <tr>
+                <td><?php echo $t['name']; ?></td>
+                <td><?php echo $t['lastname']; ?></td>
+                <td><?php echo $employeeID; ?></td>
+                <td><?php 
+                $query="SELECT * FROM `subproductionline` WHERE `id` ='$subproductionlineID'";
+                  $r=  mysqli_query($connection, $query);
+                $t=  mysqli_fetch_array($r);
+                echo $t['name'];
+                ?></td>
+                <td>
+                    <?php 
+                    $start_datetime=$row['start_datetime'];
+                    $end_datetime=$row['end_datetime'];
+                    $query="SELECT TIMEDIFF('$end_datetime','$start_datetime') as time";
+                    $q= mysqli_query($connection, $query);
+                    $t=  mysqli_fetch_array($q);
+                    $time=   sum_the_time($time, $t['time']);
                     
-                        if ( (sizeof($time) > 0)) {
-                         
-                            $sumold="00:00:00";
-                            for ($i = 0; $i < sizeof($time); $i++) {
-                                $sumold=sum_the_time($sumold, $time[$i]);
-                            }
-                            
-                        }
-        
-        ?>
-        <?php 
-        if($employeeID==""){
-            $query="SELECT * FROM `users` WHERE 1";
-        }else{
-             $query="SELECT * FROM `users` WHERE `employeeID`  like '$employeeID'";
-        }
-        $result=  mysqli_query($connection, $query);
-        while ($row = mysqli_fetch_array($result)) {
-        
-        ?>
-        <tr>
-            <td><?php echo $row['employeeID']; ?></td>
-            <td><?php echo $row['name']; ?></td>
-            <td><?php  if($employeeID==""){            echo "filter it";  }else{    echo  $sumold; } ?></td>
-        </tr>
-        <?php    
-        }
-        ?>
-    </tbody>
-</table>
+                    echo $t['time'];
+                    ?>
+                </td>
+            </tr>
+            <?php 
+             }
+          
+            ?>
+            <tr>
+                <td colspan="4" style="text-align: right;">Total</td>
+                <td><?php echo $time; ?></td>
+            </tr>
+            <?php  } ?>
+        </tbody>
+    </table>
+</div>
