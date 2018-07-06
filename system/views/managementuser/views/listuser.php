@@ -32,7 +32,14 @@
         $(".filter").click(function () {
             var name = $('#name1').val();
             var p = $('#privilege1').val();
-            var filter = "?fragment=user&component=listuser&name=" + name + "&privilege=" + p;
+             var filter="";
+            if (name != "" || p !="") {
+                 filter = "?fragment=user&component=listuser&name=" + name + "&privilege=" + p;
+                 
+            }else{
+                 filter = "?fragment=user&component=listuser";
+            }
+
             window.location.replace(filter);
 
         });
@@ -180,9 +187,9 @@
                         <label for="privilege">Privilege</label>
                         <select name="privilege" class="custom-select d-block w-100" id="privilege" required="">
                             <option value="">Choose...</option>
-                             <option value="1">operator</option>
+                            <option value="1">operator</option>
                             <option value="0">technician</option>
-                           
+
                             <option value="2">lineleadder</option>
                             <option value="3">shifleadder</option>
                         </select>
@@ -210,7 +217,7 @@
 <?php
 $name = isset($_GET['name']) ? $_GET['name'] : "";
 $privilege = isset($_GET['privilege']) ? $_GET['privilege'] : "5";
-$page=  isset($_GET['page']) ? $_GET['page']: 1;
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
 ?>
 <div class="row" style="background: buttonhighlight;" >
     <div class="col-md-5 mb-3">
@@ -231,13 +238,13 @@ $page=  isset($_GET['page']) ? $_GET['page']: 1;
                 echo 'selected';
             }
             ?>>Choose...</option>
-          
+
             <option <?php
             if (intval($privilege) === 1) {
                 echo 'selected';
             }
             ?> value="1">operator</option>
-              <option <?php
+            <option <?php
             if (intval($privilege) === 0) {
                 echo 'selected';
             }
@@ -282,23 +289,23 @@ $page=  isset($_GET['page']) ? $_GET['page']: 1;
         <tbody>
 
             <?php
-             if($page==1){
-               $page1="0,10";
-             }else{
-               $page1=($page-1)."0,".($page)."0";  
-             }
-            
+            if ($page == 1) {
+                $page1 = "0,10";
+            } else {
+                $page1 = ($page - 1) . "0," . ($page) . "0";
+            }
+
             if ((($name == "") && ($privilege == "5"))) {
                 $query = "SELECT * FROM `users` WHERE 1 ORDER BY id DESC limit $page1";
             } else {
                 $query = "SELECT * FROM `users` WHERE `name` like '%$name%' and  `privilege`='$privilege'";
             }
-      
+
             $result = mysqli_query($connection, $query);
             $arrays = array();
             while ($row = mysqli_fetch_array($result)) {
                 $arrays[] = $row;
-            } 
+            }
             foreach ($arrays as $row) {
                 if ($row['privilege'] == "5") {
                     continue;
@@ -434,29 +441,35 @@ $page=  isset($_GET['page']) ? $_GET['page']: 1;
     <div class="container">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-                <?php 
-                if($name =="" && $privilege==5){
-                $query="SELECT * FROM `users` WHERE 1";
-                }else{
-                   $query="SELECT * FROM `users` WHERE `privilege` = '$privilege' and `name` like '%$name%'"; 
+                <?php
+                if ($name == "" && $privilege == 5) {
+                    $query = "SELECT * FROM `users` WHERE 1";
+                } else {
+                    $query = "SELECT * FROM `users` WHERE `privilege` = '$privilege' and `name` like '%$name%'";
                 }
-                
-                
-                $result=  mysqli_query($connection, $query);
-                $num=  mysqli_num_rows($result)/10;
-                $numrow=ceil($num);
+
+
+                $result = mysqli_query($connection, $query);
+                $num = mysqli_num_rows($result) / 10;
+                $numrow = ceil($num);
                 ?>
-                <li class="page-item <?php if($page==1){ echo 'disabled';} ?>">
-                    <a class="page-link " href="?fragment=user&component=listuser&page=<?php echo ($page-1); ?>&privilege=<?php echo $privilege; ?>" tabindex="-1">Previous</a>
+                <li class="page-item <?php if ($page == 1) {
+                    echo 'disabled';
+                } ?>">
+                    <a class="page-link " href="?fragment=user&component=listuser&page=<?php echo ($page - 1); ?>&privilege=<?php echo $privilege; ?>" tabindex="-1">Previous</a>
                 </li>
-                <?php for($i=1;$i<=$numrow;$i++){   ?>
-                <li class="page-item <?php if($page==$i){    echo 'active';} ?>  "><a class="page-link" href="?fragment=user&component=listuser&page=<?php echo ($i); ?>&privilege=<?php echo $privilege; ?>"><?php echo $i; ?></a></li>
-               
-                <?php } ?>
-                <li class="page-item <?php if($page>= $numrow){ echo 'disabled';} ?>">
-                    <a class="page-link " href="?fragment=user&component=listuser&page=<?php echo ($page+1); ?>&privilege=<?php echo $privilege; ?>">Next</a>
+                <?php for ($i = 1; $i <= $numrow; $i++) { ?>
+                    <li class="page-item <?php if ($page == $i) {
+                        echo 'active';
+                    } ?>  "><a class="page-link" href="?fragment=user&component=listuser&page=<?php echo ($i); ?>&privilege=<?php echo $privilege; ?>"><?php echo $i; ?></a></li>
+
+<?php } ?>
+                <li class="page-item <?php if ($page >= $numrow) {
+    echo 'disabled';
+} ?>">
+                    <a class="page-link " href="?fragment=user&component=listuser&page=<?php echo ($page + 1); ?>&privilege=<?php echo $privilege; ?>">Next</a>
                 </li>
-                
+
             </ul>
         </nav>
     </div>

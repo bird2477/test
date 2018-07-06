@@ -20,8 +20,12 @@
         
         $("#search").click(function(){
              var url="&employeeID="+$("#employeeID").val()+"&from=" +$("#from").val()+"&to="+$("#to").val();
+             if($("#employeeID").val()==""){
+                  window.location.replace("?fragment=checksheet&component=manhour");
+             }else{
+                  window.location.replace("?fragment=checksheet&component=manhour" + url);
+             }
            
-            window.location.replace("?fragment=checksheet&component=manhour" + url);
         });
 
 
@@ -112,8 +116,8 @@ $time="00:00:00";
                 $t=  mysqli_fetch_array($r);
                 echo $t['name'];
                 ?></td>
-                <td><?php $row['start_datetime']; ?></td>
-                <td><?php $row['end_datetime']; ?></td>
+                <td><?php echo  $row['start_datetime']; ?></td>
+                <td><?php echo $row['end_datetime']; ?></td>
                 <td>
                     <?php 
                     $start_datetime=$row['start_datetime'];

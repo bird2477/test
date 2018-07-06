@@ -47,8 +47,13 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
      
         $("#search").click(function () {
             var searchpartname = $('#searchlotno').val();
-          
-            var url = "&lotno=" + searchpartname ;
+            var url = "";
+            if(searchpartname==""){
+                url="";
+            }else{
+                url="&lotno=" + searchpartname ;
+            }
+           
             window.location.replace("?fragment=checksheet&component=achievement" + url);
         });
 
@@ -57,20 +62,8 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
 </script>
 
-<div class="row" >
-    <table style="width: 100%;" >
-        <tr>
-            <td ></td>
-            <td style="text-align: right;">
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#add">
-                    Add
-                </button>   
-            </td>
-        </tr>
-    </table>
-</div>
 
-<div id="add" class="modal fade" role="dialog">
+<div id="add" class="modal fade" style="margin-top: 20px;" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">

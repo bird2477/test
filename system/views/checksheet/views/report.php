@@ -65,10 +65,9 @@ $query = "";
                     var dataString = "option=" + option + "&step=" + step + "&subchecksheet=" + subchecksheet;
 
                     $.ajax({url: "../../checksheet/query/chengeOption.php", cache: false, type: 'POST', data: dataString, success: function (data, textStatus, jqXHR) {
-                            if (data != "") {
-                                alert(data);
+                           
                                 window.location.reload();
-                            }
+                            
                         }});
                 });
                 $(".check").change(function () {
@@ -80,7 +79,7 @@ $query = "";
 
                     var data1 = "val=" + val + "&status=" + status + "&checksheet=" + checksheet + "&subproductionlineid=" + subproductionlineid + "&subchecksheet=" + subchecksheet;
                     $.ajax({type: 'POST', url: "../../checksheet/query/ajaxCheckUser.php", data: data1, cache: false, success: function (data, textStatus, jqXHR) {
-                        
+                      
                             window.location.reload();
                         }});
                 });
@@ -107,7 +106,7 @@ $query = "";
             while ($row = mysqli_fetch_array($result)) {
                 $target = $row['target'];
                 $subproductionlineID = $row['subproductionlineID'];
-                $query = "UPDATE `subproductionline` SET `status` = '1' ,`target` ='$target'  WHERE `id` ='$subproductionlineID'";
+                $query = "UPDATE `subproductionline` SET `target` ='$target'  WHERE `id` ='$subproductionlineID'";
 
                 mysqli_query($connection, $query);
                 $step= $row['step'] ;
@@ -120,7 +119,7 @@ $query = "";
                 $y=  mysqli_fetch_array($t);
                 ?>
                 <div class="row" >
-                    Step : <?php echo $row['step'] ?>  Detail: <?php echo $y['detail']; ?>   Production Code : <?php echo $r['productioncode']; ?>  Part Code : <?php echo $r['partcode']; ?>  Part Name : <?php echo $r['partname']; ?>  
+                    Step : <?php echo $row['step'] ?>  Detail: <?php echo $y['detail']; ?>   Product Code : <?php echo $r['productioncode']; ?>  Part Code : <?php echo $r['partcode']; ?>  Part Name : <?php echo $r['partname']; ?>  
                     <table class="table"   >
                         <thead>
                             <tr>
@@ -196,9 +195,9 @@ $query = "";
                                         $res = mysqli_query($connection, $query);
                                         $r = mysqli_fetch_array($res);
                                         if ($r['status'] == 1) {
-                                            echo "stop";
+                                            echo "Stop";
                                         } else {
-                                            echo 'start';
+                                            echo 'Start';
                                         }
                                         ?>
 

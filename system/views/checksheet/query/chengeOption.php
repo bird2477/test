@@ -20,12 +20,7 @@
  if($row>=1){
      echo 'กรุณายิงบาร์โค้ดออกจากระบบ';
  }else{
- $query="UPDATE `subproductionline` SET `status` ='0' ,`reject_total` ='0' ,`free_total` ='0' ,`actual_total` ='0' WHERE `id` ='$subproductionlineID'";
- mysqli_query($connection, $query);
- 
- $query="UPDATE `subproductionline` SET `status` ='1' ,`target` ='$target'WHERE `id` ='$option'";
- mysqli_query($connection, $query);
- 
+
  $query="UPDATE `subchecksheet` SET  `subproductionlineID` ='$option'    WHERE `step` ='$step' and `id` ='$subchecksheet'";
  mysqli_query($connection, $query);
  }

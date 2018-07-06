@@ -36,5 +36,5 @@ if ($json == "") {
 mysqli_query($connection, $query);
 ?>
 <script >
-    window.location.replace("../views/subrouting.php?id=<?php echo $id; ?>&productioncode=<?php echo $productioncode; ?>&partname=<?php echo $partname; ?>&partcode=<?php echo $partcode; ?>");
+    window.location.replace("../views/subrouting.php?id=<?php echo $id; ?>&lotno=<?php echo $_POST['lotno']; ?>&target=<?php echo  $_POST['target'] ?>");
 </script>

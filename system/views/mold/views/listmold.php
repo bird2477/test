@@ -1,5 +1,5 @@
 <?php
-$moldcode = isset($_GET['moldcode']) ? $_GET['moldcode'] : "";
+$productioncode = isset($_GET['productioncode']) ? $_GET['productioncode'] : "";
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 if ($page == 1) {
     $page1 = "0,10";
@@ -33,7 +33,7 @@ if ($page == 1) {
         });
          
          $('#searchmoldcode').change(function(){
-             var data="moldcode=" + $('#searchmoldcode').val();
+             var data="productioncode=" + $('#searchmoldcode').val();
              data=encodeURI(data);
              window.location.replace("?fragment=mold&component=mold&"+data);
          });
@@ -41,7 +41,7 @@ if ($page == 1) {
             source: function (query, result) {
                 $.ajax({
                     url: "views/mold/query/moldcodeautocomplate.php",
-                    data: 'moldcode=' + $("#searchmoldcode").val(),
+                    data: 'productioncode=' + $("#searchmoldcode").val(),
                     dataType: "json",
                     type: "POST",
                     success: function (data) {
@@ -76,8 +76,8 @@ if ($page == 1) {
 
 <div class="row" style="background: buttonhighlight;" >
     <div class="col-md-5 mb-3">
-        <label for="searchmoldcode">Mold No</label>          
-        <input class="form-control" type="text" value="<?php echo $moldcode; ?>" name="searchmoldcode" id="searchmoldcode">
+        <label for="searchmoldcode">Product Code</label>          
+        <input class="form-control" type="text" value="<?php echo $productioncode; ?>" name="searchmoldcode" id="searchmoldcode">
     </div>
    
 </div>
@@ -86,8 +86,8 @@ if ($page == 1) {
         <thead>
             <tr>
                
-                <th>Mold No</th>
-                <th>Production Code</th>
+              
+                <th>Product Code</th>
                 <th>Part Code</th>
                 <th>Part Name</th>
                 
@@ -98,17 +98,15 @@ if ($page == 1) {
         <tbody>
             <?php
             $cout=1;
-            if ($moldcode != "") {
+            if ($productioncode != "") {
 
-                $query = "SELECT * FROM `mold` WHERE `moldcode` like '%$moldcode%'";
+                $query = "SELECT * FROM `mold` WHERE `productioncode` like '%$productioncode%' order by id desc ";
                 
-                echo $query;
+               
                 $result = mysqli_query($connection, $query);
                 while ($row1 = mysqli_fetch_array($result)) {
                     ?>
                     <tr>
-                        
-                        <td><?php echo urldecode($row1['moldcode']); ?></td>
                         <td><?php echo urldecode($row1['productioncode']); ?></td>
                         <td><?php echo urldecode($row1['partcode']); ?></td>
                         <td><?php echo urldecode($row1['partname']); ?></td>
@@ -130,7 +128,7 @@ if ($page == 1) {
                     $cout++;
                 }
             } else {
-                $query = "SELECT * FROM `mold` WHERE 1  limit $page1  ";
+                $query = "SELECT * FROM `mold` WHERE 1  order by id desc  limit $page1  ";
                
                 $result = mysqli_query($connection, $query);
                 if (mysqli_num_rows($result) > 0) {
@@ -138,7 +136,7 @@ if ($page == 1) {
                         ?>
                         <tr>
                            
-                            <td><?php echo urldecode(  $row2['moldcode']); ?></td>
+                           
                             <td><?php echo urldecode($row2['productioncode']); ?></td>
                             <td><?php echo urldecode($row2['partcode']); ?></td>
                             <td><?php echo urldecode($row2['partname']); ?></td>
@@ -177,10 +175,10 @@ if ($page == 1) {
             <ul class="pagination justify-content-center">
                 <?php 
                 
-                if($moldcode =="" ){
+                if($productioncode =="" ){
                     $query="SELECT * FROM `mold` WHERE 1";
                 }else{
-                     $query="SELECT * FROM `mold` WHERE `moldcode` like '%$moldcode%'";
+                     $query="SELECT * FROM `mold` WHERE `productioncode` like '%$productioncode%'";
                 }
                 
                 
@@ -217,15 +215,9 @@ if ($page == 1) {
             </div>
             <div class="modal-body">
                 <form id="custoner" >
+                   
                     <div class="row">
-                        <label for="moldcode">Mold No</label>
-                        <input type="text" class="form-control" id="moldcode" name="moldcode" placeholder="" required="">
-                        <div class="invalid-feedback">
-                            Please enter your shipping address.
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label for="productioncode">Production Code</label>
+                        <label for="productioncode">Product Code</label>
                         <input type="text" class="form-control" id="productioncode" name="productioncode" placeholder="" required="">
                         <div class="invalid-feedback">
                             Please enter your shipping address.

@@ -4,7 +4,13 @@
         $("#search").click(function () {
             var from = $("#from").val();
             var to = $("#to").val();
-            var url = "?fragment=checksheet&from=" + from + "&to=" + to;
+             var url="";
+            if(from==""){
+                 url = "?fragment=checksheet";
+            }else{
+                url = "?fragment=checksheet&from=" + from + "&to=" + to;
+            }
+             
             window.location.replace(url);
         });
 
@@ -150,15 +156,7 @@
             <tr>
                 <th>Lot No.</th>
                 <th>Date</th>
-                <th>
-                    Production Code
-                </th>
-                <th>
-                    Part Name
-                </th>
-                <th>
-                    Part Code
-                </th>
+               
 
                 <th colspan="2" style="text-align: center;">Tools</th>
             </tr>

@@ -48,6 +48,7 @@ function sum_the_time($time1, $time2) {
             <th class="frame">จำนวนรวม</th>
               <th class="frame">ชื่องาน</th>
             <th class="frame">ชือพนักงาน</th>
+            <th class="frame">ตำแหน่ง</th>
         </tr>
     </thead>
     <tbody >
@@ -86,7 +87,8 @@ function sum_the_time($time1, $time2) {
                 $rt=  mysqli_query($connection, $query);
                 $t=  mysqli_fetch_array($rt);
                 $step=$t['step'];
-                $query="SELECT * FROM `mold` WHERE `id` =(SELECT `mold` FROM `subrouting` WHERE `routing` =(SELECT `routing` FROM `checksheet` WHERE `id`='$checksheetID') and `step` ='$step' )";
+                ///todo
+                $query="SELECT * FROM `subrouting` WHERE `routing` =(SELECT `routing` FROM `checksheet` WHERE `id` ='$checksheetID') and `step` ='$step'";
                  $rt=  mysqli_query($connection, $query);
                   $t=  mysqli_fetch_array($rt);
                   echo "Step ".$step." :".$t['detail'];
@@ -114,7 +116,7 @@ function sum_the_time($time1, $time2) {
             </td>
             <td class="frame">
                 <?php 
-                $query="SELECT * FROM `routing` WHERE `id` =(SELECT `routing` FROM `checksheet` WHERE `id`='$checksheetID')";
+                $query="SELECT * FROM `mold` WHERE `id` =(SELECT `mold` FROM `subrouting` WHERE `routing` =(SELECT `routing` FROM `checksheet` WHERE `id`='$checksheetID') and `step` ='$step' )";
                 $r=  mysqli_query($connection, $query);
                 $t=  mysqli_fetch_array($r);
                 echo $t['partname'];
@@ -129,6 +131,20 @@ function sum_the_time($time1, $time2) {
                 echo $t['name'];
                 ?>
             </td>
+            <td  class="frame">
+                <?php
+                switch ($t['privilege']) {
+                    case 0:
+                        echo 'Technician';
+
+                        break;
+                    case  1:
+                        echo 'Operator';
+                        break;
+                } 
+                ?>
+            </td>
+            
         </tr>
         <?php } ?>
     </tbody>

@@ -26,6 +26,7 @@ $(document).ready(function(){
 <table class="table table-hover">
     <thead>
         <tr>
+            <th>Lot No.</th>
             <th>Production line</th>
             <th>Machine name</th>
             <th>Target</th>
@@ -40,6 +41,13 @@ $(document).ready(function(){
         while ($row = mysqli_fetch_array($result)) {
             ?>
             <tr>
+                <td><?php 
+                $id=$row['id'];
+                $query ="SELECT * FROM `subchecksheet` WHERE `subproductionlineID` ='$id'";
+                $r=  mysqli_query($connection, $query);
+                $t=  mysqli_fetch_array($r);
+                echo $t['lotno'];
+                ?></td>
                 <td><?php echo $row['linename']; ?></td>
                 <td><?php echo $row['name']; ?></td>
                 <td id="<?php echo 'target'.$row['id']; ?>"><?php echo $row['target']; ?></td>

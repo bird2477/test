@@ -10,7 +10,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
             var dataSting = $('#formrouting').serialize();
             $.ajax({data: dataSting, type: 'POST', cache: false, url: "views/routing/query/ajaxAddrouting.php", success: function (data, textStatus, jqXHR) {
-                      console.log(data);
+                     
                     if (data != "") {
                         window.location.replace(data);
                     }
@@ -49,7 +49,14 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
             var searchpartname = $('#searchlotno').val();
           
             var url = "&lotno=" + searchpartname ;
-            window.location.replace("?fragment=routing&component=routing" + url);
+            if(searchpartname==""){
+                  window.location.replace("?fragment=routing&component=routing" );
+            }else{
+                 window.location.replace("?fragment=routing&component=routing" + url);
+            }
+           
+            
+            
         });
 
 
@@ -171,7 +178,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                         <td><?php echo $row1['target']; ?></td>
 
                         <td>
-                            <a href="./views/routing/views/subrouting.php?id=<?php echo $row1['id']; ?>&lotno=<?php echo $row1['lotno']; ?>"  class="btn btn-success " >Sub station</a>
+                            <a href="./views/routing/views/subrouting.php?id=<?php echo $row1['id']; ?>&lotno=<?php echo $row1['lotno']; ?>&target=<?php echo $row1['target']; ?>"  class="btn btn-success " >Sub station</a>
                             <button type="button" class="btn btn-danger remove" id="<?php echo $row1['id']; ?>">
                                 Remove
                             </button>   
@@ -194,7 +201,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                             <td><?php echo $row2['target']; ?></td>
 
                             <td>
-                                <a href="./views/routing/views/subrouting.php?id=<?php echo $row2['id']; ?>&lotno=<?php echo $row2['lotno']; ?>"  class="btn btn-success " >Sub station</a>
+                                <a href="./views/routing/views/subrouting.php?id=<?php echo $row2['id']; ?>&lotno=<?php echo $row2['lotno']; ?>&target=<?php echo $row2['target']; ?>"  class="btn btn-success " >Sub station</a>
                                 <button type="button" class="btn btn-danger remove" id="<?php echo $row2['id']; ?>">
                                     Remove
                                 </button>   

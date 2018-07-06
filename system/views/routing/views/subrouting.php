@@ -40,7 +40,7 @@ $routing = $_GET['id'];
                             $('#partcode').html(data);
                         }});
                 });
-                
+
                 $("#partcode").change(function () {
                     var id = 'partcode=' + $(this).val();
                     $.ajax({data: id, url: "../../routing/query/ajaxOptionpartcode.php", cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
@@ -48,7 +48,7 @@ $routing = $_GET['id'];
                             $('#partname').html(data);
                         }});
                 });
-                
+
                 $("#partname").change(function () {
                     var id = 'partname=' + $(this).val();
                     $.ajax({data: id, url: "../../routing/query/ajaxOptionproductioncode.php", cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
@@ -56,7 +56,7 @@ $routing = $_GET['id'];
                             $('#customer').html(data);
                         }});
                 });
-                
+
 
                 $('#productioncode').typeahead({
                     source: function (query, result) {
@@ -112,6 +112,7 @@ $routing = $_GET['id'];
                         </div>
 
                         <form id="addmachineSub" >
+
                             <div class="modal-body">
                                 <div class="row">
                                     <label for="step">Step</label>
@@ -127,7 +128,7 @@ $routing = $_GET['id'];
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label for="productioncode">Production Code</label>
+                                    <label for="productioncode">Product Code</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" name="productioncode" id="productioncode" placeholder="Production Code" >
                                     </div>
@@ -177,12 +178,12 @@ $routing = $_GET['id'];
                     <thead>
                         <tr>
                             <th>Step</th>
-                           
+
                             <th>Detail</th>
-                             <th>Mold No</th>
-                             <th>Production Code</th>
-                             <th>Part Code</th>
-                             <th>Part Name</th>
+
+                            <th>Product Code</th>
+                            <th>Part Code</th>
+                            <th>Part Name</th>
                             <th>Machine Code</th>
                         </tr>
                     </thead>
@@ -207,18 +208,21 @@ $routing = $_GET['id'];
                                                     <h4 class="modal-title">Add Machine</h4>
                                                 </div>
                                                 <form  method="post" action="../../routing/query/ajaxAddlistsubproductionline.php" >
-                                                    <?php $mold = $row['mold'];
-                                    $query = "SELECT * FROM `mold` WHERE `id` ='$mold'";
-                                    $result1 = mysqli_query($connection, $query);
-                                    $row1 = mysqli_fetch_array($result1);
-                                    ?>
+                                                    <?php
+                                                    $mold = $row['mold'];
+                                                    $query = "SELECT * FROM `mold` WHERE `id` ='$mold'";
+                                                    $result1 = mysqli_query($connection, $query);
+                                                    $row1 = mysqli_fetch_array($result1);
+                                                    ?>
+                                                    <input type="hidden" name="target"  value="<?php echo $_GET['target']; ?>" >
+                                                    <input type="hidden" name="lotno"  value="<?php echo $_GET['lotno']; ?>" >
                                                     <input type="hidden" value="<?php echo $row['step']; ?>"  name="step" >
                                                     <input type="hidden" value="<?php echo $_GET['id']; ?>"  name="id" >
                                                     <input type="hidden" value="<?php echo $_GET['lotno']; ?>"  name="lotno" >
                                                     <input type="hidden" value="<?php echo $row1['partcode']; ?>"  name="partcode" >
                                                     <input type="hidden" value="<?php echo $row1['partname']; ?>"  name="partname" >
                                                     <input type="hidden" value="<?php echo $row1['productioncode']; ?>"  name="productioncode" >
-                                                    
+
                                                     <input type="hidden" value="<?php echo $listsubproductionline_id; ?>"  name="listsubproductionline_id" >
                                                     <div class="modal-body">
 
@@ -232,7 +236,7 @@ $routing = $_GET['id'];
                                                                 while ($row3 = mysqli_fetch_array($result1)) {
                                                                     ?>
                                                                     <option value="<?php echo $row3['id']; ?>"><?php echo $row3['machine']; ?></option>
-                                                                <?php } ?>
+    <?php } ?>
                                                             </select>
                                                         </div>
                                                         <div class="row" >
@@ -256,26 +260,21 @@ $routing = $_GET['id'];
                             </tr>
                             <tr>
                                 <td>
-                                    <?php echo $row['step']; ?>
+    <?php echo $row['step']; ?>
                                 </td>
-                               
+
                                 <td>
-                                    <?php echo $row['detail']; ?>
+    <?php echo $row['detail']; ?>
                                 </td>
-                                 <td>
-                                    <?php
-                                    
-                                    echo $row1['moldcode'];
-                                    ?>
+
+                                <td >
+    <?php echo $row1['productioncode']; ?>
                                 </td>
                                 <td >
-                                    <?php echo $row1['productioncode']; ?>
+    <?php echo $row1['partcode']; ?>
                                 </td>
                                 <td >
-                                    <?php echo $row1['partcode']; ?>
-                                </td>
-                                 <td >
-                                    <?php echo $row1['partname']; ?>
+    <?php echo $row1['partname']; ?>
                                 </td>
                                 <td>
                                     <?php
