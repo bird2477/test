@@ -28,7 +28,7 @@
         <tr>
             
             <th>Date</th>
-            <th>Total Target</th>
+           
            
             <th>Tools</th>
 
@@ -44,7 +44,7 @@
                 ?>
                 <tr>
                    <td><?php echo $row['date'] ; ?></td>
-                    <td><?php echo $row['target'] ; ?></td>
+                   
                    
                     <td>
                         <a class="btn btn-primary" target="_blank" href="./views/checksheet/views/reportperformance.php?date=<?php echo $row['date']; ?>" >Report</a>    

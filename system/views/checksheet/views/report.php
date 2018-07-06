@@ -19,7 +19,6 @@ $query = "";
         <script src="../../../../js/bootstrap.js"  crossorigin="anonymous"></script>
         <script >
             $(document).ready(function () {
-
                 $(".chenge").change(function () {
                     var key = $(this).attr("key");
                     var val = $(this).val();
@@ -28,15 +27,11 @@ $query = "";
                     $.ajax({url: "../../checksheet/query/ajaxUpdateAcutal.php", cache: false, type: 'POST', data: dataString, success: function (data, textStatus, jqXHR) {
                                 console.log(data);
                         }});
-
-
                 });
                 $("#send").click(function () {
-
                     var checksheetId = "checksheetId=<?php echo $checksheetId; ?>";
                     $.ajax({data: checksheetId, url: "../../checksheet/query/ajaxSend.php", cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
-
-                            window.location.replace("../../../?fragment=checksheet");
+                          window.location.replace("../../../?fragment=checksheet");
                         }});
                 });
                 data();
@@ -63,11 +58,8 @@ $query = "";
                     var step = $(this).attr("step");
                     var subchecksheet = $(this).attr("subchecksheet");
                     var dataString = "option=" + option + "&step=" + step + "&subchecksheet=" + subchecksheet;
-
                     $.ajax({url: "../../checksheet/query/chengeOption.php", cache: false, type: 'POST', data: dataString, success: function (data, textStatus, jqXHR) {
-                           
-                                window.location.reload();
-                            
+                           window.location.reload();      
                         }});
                 });
                 $(".check").change(function () {
@@ -79,7 +71,6 @@ $query = "";
 
                     var data1 = "val=" + val + "&status=" + status + "&checksheet=" + checksheet + "&subproductionlineid=" + subproductionlineid + "&subchecksheet=" + subchecksheet;
                     $.ajax({type: 'POST', url: "../../checksheet/query/ajaxCheckUser.php", data: data1, cache: false, success: function (data, textStatus, jqXHR) {
-                      
                             window.location.reload();
                         }});
                 });

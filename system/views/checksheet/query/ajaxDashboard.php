@@ -10,6 +10,14 @@ $result = mysqli_query($connection, $query);
         while ($row = mysqli_fetch_array($result)) {
             ?>
             <tr>
+                <td><?php 
+                $id=$row['id'];
+                $query ="SELECT * FROM `routing` WHERE `id` =(SELECT `routing` FROM `checksheet` WHERE `id` =(SELECT `checksheet` FROM `subchecksheet` WHERE `subproductionlineID` ='$id'))";
+                $r=  mysqli_query($connection, $query);
+                $t=  mysqli_fetch_array($r);
+               
+                echo $t['lotno'];
+                ?></td>
                 <td><?php echo $row['linename']; ?></td>
                 <td><?php echo $row['name']; ?></td>
                 <td id="<?php echo 'target'.$row['id']; ?>"><?php echo $row['target']; ?></td>
