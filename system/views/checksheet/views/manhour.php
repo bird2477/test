@@ -75,6 +75,8 @@ $time="00:00:00";
             <th>Lastname</th>
             <th>Employee ID</th>
             <th>Machine</th>
+            <th>Start</th>
+            <th>Stop</th>
             <th>Work Time</th>
         </tr>
         </thead>
@@ -86,7 +88,7 @@ $time="00:00:00";
             if($employeeID==""){
                 ?>
             <tr>
-                <td colspan="5" style="text-align: center;"> Need Filter</td>
+                <td colspan="7" style="text-align: center;"> Need Filter</td>
             </tr>
             <?php
             }else{
@@ -110,6 +112,8 @@ $time="00:00:00";
                 $t=  mysqli_fetch_array($r);
                 echo $t['name'];
                 ?></td>
+                <td><?php $row['start_datetime']; ?></td>
+                <td><?php $row['end_datetime']; ?></td>
                 <td>
                     <?php 
                     $start_datetime=$row['start_datetime'];
@@ -128,7 +132,7 @@ $time="00:00:00";
           
             ?>
             <tr>
-                <td colspan="4" style="text-align: right;">Total</td>
+                <td colspan="6" style="text-align: right;">Total</td>
                 <td><?php echo $time; ?></td>
             </tr>
             <?php  } ?>
