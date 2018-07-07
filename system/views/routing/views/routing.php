@@ -89,14 +89,14 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                     <div class="row">
                         <label for="lotno">Lot No.</label>
                         <div class="input-group ">
-                            <input type="text" class="form-control " id="lotno" name="lotno" placeholder="Lot No" required="">
+                            <input type="text" autocomplete="off" class="form-control " id="lotno" name="lotno" placeholder="Lot No" required="">
                         </div>
                     </div>
                   
                     <div class="row">
                         <label for="target">Target</label>
                         <div class="input-group ">
-                            <input type="text" class="form-control " id="target" name="target" placeholder="Target" required="">
+                            <input type="text" autocomplete="off" class="form-control " id="target" name="target" placeholder="Target" required="">
                         </div>
                     </div>
                       <div class="row">

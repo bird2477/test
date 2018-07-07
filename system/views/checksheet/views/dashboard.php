@@ -4,13 +4,38 @@ FROM `productionline`
 INNER JOIN `subproductionline` ON `productionline`.`id`= `subproductionline`.`productionline` WHERE  `subproductionline`.`status` ='1'  ORDER BY  `productionline`.`id` ASC";
 
 $result = mysqli_query($connection, $query);
+$lotno = isset($_GET['lotno'])? $_GET['lotno'] :"";
 ?> 
-
+<script src="../vender/typeahead.js" ></script>
 <script >
 $(document).ready(function(){
+    
+    $('#searchlotno').typeahead({
+            source: function (query, result) {
+                $.ajax({
+                    url: "views/routing/query/codeautocomplate.php",
+                    data: 'lotno=' + $("#searchlotno").val(),
+                    dataType: "json",
+                    type: "POST",
+                    success: function (data) {
+                        result($.map(data, function (item) {
+                            return item;
+                        }));
+                    }
+                });
+            }
+        });
+    
+    
+    $(".filter").click(function(){
+        var url ="?fragment=checksheet&component=dashboard&lotno="+$("#lotno").val();
+        window.location.replace(url);
+    });
+    
     data();
     function data(){
-        $.ajax({type: 'POST' ,url: "./views/checksheet/query/ajaxDashboard.php",cache: false,success: function (data, textStatus, jqXHR) {
+        var lotno="lotno="+$("#lotno").val();
+        $.ajax({data: lotno,type: 'POST' ,url: "./views/checksheet/query/ajaxDashboard.php",cache: false,success: function (data, textStatus, jqXHR) {
                         $("#data").html(data);
                     }});
         call();
@@ -23,6 +48,17 @@ $(document).ready(function(){
     }
 });
 </script>
+
+<div class="row" style="background: buttonhighlight;" >
+
+    <div class="col-3" >
+        <label for="lotno" class="col-form-label">Lot No.</label>
+        <input class="form-control" autocomplete="off"  type="text" value="<?php echo $lotno; ?>" name="lotno" id="lotno">
+    </div>
+    
+</div>
+
+
 <table class="table table-hover">
     <thead>
         <tr>

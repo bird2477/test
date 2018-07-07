@@ -199,7 +199,7 @@ if ($page == 1) {
                     <label for="taxno">Tax no</label>
 
                     <div class="input-group ">
-                        <input type="text" class="form-control " id="taxno" name="taxno" placeholder="taxno" required="">
+                        <input type="text" class="form-control " autocomplete="off"  id="taxno" name="taxno" placeholder="taxno" required="">
                     </div>
 
 
@@ -207,14 +207,14 @@ if ($page == 1) {
                     <label for="name">Name</label>
 
                     <div class="input-group ">
-                        <input type="text" class="form-control " id="name" name="name" placeholder="Name" required="">
+                        <input type="text" class="form-control " autocomplete="off"  id="name" name="name" placeholder="Name" required="">
                     </div>
 
 
                     <label for="address">Address</label>
 
                     <div class="input-group ">
-                        <input type="text" class="form-control " id="address" name="address" placeholder="Address" required="">
+                        <input type="text" class="form-control " autocomplete="off"  id="address" name="address" placeholder="Address" required="">
                     </div>
             </div>
             </form>

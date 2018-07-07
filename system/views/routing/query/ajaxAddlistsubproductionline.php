@@ -3,9 +3,9 @@
 include '../../../../config/database.php';
 $step = $_POST['step'];
 $id = $_POST['id'];
-$partname = $_POST['partname'];
-$partcode = $_POST['partcode'];
-$productioncode = $_POST['productioncode'];
+$partname = $_POST['partname1'];
+$partcode = $_POST['partcode1'];
+$productioncode = $_POST['productioncode1'];
 $listsubproductionline_id = $_POST['listsubproductionline_id'];
 $productionline = $_POST['productionline'];
 $subproductionline = $_POST['subproductionline'];

@@ -33,7 +33,7 @@ $routing = $_GET['id'];
                         }});
                 });
 
-                $("#productioncode").change(function () {
+                $("#product").change(function () {
                     var id = 'productioncode=' + $(this).val();
                     $.ajax({data: id, url: "../../routing/query/ajaxOptionPartName.php", cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
 
@@ -57,16 +57,23 @@ $routing = $_GET['id'];
                         }});
                 });
 
-
-                $('#productioncode').typeahead({
+              
+                
+                
+                
+                $('#product').typeahead({
                     source: function (query, result) {
+                       console.log(query);
                         $.ajax({
                             url: "../../routing/query/productioncodeautocomplate.php",
-                            data: 'productioncode=' + $("#productioncode").val(),
+                            data: 'product=' + $("#product").val(),
                             dataType: "json",
                             type: "POST",
                             success: function (data) {
+                                
                                 result($.map(data, function (item) {
+                                    
+                                    
                                     return item;
                                 }));
                             }
@@ -117,20 +124,20 @@ $routing = $_GET['id'];
                                 <div class="row">
                                     <label for="step">Step</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" name="step" id="step" placeholder="Step" >
+                                        <input type="number" autocomplete="off" class="form-control" name="step" id="step" placeholder="Step" >
                                     </div>
 
                                 </div>
                                 <div class="row">
                                     <label for="detail">Detail</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" name="detail" id="detail" placeholder="Detail" >
+                                        <input type="text" autocomplete="off" class="form-control" name="detail" id="detail" placeholder="Detail" >
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label for="productioncode">Product Code</label>
+                                    <label for="product">Product Code</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" name="productioncode" id="productioncode" placeholder="Production Code" >
+                                        <input type="text" autocomplete="off" class="form-control" name="product" id="product" placeholder="Production Code" >
                                     </div>
 
                                 </div>
@@ -219,9 +226,9 @@ $routing = $_GET['id'];
                                                     <input type="hidden" value="<?php echo $row['step']; ?>"  name="step" >
                                                     <input type="hidden" value="<?php echo $_GET['id']; ?>"  name="id" >
                                                     <input type="hidden" value="<?php echo $_GET['lotno']; ?>"  name="lotno" >
-                                                    <input type="hidden" value="<?php echo $row1['partcode']; ?>"  name="partcode" >
-                                                    <input type="hidden" value="<?php echo $row1['partname']; ?>"  name="partname" >
-                                                    <input type="hidden" value="<?php echo $row1['productioncode']; ?>"  name="productioncode" >
+                                                    <input type="hidden" value="<?php echo $row1['partcode']; ?>"  name="partcode1" >
+                                                    <input type="hidden" value="<?php echo $row1['partname']; ?>"  name="partname1" >
+                                                    <input type="hidden" value="<?php echo $row1['productioncode']; ?>"  name="productioncode1" >
 
                                                     <input type="hidden" value="<?php echo $listsubproductionline_id; ?>"  name="listsubproductionline_id" >
                                                     <div class="modal-body">

@@ -71,9 +71,6 @@ if ($page == 1) {
         </tr>
     </table>
 </div>
-
-
-
 <div class="row" style="background: buttonhighlight;" >
     <div class="col-md-5 mb-3">
         <label for="searchmoldcode">Product Code</label>          
@@ -218,21 +215,21 @@ if ($page == 1) {
                    
                     <div class="row">
                         <label for="productioncode">Product Code</label>
-                        <input type="text" class="form-control" id="productioncode" name="productioncode" placeholder="" required="">
+                        <input type="text" class="form-control" autocomplete="off" id="productioncode" name="productioncode" placeholder="" required="">
                         <div class="invalid-feedback">
                             Please enter your shipping address.
                         </div>
                     </div>
                      <div class="row">
                         <label for="partcode">Part Code</label>
-                        <input type="text" class="form-control" id="partcode" name="partcode" placeholder="" required="">
+                        <input type="text" class="form-control" autocomplete="off"  id="partcode" name="partcode" placeholder="" required="">
                         <div class="invalid-feedback">
                             Please enter your shipping address.
                         </div>
                     </div>
                     <div class="row">
                         <label for="partname">Part Name</label>
-                        <input type="text" class="form-control" id="partname" name="partname" placeholder="" required="">
+                        <input type="text" class="form-control" autocomplete="off"  id="partname" name="partname" placeholder="" required="">
                         <div class="invalid-feedback">
                             Please enter your shipping address.
                         </div>

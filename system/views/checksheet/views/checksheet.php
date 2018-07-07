@@ -107,12 +107,12 @@
             <div class="modal-body">
                 <div class="row">
                     <label for="lotno">Lot No.</label>
-                    <input type="text" class="form-control" id="lotno" name="lotno" required="">
+                    <input type="text" class="form-control" autocomplete="off"   id="lotno" name="lotno" required="">
                 </div>
                 <div class="row">
 
                     <label for="target">Target <span id="target1" >0</span>  </label>       
-                    <input type="text" class="form-control" id="target" name="target" placeholder="5000" required="">
+                    <input type="text" class="form-control" autocomplete="off"   id="target" name="target" placeholder="target" required="">
                 </div>
 
 

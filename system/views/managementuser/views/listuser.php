@@ -124,7 +124,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">@</span>
                             </div>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" required="">
+                            <input type="text" class="form-control" autocomplete="off"  id="name" name="name" placeholder="Name" required="">
                             <div class="invalid-feedback" style="width: 100%;">
                                 Your username is required.
                             </div>
@@ -136,7 +136,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">@</span>
                             </div>
-                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Lastname" required="">
+                            <input type="text" class="form-control" autocomplete="off"  id="lastname" name="lastname" placeholder="Lastname" required="">
                             <div class="invalid-feedback" style="width: 100%;">
                                 Your username is required.
                             </div>
@@ -149,7 +149,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">@</span>
                             </div>
-                            <input type="text" class="form-control" id="employeeID" name="employeeID" placeholder="Employee ID" required="">
+                            <input type="text" class="form-control" autocomplete="off"  id="employeeID" name="employeeID" placeholder="Employee ID" required="">
                             <div class="invalid-feedback" style="width: 100%;">
                                 Your username is required.
                             </div>
@@ -164,7 +164,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">@</span>
                             </div>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Username" required="">
+                            <input type="text" class="form-control" autocomplete="off"  id="username" name="username" placeholder="Username" required="">
                             <div class="invalid-feedback" style="width: 100%;">
                                 Your username is required.
                             </div>
@@ -176,7 +176,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">@</span>
                             </div>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="">
+                            <input type="password" class="form-control" autocomplete="off"  id="password" name="password" placeholder="Password" required="">
                             <div class="invalid-feedback" style="width: 100%;">
                                 Your username is required.
                             </div>
@@ -226,7 +226,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
             <div class="input-group-prepend">
                 <span class="input-group-text">@</span>
             </div>
-            <input type="text" class="form-control " id="name1" name="name1" value="<?php echo $name; ?>"  placeholder="Name" required="">
+            <input type="text" class="form-control " autocomplete="off"  id="name1" name="name1" value="<?php echo $name; ?>"  placeholder="Name" required="">
 
         </div>
     </div>
