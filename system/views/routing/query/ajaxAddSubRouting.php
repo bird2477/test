@@ -5,7 +5,7 @@ $detail=$_POST['detail'];
 $customer=$_POST['customer'];               
 $partcode=$_POST['partcode'];               
 $partname=$_POST['partname'];               
-$productioncode=$_POST['productioncode']; 
+$productioncode=$_POST['product']; 
 $query="SELECT * FROM `mold` WHERE `customer` ='$customer' and `productioncode` like '$productioncode' and `partname` like '$partname' and `partcode` like '$partcode'";
 $result=  mysqli_query($connection, $query);
 $row=  mysqli_fetch_array($result);

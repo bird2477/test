@@ -84,7 +84,7 @@ $routing = $_GET['id'];
                 $("#addmachine").click(function () {
                     var dataString = $('#addmachineSub').serialize() + "&routing=<?php echo $_GET['id']; ?>";
                     $.ajax({data: dataString, url: "../../routing/query/ajaxAddSubRouting.php", type: 'POST', cache: false, success: function (data, textStatus, jqXHR) {
-
+                               
                             if (data == 1) {
                                 window.location.reload();
                             }
