@@ -15,6 +15,7 @@ FROM  `checksheet`
 INNER JOIN `subchecksheet` ON  `subchecksheet`.`checksheet`=`checksheet`.`id` WHERE  `subchecksheet`.`checksheet` ='$checksheetId' and `subchecksheet`.`subproductionlineID` ='$subproductionlineID'";
 $result=  mysqli_query($connection, $query);
 $row1= mysqli_fetch_array($result);
+
 $step=$row1['step'];
 $query="SELECT * FROM `mold` WHERE `id`=(SELECT `mold` FROM `subrouting` WHERE `routing` ='$routing_id' and `step` ='$step')";
 $r=  mysqli_query($connection, $query);
@@ -24,6 +25,7 @@ $rt=  mysqli_fetch_array($r);
 
 $query="SELECT * FROM `subproductionline` WHERE `id` = '$subproductionlineID'";
 $result=  mysqli_query($connection, $query);
+
 $row2=  mysqli_fetch_array($result);
 ?>
 <style type="text/css">
@@ -61,8 +63,13 @@ $row2=  mysqli_fetch_array($result);
         <td class="frame" colspan="2" >Operator</td>
     </tr>
      <tr>
-         <td class="frame" ><?php echo $row1['target']; ?></td>
-        <td class="frame" ><?php echo $row1['actual_total']-$row1['free_total']-$row1['reject_total']; ?></td>
+        <td class="frame" ><?php echo $row1['target']; ?></td>
+        <td class="frame" >
+            
+            <?php echo $row1['actual_total']; ?>
+        
+        
+        </td>
         <td class="frame" ><?php echo $row1['free_total']; ?></td>
         <td class="frame" ><?php echo $row1['reject_total']; ?></td>
         <td class="frame" colspan="2" ><?php 

@@ -10,14 +10,18 @@ $lotno = isset($_GET['lotno'])? $_GET['lotno'] :"";
 <script >
 $(document).ready(function(){
     
-    $('#searchlotno').typeahead({
+    $('#lotno').typeahead({
             source: function (query, result) {
+                var datas='lotno=' + $(".lotno").val();
+                
+               
                 $.ajax({
-                    url: "views/routing/query/codeautocomplate.php",
-                    data: 'lotno=' + $("#searchlotno").val(),
+                    url: "views/checksheet/query/codeautocomplate.php",
+                    data: datas,
                     dataType: "json",
                     type: "POST",
                     success: function (data) {
+                        
                         result($.map(data, function (item) {
                             return item;
                         }));
@@ -36,7 +40,8 @@ $(document).ready(function(){
     function data(){
         var lotno="lotno="+$("#lotno").val();
         $.ajax({data: lotno,type: 'POST' ,url: "./views/checksheet/query/ajaxDashboard.php",cache: false,success: function (data, textStatus, jqXHR) {
-                        $("#data").html(data);
+            console.log(data);          
+            $("#data").html(data);
                     }});
         call();
     }
@@ -53,7 +58,7 @@ $(document).ready(function(){
 
     <div class="col-3" >
         <label for="lotno" class="col-form-label">Lot No.</label>
-        <input class="form-control" autocomplete="off"  type="text" value="<?php echo $lotno; ?>" name="lotno" id="lotno">
+        <input class="form-control lotno" autocomplete="off"   type="text" value="<?php echo $lotno; ?>" name="lotno" id="lotno">
     </div>
     
 </div>

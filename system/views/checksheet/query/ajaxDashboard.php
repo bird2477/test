@@ -4,6 +4,7 @@ $query = "SELECT  `subproductionline`.`id`  ,`productionline`.`machine` as linen
 FROM `productionline` 
 INNER JOIN `subproductionline` ON `productionline`.`id`= `subproductionline`.`productionline` WHERE  `subproductionline`.`status` ='1'  ORDER BY  `productionline`.`id` ASC";
 $lotno =$_POST['lotno'];
+
 $result = mysqli_query($connection, $query);
 ?> 
 <?php
@@ -11,6 +12,7 @@ $result = mysqli_query($connection, $query);
              
                 $id=$row['id'];
                 $query ="SELECT * FROM `routing` WHERE `id` =(SELECT `routing` FROM `checksheet` WHERE `id` =(SELECT `checksheet` FROM `subchecksheet` WHERE `subproductionlineID` ='$id'))";
+               
                 $r=  mysqli_query($connection, $query);
                 $t=  mysqli_fetch_array($r);
                 if($lotno !=""){
