@@ -55,6 +55,29 @@ $row2=  mysqli_fetch_array($result);
     <tr>
         <td colspan="6" >&nbsp;</td>
     </tr>
+    
+    <?php
+       $query="SELECT * FROM `users` WHERE  `privilege`='1' and `employeeID` like (SELECT `employeeID`  FROM `timestamp` WHERE `checksheetID` = '$checksheetId' and `subproductionlineID` ='$subproductionlineID'  order by `timestamp`.`id` desc  limit 0,1)";
+      
+        $result=  mysqli_query($connection, $query);
+        $row5= mysqli_fetch_array($result);
+       
+        $employeeID=$row5['employeeID'];
+    $query="SELECT * FROM `timestamp` WHERE `checksheetID` = '$checksheetId' and `subproductionlineID`='$subproductionlineID' and `employeeID` ='$employeeID'  ";
+    $re=  mysqli_query($connection, $query);
+    $actual_total=0;
+    $free_total=0;
+    $reject_total=0;
+     while ( $row6=  mysqli_fetch_array($re)){
+        $actual_total =$actual_total+$row6['actual'];
+        $free_total =$free_total+$row6['free'];
+        $reject_total =$reject_total+$row6['reject'];
+      
+    }
+   
+    $actual_total =$actual_total+$free_total+$reject_total;
+    
+    ?>
     <tr>
         <td class="frame" >Target</td>
         <td class="frame" >Actual</td>
@@ -66,19 +89,15 @@ $row2=  mysqli_fetch_array($result);
         <td class="frame" ><?php echo $row1['target']; ?></td>
         <td class="frame" >
             
-            <?php echo $row1['actual_total']; ?>
+            <?php echo $actual_total; ?>
         
         
         </td>
-        <td class="frame" ><?php echo $row1['free_total']; ?></td>
-        <td class="frame" ><?php echo $row1['reject_total']; ?></td>
+        <td class="frame" ><?php echo $free_total; ?></td>
+        <td class="frame" ><?php echo $reject_total; ?></td>
         <td class="frame" colspan="2" ><?php 
-        $query="SELECT * FROM `users` WHERE  `privilege`='1' and `employeeID` like (SELECT `employeeID`  FROM `timestamp` WHERE `checksheetID` = '$checksheetId' and `subproductionlineID` ='$subproductionlineID'  order by `timestamp`.`id` desc  limit 0,1)";
-      
-        $result=  mysqli_query($connection, $query);
-        $row5= mysqli_fetch_array($result);
-        echo $row5['name'];
-        
+     
+         echo $row5['name'];
         
         ?></td>
     </tr>

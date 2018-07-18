@@ -458,10 +458,10 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                 if ($name == "" && $privilege == 5) {
                     $query = "SELECT * FROM `users` WHERE 1";
                 } else {
-                    $query = "SELECT * FROM `users` WHERE `privilege` = '$privilege' and `name` like '%$name%'";
+                    $query = "SELECT * FROM `users` WHERE `privilege` = '$privilege' and `name` like '%$name%'  limit $page1  ";
                 }
 
-
+               
                 $result = mysqli_query($connection, $query);
                 $num = mysqli_num_rows($result) / 10;
                 $numrow = ceil($num);

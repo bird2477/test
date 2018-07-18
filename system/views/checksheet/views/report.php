@@ -25,13 +25,13 @@ $query = "";
                     var subproductionlineID = $(this).attr("subproductionlineID");
                     var dataString = "subproductionlineID=" + subproductionlineID + "&key=" + key + "&val=" + val;
                     $.ajax({url: "../../checksheet/query/ajaxUpdateAcutal.php", cache: false, type: 'POST', data: dataString, success: function (data, textStatus, jqXHR) {
-                                console.log(data);
+                            console.log(data);
                         }});
                 });
                 $("#send").click(function () {
                     var checksheetId = "checksheetId=<?php echo $checksheetId; ?>";
                     $.ajax({data: checksheetId, url: "../../checksheet/query/ajaxSend.php", cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
-                          window.location.replace("../../../?fragment=checksheet");
+                            window.location.replace("../../../?fragment=checksheet");
                         }});
                 });
                 data();
@@ -39,10 +39,10 @@ $query = "";
                     var checksheetId = "checksheetId=<?php echo $checksheetId; ?>";
                     $.ajax({url: "../../checksheet/query/ajaxLoaddata.php", data: checksheetId, cache: false, type: 'POST', success: function (data, textStatus, jqXHR) {
                             var array = JSON.parse(data);
-                            var i=1;
+                            var i = 1;
                             for (var key in array) {
-                                $('#actual'+i).text(array[key]["actual"+i]);
-                                $('#total'+i).text(array[key]["total"+i]);
+                                $('#actual' + i).text(array[key]["actual" + i]);
+                                $('#total' + i).text(array[key]["total" + i]);
                                 i++;
                             }
                         }});
@@ -59,7 +59,7 @@ $query = "";
                     var subchecksheet = $(this).attr("subchecksheet");
                     var dataString = "option=" + option + "&step=" + step + "&subchecksheet=" + subchecksheet;
                     $.ajax({url: "../../checksheet/query/chengeOption.php", cache: false, type: 'POST', data: dataString, success: function (data, textStatus, jqXHR) {
-                           window.location.reload();      
+                            window.location.reload();
                         }});
                 });
                 $(".check").change(function () {
@@ -100,14 +100,14 @@ $query = "";
                 $query = "UPDATE `subproductionline` SET `target` ='$target'  WHERE `id` ='$subproductionlineID'";
 
                 mysqli_query($connection, $query);
-                $step= $row['step'] ;
-                $query="SELECT * FROM `mold` WHERE `id` =(SELECT `mold` FROM `subrouting` WHERE `routing` =(SELECT `routing` FROM `checksheet` WHERE `id` ='$id') and `step` ='$step')";
-                $e=  mysqli_query($connection, $query);
-                $r=  mysqli_fetch_array($e);
-                
-                $query="SELECT * FROM `subrouting` WHERE `routing` =(SELECT `routing` FROM `checksheet` WHERE `id` ='$id') and `step` ='$step'";
-                $t=  mysqli_query($connection, $query);
-                $y=  mysqli_fetch_array($t);
+                $step = $row['step'];
+                $query = "SELECT * FROM `mold` WHERE `id` =(SELECT `mold` FROM `subrouting` WHERE `routing` =(SELECT `routing` FROM `checksheet` WHERE `id` ='$id') and `step` ='$step')";
+                $e = mysqli_query($connection, $query);
+                $r = mysqli_fetch_array($e);
+
+                $query = "SELECT * FROM `subrouting` WHERE `routing` =(SELECT `routing` FROM `checksheet` WHERE `id` ='$id') and `step` ='$step'";
+                $t = mysqli_query($connection, $query);
+                $y = mysqli_fetch_array($t);
                 ?>
                 <div class="row" >
                     Step : <?php echo $row['step'] ?>  Detail: <?php echo $y['detail']; ?>   Product Code : <?php echo $r['productioncode']; ?>  Part Code : <?php echo $r['partcode']; ?>  Part Name : <?php echo $r['partname']; ?>  
@@ -154,7 +154,7 @@ $query = "";
                                                         <?php
                                                         $subproductionline = $data['subproductionline'];
                                                         $query = "SELECT * FROM `subproductionline` WHERE `id` ='$subproductionline'";
-                                                        
+
                                                         $rq = mysqli_query($connection, $query);
                                                         $r = mysqli_fetch_array($rq);
                                                         echo $r['name'];
@@ -170,14 +170,13 @@ $query = "";
                                 <td ><?php echo $row['target']; ?></td>
                                 <td id="actual<?php echo $row['step']; ?>" >
                                     <?php
-                                        
                                     echo $r['actual_total'] - $r['free_total'] - $r['reject_total'];
                                     ?>
                                 </td>
                                 <td ><input class="chenge" subproductionlineID="<?php echo $subproductionlineID; ?>" key="free_total" step="<?php echo $row['step']; ?>" value="<?php echo $r['free_total']; ?>"  id="free<?php echo $row['step']; ?>"  ></td>
                                 <td ><input class="chenge" subproductionlineID="<?php echo $subproductionlineID; ?>" key="reject_total" step="<?php echo $row['step']; ?>" value="<?php echo $r['reject_total']; ?>"  id="reject<?php echo $row['step']; ?>"  ></td>
                                 <td step="<?php echo $row['step']; ?>"  id="total<?php echo $row['step']; ?>">
-                                <?php echo $r['actual_total']; ?>
+                                    <?php echo $r['actual_total']; ?>
                                 </td>
                                 <td >
                                     <button type="button" class="btn btn-info " data-toggle="modal" data-target="#<?php echo $row['id']; ?>">

@@ -19,11 +19,13 @@ $re = mysqli_query($connection, $query);
 $row = mysqli_fetch_array($re);
 $routing=$row['id'];
 $query="SELECT * FROM `subchecksheet` WHERE `checksheet` ='$checksheetId'";
+
 $result=  mysqli_query($connection, $query);
 while ($row1 = mysqli_fetch_array($result)) {
-    $subproductionlineID = $row['subproductionlineID'];
-    $id = $row['id'];
-    $query="SELECT * FROM `timestamp` WHERE `subchecksheetID` ='$id'";
+    $subproductionlineID = $row1['subproductionlineID'];
+    $id = $row1['id'];
+    $query="SELECT * FROM `timestamp` WHERE `subchecksheetID` ='$id' ";
+    
     $r=  mysqli_query($connection, $query);
     $actual=0;
     $free=0;
@@ -36,10 +38,18 @@ while ($row1 = mysqli_fetch_array($result)) {
     }
     $actual_total = $free+$reject+$actual;
     $query="UPDATE `subchecksheet` SET `actual_total` ='$actual' ,`free_total` ='$free' ,`reject_total` ='$reject'  WHERE `id` ='$id'";
+   
     mysqli_query($connection, $query);
     
 }
 
 $routing_actual=$actual;
+$query="SELECT * FROM `routing` WHERE `id` ='$routing'";
+
+$re=  mysqli_query($connection, $query);
+$row=  mysqli_fetch_array($re);
+$routing_actual = $routing_actual + $row['actual'];
+
+
 $query="UPDATE `routing` SET `actual`='$routing_actual' WHERE `id` ='$routing'";
 mysqli_query($connection, $query);

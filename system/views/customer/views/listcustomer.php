@@ -166,7 +166,7 @@ if ($page == 1) {
                 if($search_param==""){
                      $query="SELECT * FROM `customer` WHERE 1";
                 }else{
-                    $query="SELECT * FROM `customer` WHERE `name` like '%$search_param%'";
+                    $query="SELECT * FROM `customer` WHERE `name` like '%$search_param%' limit $page1";
                 }
                
                 

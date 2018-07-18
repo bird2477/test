@@ -196,14 +196,14 @@ if ($page == 1) {
                 $numrow=ceil($num);
                 ?>
                 <li class="page-item <?php if($page==1){ echo 'disabled';} ?>">
-                    <a class="page-link " href="?fragment=mold&component=mold&moldcode=<?php echo $moldcode; ?>&page=<?php echo $page-1; ?>" tabindex="-1">Previous</a>
+                    <a class="page-link " href="?fragment=mold&component=mold&productioncode=<?php echo $productioncode; ?>&page=<?php echo $page-1; ?>" tabindex="-1">Previous</a>
                 </li>
                 <?php for($i=1;$i<=$numrow;$i++){   ?>
-                <li class="page-item <?php if($page==$i){    echo 'active';} ?>  "><a class="page-link" href="?fragment=mold&component=mold&moldcode=<?php echo $moldcode; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                <li class="page-item <?php if($page==$i){    echo 'active';} ?>  "><a class="page-link" href="?fragment=mold&component=mold&productioncode=<?php echo $productioncode; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
                
                 <?php } ?>
                 <li class="page-item <?php if($page>= $numrow){ echo 'disabled';} ?>">
-                    <a class="page-link " href="?fragment=mold&component=mold&moldcode=<?php echo $moldcode; ?>&page=<?php echo $page+1; ?>">Next</a>
+                    <a class="page-link " href="?fragment=mold&component=mold&productioncode=<?php echo $productioncode; ?>&page=<?php echo $page+1; ?>">Next</a>
                 </li>
                 
             </ul>
