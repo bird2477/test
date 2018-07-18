@@ -23,13 +23,20 @@ if ($page == 1) {
 
         $("#productionlineadd").click(function () {
             var dataString = $('#custoner').serialize();
-
+            var taxno = $("#taxno").val();
+            var name =$("#name").val();
+            var address =$("#address").val();
+            if((taxno=="")||(name=="")||(address=="")){
+                 alert("กรุณาใส่ค่าให้ครับ");
+            }else{
+                
+          
             $.ajax({data: dataString, url: "views/customer/query/ajaxAddCustomer.php", type: 'POST', cache: false, success: function (data, textStatus, jqXHR) {
                     if (data == "1") {
                         alert('success');
                         window.location.reload();
                     }
-                }});
+                }});  }
         });
 
         $('#search_param').change(function () {

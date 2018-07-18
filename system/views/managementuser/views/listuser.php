@@ -3,6 +3,17 @@
     $(document).ready(function () {
         $("#adduserbtn").click(function () {
             var dataString = $("#formuser").serialize();
+            var  sex = $("#sex").val();
+            var  name = $("#name").val();
+            var  lastname = $("#lastname").val();
+            var  employeeID = $("#employeeID").val();
+            var  username = $("#username").val();
+            var  password = $("#password").val();
+            var  privilege = $("#privilege").val();
+            
+            if((sex=="")||(name=="")||(lastname=="")||(employeeID=="")||(username=="")||(password=="")||(privilege=="")){
+                 alert("กรุณาใส่ค่าให้ครับ");
+            }else{
             $.ajax({url: "./views/managementuser/query/adduser.php", cache: false, data: dataString, type: 'POST', success: function (data, textStatus, jqXHR) {
                     if (data == 1) {
                         alert("success");
@@ -10,6 +21,8 @@
                     }
 
                 }});
+            
+        }
         });
 
 

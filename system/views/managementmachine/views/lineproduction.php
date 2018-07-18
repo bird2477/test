@@ -18,11 +18,19 @@ $id = isset($_GET['id']) ? $_GET['id'] : "";
 
         $("#productionlineadd").click(function () {
             var name = "name=" + $("#nameline").val();
+            if(name=="name="){
+               alert("กรุณาใส่ค่าให้ครับ");
+            }else{
+                
+           
+            
             $.ajax({data: name, url: "views/managementmachine/query/ajaxAddProductionLine.php", type: 'POST', cache: false, success: function (data, textStatus, jqXHR) {
                     if (data != "") {
                         window.location.replace("./views/managementmachine/views/subproductionline.php?id="+data);
                     }
                 }});
+             }
+            
         });
 
         $("#searchname").change(function () {

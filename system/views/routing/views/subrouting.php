@@ -82,15 +82,32 @@ $routing = $_GET['id'];
                 });
 
                 $("#addmachine").click(function () {
+                    if((($("#step").val()=="") || ($('#detail').val()=="")) ){
+                        alert("กรุณาใส่ค่าให้ครบ");
+                    }else{
+                        if( ($("#step").val() <1)){
+                            alert('ไม่สามารถใส่ค่าน้อยกว่า1ได้');
+                            
+                        }else{
+                            
+                       
+                        
                     var dataString = $('#addmachineSub').serialize() + "&routing=<?php echo $_GET['id']; ?>";
                     $.ajax({data: dataString, url: "../../routing/query/ajaxAddSubRouting.php", type: 'POST', cache: false, success: function (data, textStatus, jqXHR) {
                                
                             if (data == 1) {
                                 window.location.reload();
-                            }
+                            }else if(data !=""){
+                                alert(data);
+                         }
                         }});
-
+                    
+                     }
+                         }
+                         
+                         
                 });
+               
 
             });
 
@@ -124,7 +141,7 @@ $routing = $_GET['id'];
                                 <div class="row">
                                     <label for="step">Step</label>
                                     <div class="input-group">
-                                        <input type="number" autocomplete="off" class="form-control" name="step" id="step" placeholder="Step" >
+                                        <input type="number" min="1" autocomplete="off" class="form-control" name="step" id="step" placeholder="Step" >
                                     </div>
 
                                 </div>

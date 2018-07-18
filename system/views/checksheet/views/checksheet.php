@@ -58,7 +58,7 @@
         $("#addChecksheet").click(function () {
             var lotno = $("#lotno").val();
             var target = $("#target").val();
-            if(target != ""){
+            if((target != "") &&(lotno !="")) {
             var dataString = "lotno="+lotno+"&target="+target;
             $.ajax({data: dataString, type: 'POST', cache: false, url: "./views/checksheet/query/ajaxReport.php", success: function (data, textStatus, jqXHR) {
                     if (data != "") {
@@ -66,7 +66,7 @@
                     }
                 }});
         }else{
-            
+          alert("กรุณาใส่ค่าให้ครับ");
         }
         });
         

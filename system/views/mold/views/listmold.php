@@ -23,13 +23,24 @@ if ($page == 1) {
 
         $("#addmold").click(function () {
             var dataString = encodeURI($('#custoner').serialize());
-
+            var productioncode = $("#productioncode").val();
+            var partcode = $("#partcode").val();
+            var partname = $("#partname").val();
+            var customer = $("#customer").val();
+            
+            if((productioncode=="")||(partcode=="")||(partname=="")||(customer=="")){
+                alert("กรุณาใส่ค่าให้ครับ");
+            }else{
+             
+            
             $.ajax({data: dataString, url: "views/mold/query/ajaxAddMold.php", type: 'POST', cache: false, success: function (data, textStatus, jqXHR) {
                     if (data == "1") {
                         alert('success');
                         window.location.reload();
                     }
                 }});
+               
+            }
         });
          
          $('#searchmoldcode').change(function(){

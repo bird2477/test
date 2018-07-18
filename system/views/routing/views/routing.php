@@ -9,13 +9,20 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $("#routingadd").click(function () {
 
             var dataSting = $('#formrouting').serialize();
+            
+            if(($("#lotno").val()=="")||($('#target').val()=="")||($("#deadline").val())){
+                alert("กรุณาใส่ค่า");
+            }else{
+                
+           
+            
             $.ajax({data: dataSting, type: 'POST', cache: false, url: "views/routing/query/ajaxAddrouting.php", success: function (data, textStatus, jqXHR) {
                      
                     if (data != "") {
                         window.location.replace(data);
                     }
                 }});
-
+ }
         });
 
 
