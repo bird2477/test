@@ -79,10 +79,10 @@ $time="00:00:00";
             <th>Lastname</th>
             <th>Employee ID</th>
             <th>Machine</th>
-            <th>จำนวนงานดี</th>
+            <th>Actual Goods</th>
             <th>Free shot</th>
-            <th>จำนวนงานเสีย</th>
-            <th>จำนวนรวม</th>
+            <th>Reject</th>
+            <th>Actual Total</th>
             <th>Start</th>
             <th>Stop</th>
             
@@ -127,8 +127,22 @@ $time="00:00:00";
                 <td><?php echo $row['reject'];  ?></td>
                 <td><?php echo $row['actual']+ $row['reject'] +$row['free'];  ?></td>
                 
-                <td><?php echo  $row['start_datetime']; ?></td>
-                <td><?php echo $row['end_datetime']; ?></td>
+                <td><?php
+                
+                
+               
+                 $date = date_create( $row['start_datetime']);
+                            echo date_format($date, "d/m/Y H:i:s");
+                
+                
+                ?></td>
+                <td><?php 
+                
+            
+                
+                  $date = date_create( $row['end_datetime']);
+                            echo date_format($date, "d/m/Y H:i:s");
+                ?></td>
                 <td>
                     <?php 
                     $start_datetime=$row['start_datetime'];

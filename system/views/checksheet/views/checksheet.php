@@ -4,13 +4,13 @@
         $("#search").click(function () {
             var from = $("#from").val();
             var to = $("#to").val();
-             var url="";
-            if(from==""){
-                 url = "?fragment=checksheet";
-            }else{
+            var url = "";
+            if (from == "") {
+                url = "?fragment=checksheet";
+            } else {
                 url = "?fragment=checksheet&from=" + from + "&to=" + to;
             }
-             
+
             window.location.replace(url);
         });
 
@@ -35,7 +35,7 @@
         $('#lotno').change(function () {
             var lotno = "lotno=" + $(this).val();
             $.ajax({url: "./views/checksheet/query/checkActual.php", cache: false, data: lotno, type: 'POST', success: function (data, textStatus, jqXHR) {
-                        $("#target1").text(data);
+                    $("#target1").text(data);
                 }});
         });
 
@@ -58,23 +58,23 @@
         $("#addChecksheet").click(function () {
             var lotno = $("#lotno").val();
             var target = $("#target").val();
-            if((target != "") &&(lotno !="")) {
-            var dataString = "lotno="+lotno+"&target="+target;
-            $.ajax({data: dataString, type: 'POST', cache: false, url: "./views/checksheet/query/ajaxReport.php", success: function (data, textStatus, jqXHR) {
-                    if (data != "") {
-                        window.location.replace("./views/checksheet/views/report.php?id=" + data);
-                    }
-                }});
-        }else{
-          alert("กรุณาใส่ค่าให้ครับ");
-        }
+            if ((target != "") && (lotno != "")) {
+                var dataString = "lotno=" + lotno + "&target=" + target;
+                $.ajax({data: dataString, type: 'POST', cache: false, url: "./views/checksheet/query/ajaxReport.php", success: function (data, textStatus, jqXHR) {
+                        if (data != "") {
+                            window.location.replace("./views/checksheet/views/report.php?id=" + data);
+                        }
+                    }});
+            } else {
+                alert("กรุณาใส่ค่าให้ครับ");
+            }
         });
-        
-        $("#target").change(function(){
-            var target = $("#target1").text()  - $(this).val();
-            if(target >=0){
-                
-            }else{
+
+        $("#target").change(function () {
+            var target = $("#target1").text() - $(this).val();
+            if (target >= 0) {
+
+            } else {
                 $(this).val("");
                 alert("กรุณาใส่ใหม่ค่าเกินที่ต้องการ");
                 $(this).focus();
@@ -106,7 +106,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <label for="lotno">Lot No.</label>
+                    <label for="lotno">Product Lot No.</label>
                     <input type="text" class="form-control" autocomplete="off"   id="lotno" name="lotno" required="">
                 </div>
                 <div class="row">
@@ -154,9 +154,9 @@
     <table class="table table-condensed">
         <thead>
             <tr>
-                <th>Lot No.</th>
+                <th>Product Lot No.</th>
                 <th>Date</th>
-               
+
 
                 <th colspan="2" style="text-align: center;">Tools</th>
             </tr>
@@ -183,37 +183,42 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
                     ?>
                     <tr>
                         <td><?php echo $row1['lotno']; ?></td>
-                        <td><?php echo $row1['date']; ?></td>
-                      
+                        <td><?php
+                           
+
+                            $date = date_create($row1['date']);
+                            echo date_format($date, "d/m/Y");
+                            ?></td>
+
 
                         <td>
-                            <?php
-                            if (($row1['status'] == 0)) {
-                                ?>
-                                <!-- <a href="./views/checksheet/views/report.php?id=<?php echo $row1['id']; ?>&routing=<?php echo $row1['routingid']; ?>" class="btn btn-success " >Edit</a>
-                               -->
+        <?php
+        if (($row1['status'] == 0)) {
+            ?>
+                                    <!-- <a href="./views/checksheet/views/report.php?id=<?php echo $row1['id']; ?>&routing=<?php echo $row1['routingid']; ?>" class="btn btn-success " >Edit</a>
+                                -->
                                 <button type="button" class="btn btn-danger remove" routing="<?php echo $row1['routingid']; ?>" id="<?php echo $row1['id']; ?>">
                                     Remove
                                 </button>  
-                                <?php
-                                if ($_SESSION['privilege'] >= 3) {
-                                    ?>
+            <?php
+            if ($_SESSION['privilege'] >= 3) {
+                ?>
 
                                     <button type="button" class="btn btn-info approved" routing="<?php echo $row1['routingid']; ?>" id="<?php echo $row1['id']; ?>">
                                         Approved
                                     </button>  
-                                    <?php
-                                }
-                            } elseif (($row1['status'] == 1) && ($_SESSION['privilege']) >= 3) {
-                                ?>
-                              <!--  <a href="./views/checksheet/views/report.php?id=<?php echo $row1['id']; ?>" class="btn btn-success " >Edit</a> -->
+                <?php
+            }
+        } elseif (($row1['status'] == 1) && ($_SESSION['privilege']) >= 3) {
+            ?>
+                          <!--  <a href="./views/checksheet/views/report.php?id=<?php echo $row1['id']; ?>" class="btn btn-success " >Edit</a> -->
                                 <button type="button" class="btn btn-danger remove" routing="<?php echo $row1['routingid']; ?>" id="<?php echo $row1['id']; ?>">
                                     Remove
                                 </button>  
 
-                                <?php
-                            }
-                            ?>
+            <?php
+        }
+        ?>
                         </td>
                         <td>
                             <div class="dropdown">
@@ -221,74 +226,79 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
                                     Report
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <?php
-                                    $id = $row1['id'];
-                                    $query = "SELECT * FROM `subchecksheet` WHERE `checksheet` ='$id'";
-                                    $result1 = mysqli_query($connection, $query);
-                                    while ($row3 = mysqli_fetch_array($result1)) {
-                                        $checksheet = $row3['checksheet'];
-                                        $subproductionlineID = $row3['subproductionlineID'];
-                                        ?>
+        <?php
+        $id = $row1['id'];
+        $query = "SELECT * FROM `subchecksheet` WHERE `checksheet` ='$id'";
+        $result1 = mysqli_query($connection, $query);
+        while ($row3 = mysqli_fetch_array($result1)) {
+            $checksheet = $row3['checksheet'];
+            $subproductionlineID = $row3['subproductionlineID'];
+            ?>
 
                                         <a class="dropdown-item " target="_blank"  href="./views/checksheet/views/paper.php?subproductionlineID=<?php echo $subproductionlineID; ?>&checksheetId=<?php echo $checksheet; ?>">
-                                            <?php
-                                            $query = "SELECT * FROM `subproductionline` WHERE `id` = '$subproductionlineID'";
-                                            $result2 = mysqli_query($connection, $query);
-                                            $row4 = mysqli_fetch_array($result2);
-                                            echo $row4['name'];
-                                            ?>
+                                        <?php
+                                        $query = "SELECT * FROM `subproductionline` WHERE `id` = '$subproductionlineID'";
+                                        $result2 = mysqli_query($connection, $query);
+                                        $row4 = mysqli_fetch_array($result2);
+                                        echo $row4['name'];
+                                        ?>
                                         </a> <?php
-                                    }
-                                    ?>
+                                        }
+                                        ?>
                                 </div>
                             </div>
 
                         </td>
                     </tr>
-                    <?php
-                }
-            } else {
-                $query = "SELECT   `routing`.`lotno`, `checksheet`.`date`, `checksheet`.`status` ,`routing` .`id`  as routingid , `checksheet`.`id`
+        <?php
+    }
+} else {
+    $query = "SELECT   `routing`.`lotno`, `checksheet`.`date`, `checksheet`.`status` ,`routing` .`id`  as routingid , `checksheet`.`id`
 FROM  `checksheet`
 INNER JOIN `routing` 
 ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`id` DESC LIMIT $page1";
-               
-                $result = mysqli_query($connection, $query);
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row2 = mysqli_fetch_array($result)) {
-                        ?>
+
+    $result = mysqli_query($connection, $query);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row2 = mysqli_fetch_array($result)) {
+            ?>
                         <tr>
                             <td><?php echo $row2['lotno']; ?></td>
-                            <td><?php echo $row2['date']; ?></td>
+                            <td><?php 
                             
+                            $date = date_create($row2['date']);
+                            echo date_format($date, "d/m/Y");
+                            
+                            ?></td>
+
 
                             <td>
-                                <?php
-                                if (($row2['status'] == 0)) {
-                                    ?>
+            <?php
+            if (($row2['status'] == 0)) {
+                ?>
                                     <a href="./views/checksheet/views/report.php?id=<?php echo $row2['id']; ?>" class="btn btn-success " >Edit</a>
                                     <button type="button" class="btn btn-danger remove" routing="<?php echo $row2['routingid']; ?>" id="<?php echo $row2['id']; ?>">
                                         Remove
                                     </button>  
-                                    <?php
-                                    if ($_SESSION['privilege'] >= 3) {
-                                        ?>
+                <?php
+                if ($_SESSION['privilege'] >= 3) {
+                    ?>
 
                                         <button type="button" class="btn btn-info approved" routing="<?php echo $row2['routingid']; ?>" id="<?php echo $row2['id']; ?>">
                                             Approved
                                         </button>  
-                                        <?php
-                                    }
-                                } elseif (($row2['status'] == 1) && ($_SESSION['privilege']) >= 3) {
-                                    ?>
+                    <?php
+                }
+            } elseif (($row2['status'] == 1) && ($_SESSION['privilege']) >= 3) {
+                ?>
                                     <a href="./views/checksheet/views/report.php?id=<?php echo $row2['id']; ?>" class="btn btn-success " >Edit</a>
                                     <button type="button" class="btn btn-danger remove" routing="<?php echo $row2['routingid']; ?>" id="<?php echo $row2['id']; ?>">
                                         Remove
                                     </button>  
 
-                                    <?php
-                                }
-                                ?>
+                <?php
+            }
+            ?>
 
                             </td>
                             <td>
@@ -297,56 +307,56 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`
                                         Report
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <?php
-                                        $id = $row2['id'];
-                                        $query = "SELECT * FROM `subchecksheet` WHERE `checksheet` ='$id'";
-                                        $result1 = mysqli_query($connection, $query);
-                                        while ($row3 = mysqli_fetch_array($result1)) {
-                                            $checksheet = $row3['checksheet'];
-                                            $subproductionlineID = $row3['subproductionlineID'];
-                                            ?>
+            <?php
+            $id = $row2['id'];
+            $query = "SELECT * FROM `subchecksheet` WHERE `checksheet` ='$id'";
+            $result1 = mysqli_query($connection, $query);
+            while ($row3 = mysqli_fetch_array($result1)) {
+                $checksheet = $row3['checksheet'];
+                $subproductionlineID = $row3['subproductionlineID'];
+                ?>
 
                                             <a class="dropdown-item " target="_blank"  href="./views/checksheet/views/paper.php?subproductionlineID=<?php echo $subproductionlineID; ?>&checksheetId=<?php echo $checksheet; ?>">
-                                                <?php
-                                                $query = "SELECT * FROM `subproductionline` WHERE `id` = '$subproductionlineID'";
-                                                $result2 = mysqli_query($connection, $query);
-                                                $row4 = mysqli_fetch_array($result2);
-                                                echo $row4['name'];
-                                                ?>
+                                            <?php
+                                            $query = "SELECT * FROM `subproductionline` WHERE `id` = '$subproductionlineID'";
+                                            $result2 = mysqli_query($connection, $query);
+                                            $row4 = mysqli_fetch_array($result2);
+                                            echo $row4['name'];
+                                            ?>
                                             </a> <?php
-                                        }
-                                        ?>
+                                            }
+                                            ?>
                                     </div>
                                 </div>
                             </td>
                         </tr>
-                        <?php
-                    }
-                } else {
-                    ?>
+            <?php
+        }
+    } else {
+        ?>
                     <tr style="text-align: center;">
                         <td colspan="6" >No Data</td>
                     </tr>
-                    <?php
-                }
-            }
-            ?>
+        <?php
+    }
+}
+?>
         </tbody>
     </table>
     <div class="container">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-                <?php
-                if ($from == "" && $to == "") {
-                    $query = "SELECT * FROM `checksheet` WHERE 1";
-                } else {
-                    $query = "SELECT * FROM `checksheet` WHERE `date` BETWEEN '$from' and '$to'";
-                }
+<?php
+if ($from == "" && $to == "") {
+    $query = "SELECT * FROM `checksheet` WHERE 1";
+} else {
+    $query = "SELECT * FROM `checksheet` WHERE `date` BETWEEN '$from' and '$to'";
+}
 
-                $result = mysqli_query($connection, $query);
-                $num = mysqli_num_rows($result) / 10;
-                $numrow = ceil($num);
-                ?>
+$result = mysqli_query($connection, $query);
+$num = mysqli_num_rows($result) / 10;
+$numrow = ceil($num);
+?>
                 <li class="page-item <?php
                 if ($page == 1) {
                     echo 'disabled';
@@ -354,12 +364,12 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`
                 ?>">
                     <a class="page-link " href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $page - 1; ?>" tabindex="-1">Previous</a>
                 </li>
-                <?php for ($i = 1; $i <= $numrow; $i++) { ?>
+                    <?php for ($i = 1; $i <= $numrow; $i++) { ?>
                     <li class="page-item <?php
                     if ($page == $i) {
                         echo 'active';
                     }
-                    ?>  "><a class="page-link" href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                        ?>  "><a class="page-link" href="?fragment=checksheet&from=<?php echo $from; ?>&to=<?php echo $to; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
 
                 <?php } ?>
                 <li class="page-item <?php

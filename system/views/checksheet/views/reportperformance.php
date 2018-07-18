@@ -97,10 +97,19 @@ function sum_the_time($time1, $time2) {
                 
             </td>
             <td class="frame" >
-                <?php echo $start_datetime; ?>
+                <?php 
+                
+                 $date = date_create($start_datetime);
+                            echo date_format($date, "d/m/Y H:i:s");
+                ?>
             </td>
             <td class="frame">
-                 <?php echo $end_datetime; ?>
+                 <?php
+                  $date = date_create($end_datetime);
+                            echo date_format($date, "d/m/Y H:i:s");
+              
+                 
+                 ?>
             </td>
             <td class="frame">
                 <?php echo $row['actual']; ?>

@@ -71,7 +71,8 @@ $query = "";
 
                     var data1 = "val=" + val + "&status=" + status + "&checksheet=" + checksheet + "&subproductionlineid=" + subproductionlineid + "&subchecksheet=" + subchecksheet;
                     $.ajax({type: 'POST', url: "../../checksheet/query/ajaxCheckUser.php", data: data1, cache: false, success: function (data, textStatus, jqXHR) {
-                            window.location.reload();
+            alert(data);
+              window.location.reload();
                         }});
                 });
             });
@@ -110,16 +111,17 @@ $query = "";
                 $y = mysqli_fetch_array($t);
                 ?>
                 <div class="row" >
-                    Step : <?php echo $row['step'] ?>  Detail: <?php echo $y['detail']; ?>   Product Code : <?php echo $r['productioncode']; ?>  Part Code : <?php echo $r['partcode']; ?>  Part Name : <?php echo $r['partname']; ?>  
+                    Step : <?php echo $row['step'] ?>  Detail : <?php echo $y['detail']; ?>   Product Code : <?php echo $r['productioncode']; ?>  Part Code : <?php echo $r['partcode']; ?>  Part Name : <?php echo $r['partname']; ?>  
                     <table class="table"   >
                         <thead>
                             <tr>
                                 <th>Machine</th>
                                 <th>Target</th>
-                                <th>Actual Goods</th>
+                                 <th>Actual Total</th>
+                               
                                 <th>Free</th>
                                 <th>Reject</th>
-                                <th>Total</th>
+                                <th>Actual Goods</th>
                                 <th>Tools</th>
                             </tr>
                         </thead>
@@ -168,15 +170,16 @@ $query = "";
 
                                 </td>
                                 <td ><?php echo $row['target']; ?></td>
-                                <td id="actual<?php echo $row['step']; ?>" >
+                                <td step="<?php echo $row['step']; ?>"  id="total<?php echo $row['step']; ?>">
+                                    <?php echo $r['actual_total']; ?>
+                                </td>
+                               
+                                <td ><input class="chenge" subproductionlineID="<?php echo $subproductionlineID; ?>" key="free_total" step="<?php echo $row['step']; ?>" value="<?php echo $r['free_total']; ?>"  id="free<?php echo $row['step']; ?>"  ></td>
+                                <td ><input class="chenge" subproductionlineID="<?php echo $subproductionlineID; ?>" key="reject_total" step="<?php echo $row['step']; ?>" value="<?php echo $r['reject_total']; ?>"  id="reject<?php echo $row['step']; ?>"  ></td>
+                                 <td id="actual<?php echo $row['step']; ?>" >
                                     <?php
                                     echo $r['actual_total'] - $r['free_total'] - $r['reject_total'];
                                     ?>
-                                </td>
-                                <td ><input class="chenge" subproductionlineID="<?php echo $subproductionlineID; ?>" key="free_total" step="<?php echo $row['step']; ?>" value="<?php echo $r['free_total']; ?>"  id="free<?php echo $row['step']; ?>"  ></td>
-                                <td ><input class="chenge" subproductionlineID="<?php echo $subproductionlineID; ?>" key="reject_total" step="<?php echo $row['step']; ?>" value="<?php echo $r['reject_total']; ?>"  id="reject<?php echo $row['step']; ?>"  ></td>
-                                <td step="<?php echo $row['step']; ?>"  id="total<?php echo $row['step']; ?>">
-                                    <?php echo $r['actual_total']; ?>
                                 </td>
                                 <td >
                                     <button type="button" class="btn btn-info " data-toggle="modal" data-target="#<?php echo $row['id']; ?>">

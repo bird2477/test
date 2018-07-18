@@ -73,9 +73,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
             <div class="modal-body">
                 <form id="formrouting" >
                     <div class="row">
-                        <label for="lotno">Lot No.</label>
+                        <label for="lotno">Product Lot No.</label>
                         <div class="input-group ">
-                            <input type="text" class="form-control " id="lotno" name="lotno" placeholder="Lot No" required="">
+                            <input type="text" class="form-control " id="lotno" name="lotno" placeholder="Product Lot No" required="">
                         </div>
                     </div>
                   
@@ -107,9 +107,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
 <div class="row" style="background: buttonhighlight;" >
     <div class="col-md-3 mb-3">
-        <label for="lotno">Lot No.</label>
+        <label for="lotno">Product Lot No.</label>
         <div class="input-group ">
-            <input type="text" class="form-control " value="<?php echo $lotno; ?>" id="searchlotno" name="searchlotno" placeholder="Lot No." required="">
+            <input type="text" class="form-control " value="<?php echo $lotno; ?>" id="searchlotno" name="searchlotno" placeholder="Product Lot No." required="">
 
         </div>
     </div>
@@ -133,9 +133,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
         <thead>
             <tr>
 
-                <th>Lot No.</th> 
+                <th>Product Lot No.</th> 
                 <th>Target</th>
-                <th>Actual</th>
+                <th>Actual Goods</th>
                 
             </tr>
         </thead>

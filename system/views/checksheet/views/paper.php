@@ -44,13 +44,32 @@ $row2=  mysqli_fetch_array($result);
         <td class="frame">Part Code</td>
         <td class="frame"><?php echo $rt['partcode']; ?></td>
         <td class="frame">วันที่ออกใบงาน</td>
-        <td class="frame"><?php echo $row1['date']; ?></td>
+        <td class="frame"><?php
+        
+     
+        
+                 $date = date_create($row1['date']);
+                            echo date_format($date, "d/m/Y");
+        
+        ?></td>
     </tr>
     <tr>
         <td class="frame" >Part Name</td>
         <td class="frame" colspan="3"><?php echo $rt['partname']; ?></td>
-        <td class="frame">วันที่ต้องการงานทั้งหมด</td>
-        <td class="frame"><?php echo $deadline; ?></td>
+        
+         <td class="frame">Product Lot No.</td>
+        <td class="frame"><?php echo $row['lotno']; ?></td>
+    </tr>
+     <tr>
+        <td class="frame" >กำลังผลิตมาตรฐาน</td>
+        <td class="frame"><?php echo $row2['machinestandard']."  Pcs/Hr."; ?></td>
+        <td class="frame" colspan="2"></td>
+       <td class="frame">วันที่ต้องการงานทั้งหมด</td>
+        <td class="frame"><?php 
+        $date = date_create($deadline);
+                            echo date_format($date, "d/m/Y");
+        ?></td>
+       
     </tr>
     <tr>
         <td colspan="6" >&nbsp;</td>
@@ -61,9 +80,10 @@ $row2=  mysqli_fetch_array($result);
       
         $result=  mysqli_query($connection, $query);
         $row5= mysqli_fetch_array($result);
-       
+      
         $employeeID=$row5['employeeID'];
     $query="SELECT * FROM `timestamp` WHERE `checksheetID` = '$checksheetId' and `subproductionlineID`='$subproductionlineID' and `employeeID` ='$employeeID'  ";
+   
     $re=  mysqli_query($connection, $query);
     $actual_total=0;
     $free_total=0;
@@ -75,7 +95,7 @@ $row2=  mysqli_fetch_array($result);
       
     }
    
-    $actual_total =$actual_total+$free_total+$reject_total;
+    $actual_total =$actual_total;
     
     ?>
     <tr>

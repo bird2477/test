@@ -43,7 +43,16 @@
                 if(is_null ($row['target'])==FALSE){
                 ?>
                 <tr>
-                   <td><?php echo $row['date'] ; ?></td>
+                   <td><?php
+                    
+                            $date = date_create($row['date']);
+                            echo date_format($date, "d/m/Y");
+                   
+                   
+                   
+                   
+                   
+                   ?></td>
                    
                    
                     <td>
