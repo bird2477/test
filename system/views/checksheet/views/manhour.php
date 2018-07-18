@@ -79,8 +79,13 @@ $time="00:00:00";
             <th>Lastname</th>
             <th>Employee ID</th>
             <th>Machine</th>
+            <th>จำนวนงานดี</th>
+            <th>Free shot</th>
+            <th>จำนวนงานเสีย</th>
+            <th>จำนวนรวม</th>
             <th>Start</th>
             <th>Stop</th>
+            
             <th>Work Time</th>
         </tr>
         </thead>
@@ -116,6 +121,12 @@ $time="00:00:00";
                 $t=  mysqli_fetch_array($r);
                 echo $t['name'];
                 ?></td>
+               
+                <td><?php echo $row['actual'];  ?></td>
+                <td><?php echo $row['free'];  ?></td>
+                <td><?php echo $row['reject'];  ?></td>
+                <td><?php echo $row['actual']+ $row['reject'] +$row['free'];  ?></td>
+                
                 <td><?php echo  $row['start_datetime']; ?></td>
                 <td><?php echo $row['end_datetime']; ?></td>
                 <td>
@@ -136,7 +147,7 @@ $time="00:00:00";
           
             ?>
             <tr>
-                <td colspan="6" style="text-align: right;">Total</td>
+                <td colspan="10" style="text-align: right;">Total</td>
                 <td><?php echo $time; ?></td>
             </tr>
             <?php  } ?>

@@ -116,7 +116,7 @@ $query = "";
                             <tr>
                                 <th>Machine</th>
                                 <th>Target</th>
-                                <th>Actual</th>
+                                <th>Actual Goods</th>
                                 <th>Free</th>
                                 <th>Reject</th>
                                 <th>Total</th>

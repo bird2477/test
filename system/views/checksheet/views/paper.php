@@ -80,7 +80,7 @@ $row2=  mysqli_fetch_array($result);
     ?>
     <tr>
         <td class="frame" >Target</td>
-        <td class="frame" >Actual</td>
+        <td class="frame" >Actual Goods </td>
         <td class="frame" >Free Total</td>
         <td class="frame" >Reject Total</td>
         <td class="frame" colspan="2" >Operator</td>
