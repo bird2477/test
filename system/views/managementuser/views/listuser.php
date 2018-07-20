@@ -1,6 +1,19 @@
 <script src="../vender/typeahead.js" ></script>
 <script >
     $(document).ready(function () {
+        $("#username").change(function(){
+            var datas="username="+$("#username").val();
+            $.ajax({data:datas ,type: 'POST',url: "./views/managementuser/query/check.php",cache: false,success: function (data, textStatus, jqXHR) {
+                                if(data != 0) {
+                                   $("#username").val("");
+                                   alert("ชือผู้ใช้มีในระบบแล้ว");
+                                }
+                            }});
+            
+        });
+        
+        
+        
         $("#adduserbtn").click(function () {
             var dataString = $("#formuser").serialize();
             var  sex = $("#sex").val();
@@ -300,29 +313,49 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
             </tr>
         </thead>
         <tbody>
-
             <?php
             if ($page == 1) {
                 $page1 = "0,10";
+                 $cout=0;
             } else {
                 $page1 = ($page - 1) . "0," . ($page) . "0";
+                 $cout=($page - 1)*10;
             }
 
             if ((($name == "") && ($privilege == "5"))) {
-                $query = "SELECT * FROM `users` WHERE 1 ORDER BY id DESC limit $page1";
+                $query = "SELECT * FROM `users` WHERE 1 ";
             } else {
                 $query = "SELECT * FROM `users` WHERE `name` like '%$name%' and  `privilege`='$privilege'";
             }
-
+            
             $result = mysqli_query($connection, $query);
             $arrays = array();
+            
             while ($row = mysqli_fetch_array($result)) {
                 $arrays[] = $row;
             }
+            
+           
+            
+            $lastname1=($page)*10;
+           
+            $start1=0;
             foreach ($arrays as $row) {
+                if($start1<$cout){
+                    $start1++;
+                    continue;
+                }
+                if($start1 >=$lastname1){
+                     $start1++;
+                    continue;
+                }
+                
+               $start1++;
+                
                 if ($row['privilege'] == "5") {
                     continue;
                 }
+                
                 ?>
                 <tr>
                     <td><?php echo $row['employeeID']; ?></td>
@@ -458,7 +491,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                 if ($name == "" && $privilege == 5) {
                     $query = "SELECT * FROM `users` WHERE 1";
                 } else {
-                    $query = "SELECT * FROM `users` WHERE `privilege` = '$privilege' and `name` like '%$name%'  limit $page1  ";
+                    $query = "SELECT * FROM `users` WHERE `privilege` = '$privilege' and `name` like '%$name%'  ";
                 }
 
                

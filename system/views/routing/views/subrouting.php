@@ -273,7 +273,7 @@ $routing = $_GET['id'];
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-default ">add</button>
+                                                        <button type="submit" class="btn btn-default ">Add</button>
                                                     </div>
                                                 </form>
                                             </div>

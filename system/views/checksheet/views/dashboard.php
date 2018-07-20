@@ -57,7 +57,7 @@ $(document).ready(function(){
 <div class="row" style="background: buttonhighlight;" >
 
     <div class="col-3" >
-        <label for="lotno" class="col-form-label">Lot No.</label>
+        <label for="lotno" class="col-form-label"><a href="?fragment=checksheet&component=dashboard" >Product Lot No.</a></label>
         <input class="form-control lotno" autocomplete="off"   type="text" value="<?php echo $lotno; ?>" name="lotno" id="lotno">
     </div>
     
@@ -67,14 +67,14 @@ $(document).ready(function(){
 <table class="table table-hover">
     <thead>
         <tr>
-            <th>Lot No.</th>
+            <th>Product Lot No.</th>
             <th>Production line</th>
             <th>Machine name</th>
             <th>Target</th>
             <th>Actual Total</th>
             <th>Free Total</th>
             <th>Reject Total</th>
-            <th>Speed</th>
+            <th>Actual Goods</th>
         </tr>
     </thead>
     <tbody id="data">

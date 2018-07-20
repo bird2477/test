@@ -1,4 +1,5 @@
 <script src="../vender/typeahead.js" ></script>
+<?php date_default_timezone_set("Asia/Bangkok"); ?>
 <script >
     $(document).ready(function () {
         $("#search").click(function () {
@@ -112,7 +113,7 @@
                 <div class="row">
 
                     <label for="target">Target <span id="target1" >0</span>  </label>       
-                    <input type="text" class="form-control" autocomplete="off"   id="target" name="target" placeholder="target" required="">
+                    <input type="text" class="form-control" autocomplete="off"   id="target" name="target" placeholder="Target" required="">
                 </div>
 
 
@@ -166,20 +167,34 @@
             $page = isset($_GET['page']) ? $_GET['page'] : 1;
             $to = isset($_GET['to']) ? $_GET['to'] : "";
             $from = isset($_GET['from']) ? $_GET['from'] : "";
-            if ($page == 1) {
+             if ($page == 1) {
                 $page1 = "0,10";
+                $cout1 = 0;
             } else {
                 $page1 = ($page - 1) . "0," . ($page) . "0";
+                $cout1 = ($page - 1) * 10;
             }
+            $lastname1 = ($page) * 10;
 
+            $start1 = 0;
             if ($to != "" && $from != "") {
                 $query = "SELECT `routing`.`lotno` ,`checksheet`.`date` ,`checksheet`.`status` ,`routing` .`id`  as routingid , `checksheet`.`id`
 FROM  `checksheet`
 INNER JOIN `routing` 
-ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEEN  '$from' and '$to'    ORDER by `checksheet`.`id` DESC limit $page1";
+ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEEN  '$from' and '$to'    ORDER by `checksheet`.`id` DESC ";
 
                 $result = mysqli_query($connection, $query);
                 while ($row1 = mysqli_fetch_array($result)) {
+                     if ($start1 < $cout1) {
+                            $start1++;
+                            continue;
+                        }
+                        if ($start1 >= $lastname1) {
+                            $start1++;
+                            continue;
+                        }
+                       
+                        $start1++;
                     ?>
                     <tr>
                         <td><?php echo $row1['lotno']; ?></td>
@@ -253,14 +268,26 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
         <?php
     }
 } else {
+    $date=date('Y-m-d');
+   
     $query = "SELECT   `routing`.`lotno`, `checksheet`.`date`, `checksheet`.`status` ,`routing` .`id`  as routingid , `checksheet`.`id`
 FROM  `checksheet`
 INNER JOIN `routing` 
-ON `checksheet`.`routing`=  `routing` .`id`     WHERE 1  ORDER by `checksheet`.`id` DESC LIMIT $page1";
+ON `checksheet`.`routing`=  `routing` .`id`     WHERE  `checksheet`.`date` like '$date'  ORDER by `checksheet`.`id` DESC ";
 
     $result = mysqli_query($connection, $query);
     if (mysqli_num_rows($result) > 0) {
         while ($row2 = mysqli_fetch_array($result)) {
+             if ($start1 < $cout1) {
+                            $start1++;
+                            continue;
+                        }
+                        if ($start1 >= $lastname1) {
+                            $start1++;
+                            continue;
+                        }
+                       
+                        $start1++;
             ?>
                         <tr>
                             <td><?php echo $row2['lotno']; ?></td>

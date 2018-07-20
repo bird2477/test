@@ -45,11 +45,14 @@ if ($status == 1) {
         mysqli_query($connection, $query);
         $query = "UPDATE `subproductionline` SET `checksheetID`='0' , `speed`='0',`reject_total`='0' ,`free_total`='0' ,`actual_total`='0' ,`status`='0' WHERE `id` ='$subproductionlineid'";
         mysqli_query($connection, $query);
+         echo 'สำเร็จ';
+    }else{
+         echo 'ไม่สำเร็จ';
     }
 }
  $query="UPDATE `subproductionline` SET  `statusUser` ='$status' WHERE `id`='$subproductionlineid'";  
  mysqli_query($connection, $query);
- echo 'สำเร็จ';
+
 }else{
     echo 'ไม่สำเร็จ';
 }

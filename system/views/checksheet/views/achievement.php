@@ -1,8 +1,7 @@
 <script src="../vender/typeahead.js" ></script>
 <?php
-$lotno= isset($_GET['lotno']) ? $_GET['lotno'] : "";
+$lotno = isset($_GET['lotno']) ? $_GET['lotno'] : "";
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
-
 ?>
 <script >
     $(document).ready(function () {
@@ -10,7 +9,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
             var dataSting = $('#formrouting').serialize();
             $.ajax({data: dataSting, type: 'POST', cache: false, url: "views/routing/query/ajaxAddrouting.php", success: function (data, textStatus, jqXHR) {
-                      console.log(data);
+                    console.log(data);
                     if (data != "") {
                         window.location.replace(data);
                     }
@@ -44,16 +43,16 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
         });
 
-     
+
         $("#search").click(function () {
             var searchpartname = $('#searchlotno').val();
             var url = "";
-            if(searchpartname==""){
-                url="";
-            }else{
-                url="&lotno=" + searchpartname ;
+            if (searchpartname == "") {
+                url = "";
+            } else {
+                url = "&lotno=" + searchpartname;
             }
-           
+
             window.location.replace("?fragment=checksheet&component=achievement" + url);
         });
 
@@ -78,14 +77,14 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                             <input type="text" class="form-control " id="lotno" name="lotno" placeholder="Product Lot No" required="">
                         </div>
                     </div>
-                  
+
                     <div class="row">
                         <label for="target">Target</label>
                         <div class="input-group ">
                             <input type="text" class="form-control " id="target" name="target" placeholder="Target" required="">
                         </div>
                     </div>
-                      <div class="row">
+                    <div class="row">
                         <label for="deadline">วันที่ต้องส่งของ</label>
                         <div class="input-group ">
                             <input type="date" class="form-control " id="deadline" name="deadline" placeholder="วันที่ต้องส่งของ" required="">
@@ -113,7 +112,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
         </div>
     </div>
-    
+
 
 
     <div class="col-md-3 mb-3">
@@ -136,32 +135,50 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                 <th>Product Lot No.</th> 
                 <th>Target</th>
                 <th>Actual Goods</th>
-                
+
             </tr>
         </thead>
         <tbody>
             <?php
             if ($page == 1) {
                 $page1 = "0,10";
+                $cout1 = 0;
             } else {
                 $page1 = ($page - 1) . "0," . ($page) . "0";
+                $cout1 = ($page - 1) * 10;
             }
+            $lastname1 = ($page) * 10;
 
+            $start1 = 0;
+            
 
             if (($lotno != "")) {
 
-                $query = "SELECT * FROM `routing` WHERE `lotno` like '%$lotno%'  limit $page1";
-               
+                $query = "SELECT * FROM `routing` WHERE `lotno` like '%$lotno%'  ";
+
                 $result = mysqli_query($connection, $query);
                 $arrays = array();
                 while ($row1 = mysqli_fetch_array($result)) {
                     $arrays[] = $row1;
                 }
                 foreach ($arrays as $row1) {
+                      if ($start1 < $cout1) {
+                            $start1++;
+                            continue;
+                        }
+                        if ($start1 >= $lastname1) {
+                            $start1++;
+                            continue;
+                        }
+                       
+                        $start1++;
+                        
+                        
+                    
                     ?>
                     <tr>
                         <td><?php echo $row1['lotno']; ?></td>
-                       
+
                         <td><?php echo $row1['target']; ?></td>
                         <td><?php echo $row1['actual']; ?></td>
 
@@ -169,21 +186,32 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                     <?php
                 }
             } else {
-                $query = "SELECT * FROM `routing` WHERE 1 ORDER by `id` DESC  limit $page1";
+                $query = "SELECT * FROM `routing` WHERE 1 ORDER by `id` DESC  ";
                 $result = mysqli_query($connection, $query);
                 if (mysqli_num_rows($result) > 0) {
                     while ($row2 = mysqli_fetch_array($result)) {
                         $arrays[] = $row2;
                     }
                     foreach ($arrays as $row2) {
+                         if ($start1 < $cout1) {
+                            $start1++;
+                            continue;
+                        }
+                        if ($start1 >= $lastname1) {
+                            $start1++;
+                            continue;
+                        }
+                       
+                        $start1++;
+                        
                         ?>
                         <tr>
                             <td><?php echo $row2['lotno']; ?></td>
-                           
+
                             <td><?php echo $row2['target']; ?></td>
                             <td><?php echo $row2['actual']; ?></td>
-                            
-                           
+
+
                         </tr>
                         <?php
                     }

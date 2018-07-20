@@ -3,9 +3,14 @@ $productioncode = isset($_GET['productioncode']) ? $_GET['productioncode'] : "";
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 if ($page == 1) {
     $page1 = "0,10";
+    $cout1 = 0;
 } else {
     $page1 = ($page - 1) . "0," . ($page) . "0";
+    $cout1 = ($page - 1) * 10;
 }
+ $lastname1 = ($page) * 10;
+
+                $start1 = 0;
 ?>
 <script src="../vender/typeahead.js" ></script>
 <script >
@@ -20,7 +25,16 @@ if ($page == 1) {
                 }});
 
         });
+        $("#productioncode").change(function(){
+             var id = "name=" +  $("#productioncode").val();
+             $.ajax({data: id, url: "views/mold/query/check.php", type: 'POST', cache: false, success: function (data, textStatus, jqXHR) {
 
+                    if (data != 0) {
+                        $("#productioncode").val("");
+                        alert("มีข้อมูลอยู่แล้ว");
+                    }
+                }});
+        });
         $("#addmold").click(function () {
             var dataString = encodeURI($('#custoner').serialize());
             var productioncode = $("#productioncode").val();
@@ -136,11 +150,23 @@ if ($page == 1) {
                     $cout++;
                 }
             } else {
-                $query = "SELECT * FROM `mold` WHERE 1  order by id desc  limit $page1  ";
+                $query = "SELECT * FROM `mold` WHERE 1  order by id desc  ";
                
                 $result = mysqli_query($connection, $query);
                 if (mysqli_num_rows($result) > 0) {
                     while ($row2 = mysqli_fetch_array($result)) {
+                         if ($start1 < $cout1) {
+                            $start1++;
+                            continue;
+                        }
+                        if ($start1 >= $lastname1) {
+                            $start1++;
+                            continue;
+                        }
+                       
+                        $start1++;
+                        
+                        
                         ?>
                         <tr>
                            

@@ -7,46 +7,28 @@ $id = isset($_GET['id']) ? $_GET['id'] : "";
             
           
             var id = "id=" + $(this).attr("id");
-            $.ajax({data: id, url: "views/managementmachine/query/ajaxRemore.php",type: 'POST' ,cache: false, success: function (data, textStatus, jqXHR) {
+            $.ajax({data: id, url: "views/routing/query/ajaxRemore.php",type: 'POST' ,cache: false, success: function (data, textStatus, jqXHR) {
                 
             if(data== 1){
-                         window. location.replace("?fragment=managementmachine&component=lineproduction"); 
+                         window. location.replace("?fragment=routing&component=lineproduction"); 
                        }
                 }});
 
         });
-         $("#nameline").change(function(){
-             
-            var id = "name=" + $("#nameline").val();
-            $.ajax({data: id, url: "views/managementmachine/query/check.php",type: 'POST' ,cache: false, success: function (data, textStatus, jqXHR) {
-                
-            if(data != 0){
-                        $("#nameline").val("");
-                        alert("มีข้อมูลอยู่แล้ว");
-                       }
-                }});
-         });
+
         $("#productionlineadd").click(function () {
             var name = "name=" + $("#nameline").val();
-            if(name=="name="){
-               alert("กรุณาใส่ค่าให้ครับ");
-            }else{
-                
-           
-            
-            $.ajax({data: name, url: "views/managementmachine/query/ajaxAddProductionLine.php", type: 'POST', cache: false, success: function (data, textStatus, jqXHR) {
+            $.ajax({data: name, url: "views/routing/query/ajaxAddProductionLine.php", type: 'POST', cache: false, success: function (data, textStatus, jqXHR) {
                     if (data != "") {
-                        window.location.replace("./views/managementmachine/views/subproductionline.php?id="+data);
+                        window.location.replace("./views/routing/views/subproductionline.php?id="+data);
                     }
                 }});
-             }
-            
         });
 
         $("#searchname").change(function () {
 
             var id = $("#searchname").val();
-            window.location.replace("?fragment=managementmachine&component=lineproduction&id=" + id);
+            window.location.replace("?fragment=routing&component=lineproduction&id=" + id);
         });
     });
 </script>
@@ -106,7 +88,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : "";
                         <td><?php echo $row1['id']; ?></td>
                         <td><?php echo $row1['machine']; ?></td>
                         <td>
-                            <a href="./views/managementmachine/views/subproductionline.php?id=<?php echo $row1['id']; ?>"  class="btn btn-success " >Sub station</a>
+                            <a href="./views/routing/views/subproductionline.php?id=<?php echo $row1['id']; ?>"  class="btn btn-success " >Sub station</a>
                             <button type="button" class="btn btn-danger remove" id="<?php echo $row1['id']; ?>">
                                 Remove
                             </button>   
@@ -115,7 +97,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : "";
                     <?php
                 }
             } else {
-                 $query = "SELECT * FROM `productionline` WHERE 1 order by  `machine` ";
+                 $query = "SELECT * FROM `productionline` WHERE 1 order by `id` DESC ";
                 $result = mysqli_query($connection, $query);
                 if(mysqli_num_rows($result)>0){
                     while ($row2 = mysqli_fetch_array($result)) {
@@ -125,7 +107,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : "";
                         <td><?php echo $row2['id']; ?></td>
                         <td><?php echo $row2['machine']; ?></td>
                         <td>
-                            <a href="./views/managementmachine/views/subproductionline.php?id=<?php echo $row2['id']; ?>"  class="btn btn-success " >Sub station</a>
+                            <a href="./views/routing/views/subproductionline.php?id=<?php echo $row2['id']; ?>"  class="btn btn-success " >Sub station</a>
                             <button type="button" class="btn btn-danger remove" id="<?php echo $row2['id']; ?>">
                                 Remove
                             </button>   
