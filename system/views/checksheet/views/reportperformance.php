@@ -37,6 +37,7 @@ function sum_the_time($time1, $time2) {
 
     <thead>
         <tr class="frame">
+           
             <th class="frame">เครื่องจักร</th>
             <th class="frame">Counter Hr.</th>
             <th class="frame">ขั้นตอนแม่พิมพ์</th>
@@ -47,6 +48,7 @@ function sum_the_time($time1, $time2) {
             <th class="frame">จำนวนงานเสีย</th>
             <th class="frame">จำนวนรวม</th>
               <th class="frame">ชื่องาน</th>
+               <th class="frame">Product Lot No.</th>
             <th class="frame">ชือพนักงาน</th>
             <th class="frame">ตำแหน่ง</th>
         </tr>
@@ -59,6 +61,7 @@ function sum_the_time($time1, $time2) {
         while ($row = mysqli_fetch_array($result)) {
         ?>
         <tr>
+           
             <td class="frame">
                 <?php  
                 $checksheetID=$row['checksheetID'];
@@ -129,6 +132,16 @@ function sum_the_time($time1, $time2) {
                 $r=  mysqli_query($connection, $query);
                 $t=  mysqli_fetch_array($r);
                 echo $t['partname'];
+                ?>
+            </td>
+            
+            <td class="frame" >
+                <?php 
+                $query="SELECT `lotno` FROM `routing` WHERE `id` =(SELECT `routing` FROM `checksheet` WHERE `id` ='$checksheetID')";
+                
+                 $r=  mysqli_query($connection, $query);
+                $t=  mysqli_fetch_array($r);
+                echo $t['lotno'];
                 ?>
             </td>
             <td class="frame">
