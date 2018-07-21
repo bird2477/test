@@ -29,6 +29,7 @@ if ($status == 1) {
             . "(null,'$checksheet','$subchecksheet','$subproductionlineid','$val','$date','','0','0','0','1')";
 
     mysqli_query($connection, $query);
+      echo 'สำเร็จ';
 } else {
     $query = "SELECT * FROM `subproductionline` WHERE `id` ='$subproductionlineid'";
     $re = mysqli_query($connection, $query);
