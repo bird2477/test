@@ -79,6 +79,7 @@ $time="00:00:00";
             <th>Lastname</th>
             <th>Employee ID</th>
             <th>Machine</th>
+            <th>Product Lot No.</th>
             <th>Actual Goods</th>
             <th>Free shot</th>
             <th>Reject</th>
@@ -121,7 +122,16 @@ $time="00:00:00";
                 $t=  mysqli_fetch_array($r);
                 echo $t['name'];
                 ?></td>
-               
+                <td >
+                <?php
+                $checksheetID =$row['checksheetID'];
+                 $query="SELECT `lotno` FROM `routing` WHERE `id` =(SELECT `routing` FROM `checksheet` WHERE `id` ='$checksheetID')";
+                
+                 $r=  mysqli_query($connection, $query);
+                $t=  mysqli_fetch_array($r);
+                echo $t['lotno'];
+                ?>
+                </td>
                 <td><?php echo $row['actual'];  ?></td>
                 <td><?php echo $row['free'];  ?></td>
                 <td><?php echo $row['reject'];  ?></td>
