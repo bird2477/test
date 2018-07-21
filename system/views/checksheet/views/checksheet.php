@@ -1,4 +1,6 @@
 <script src="../vender/typeahead.js" ></script>
+<script src="../js/datetime.js" ></script>
+<link href="../css/datetime.css" rel="stylesheet" >
 <?php date_default_timezone_set("Asia/Bangkok"); ?>
 <script >
     $(document).ready(function () {
@@ -210,8 +212,7 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
         <?php
         if (($row1['status'] == 0)) {
             ?>
-                                    <!-- <a href="./views/checksheet/views/report.php?id=<?php echo $row1['id']; ?>&routing=<?php echo $row1['routingid']; ?>" class="btn btn-success " >Edit</a>
-                                -->
+                                    <a href="./views/checksheet/views/report.php?id=<?php echo $row1['id']; ?>" class="btn btn-success " >Edit</a> 
                                 <button type="button" class="btn btn-danger remove" routing="<?php echo $row1['routingid']; ?>" id="<?php echo $row1['id']; ?>">
                                     Remove
                                 </button>  
@@ -226,7 +227,8 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
             }
         } elseif (($row1['status'] == 1) && ($_SESSION['privilege']) >= 3) {
             ?>
-                          <!--  <a href="./views/checksheet/views/report.php?id=<?php echo $row1['id']; ?>" class="btn btn-success " >Edit</a> -->
+                                
+                           <a href="./views/checksheet/views/report.php?id=<?php echo $row1['id']; ?>" class="btn btn-success " >Edit</a> 
                                 <button type="button" class="btn btn-danger remove" routing="<?php echo $row1['routingid']; ?>" id="<?php echo $row1['id']; ?>">
                                     Remove
                                 </button>  
