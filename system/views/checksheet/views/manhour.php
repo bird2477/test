@@ -55,15 +55,15 @@ $time="00:00:00";
  
     <div  class="mb-3">
         <label for="employeeID">Employee ID</label>
-        <input type="text" class="form-control " id="employeeID" name="employeeID" value=""  placeholder="Employee ID" required="">
+        <input type="text" class="form-control " id="employeeID" name="employeeID" value="<?php echo isset($_GET['employeeID']) ? $_GET['employeeID']:""; ?>"  placeholder="Employee ID" required="">
     </div>
     <div  class="mb-3">
         <label for="from">From</label>
-        <input type="date" class="form-control " id="from" name="from" value=""  placeholder="Name" required="">
+        <input type="date" class="form-control " id="from" name="from" value="<?php echo isset($_GET['from']) ? $_GET['from']:""; ?>"  placeholder="Name" required="">
     </div>
     <div  class="mb-3">
         <label for="to">To</label>
-        <input type="date" class="form-control " id="to" name="to" value=""  placeholder="Name" required="">
+        <input type="date" class="form-control " id="to" name="to" value="<?php echo isset($_GET['to']) ? $_GET['to']:""; ?>"  placeholder="Name" required="">
     </div>
     <div class="col-md-3 mb-3">
         <label for="search">Search</label>
@@ -102,7 +102,7 @@ $time="00:00:00";
             <?php
             }else{
             $to=$to." 23:59:59";
-            $query="SELECT * FROM `timestamp` WHERE `employeeID` like '$employeeID' and  `start_datetime` BETWEEN '%$from%' AND '$to'";
+            $query="SELECT * FROM `timestamp` WHERE `employeeID` like '$employeeID' and  `start_datetime` BETWEEN '$from' AND '$to'";
             $result=  mysqli_query($connection, $query);
            
             while ($row = mysqli_fetch_array($result)) {
