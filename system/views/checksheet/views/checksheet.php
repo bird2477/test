@@ -229,7 +229,7 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE `checksheet`.`date` BETWEE
                                  <?php
             if ($_SESSION['privilege'] >= 3) {
                 ?>
-
+                                      <a href="./views/checksheet/views/report.php?id=<?php echo $row1['id']; ?>" class="btn btn-success " >Edit</a> 
                                     <button type="button" class="btn btn-info approved" routing="<?php echo $row1['routingid']; ?>" id="<?php echo $row1['id']; ?>">
                                         Approved
                                     </button>  
@@ -337,7 +337,7 @@ ON `checksheet`.`routing`=  `routing` .`id`     WHERE  `checksheet`.`date` like 
                                      <?php
                 if ($_SESSION['privilege'] >= 3) {
                     ?>
-
+                                         <a href="./views/checksheet/views/report.php?id=<?php echo $row2['id']; ?>" class="btn btn-success " >Edit</a>
                                         <button type="button" class="btn btn-info approved" routing="<?php echo $row2['routingid']; ?>" id="<?php echo $row2['id']; ?>">
                                             Approved
                                         </button>  
