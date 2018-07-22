@@ -133,8 +133,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
             <tr>
 
                 <th>Product Lot No.</th> 
+                 <th>Delivery Date</th>
                 <th>Production Order</th>
-                <th>Delivery Date</th>
+               
                 <th>Actual Goods</th>
 
             </tr>
@@ -179,9 +180,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                     ?>
                     <tr>
                         <td><?php echo $row1['lotno']; ?></td>
-
-                        <td><?php echo $row1['target']; ?></td>
-                        <td><?php
+                         <td><?php
                         
                         
                          $date = date_create( $row1['deadline']);
@@ -190,6 +189,8 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                         
                         ?></td>
                         
+                        <td><?php echo $row1['target']; ?></td>
+                       
                         
                         <td><?php echo $row1['actual']; ?></td>
 
@@ -218,8 +219,6 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                         ?>
                         <tr>
                             <td><?php echo $row2['lotno']; ?></td>
-
-                            <td><?php echo $row2['target']; ?></td>
                             <td><?php
                             
                             
@@ -229,6 +228,8 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                             
                             
                             ?></td>
+                            <td><?php echo $row2['target']; ?></td>
+                            
                             <td><?php echo $row2['actual']; ?></td>
 
 
