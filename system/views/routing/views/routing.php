@@ -166,8 +166,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
             <tr>
 
                 <th>Product Lot No.</th> 
+                 <th>Delivery Date</th>
                 <th>Production Order</th>
-                <th>Delivery Date</th>
+               
                 <th>Tools</th>
             </tr>
         </thead>
@@ -208,13 +209,13 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                     ?>
                     <tr>
                         <td><?php echo $row1['lotno']; ?></td>
-
-                        <td><?php echo $row1['target']; ?></td>
-                        <td><?php
+ <td><?php
                          $date = date_create( $row1['deadline']);
                          echo date_format($date, "d/m/Y");
                         
                         ?></td>
+                        <td><?php echo $row1['target']; ?></td>
+                       
 
                         <td>
                             <a href="./views/routing/views/subrouting.php?id=<?php echo $row1['id']; ?>&lotno=<?php echo $row1['lotno']; ?>&target=<?php echo $row1['target']; ?>"  class="btn btn-success " >Sub station</a>
@@ -246,13 +247,13 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                         ?>
                         <tr>
                             <td><?php echo $row2['lotno']; ?></td>
-
-                            <td><?php echo $row2['target']; ?></td>
-                            <td><?php
+ <td><?php
           
                          $date = date_create($row2['deadline']);
                          echo date_format($date, "d/m/Y");
                         ?></td>
+                            <td><?php echo $row2['target']; ?></td>
+                           
 
                             <td>
                                 <a href="./views/routing/views/subrouting.php?id=<?php echo $row2['id']; ?>&lotno=<?php echo $row2['lotno']; ?>&target=<?php echo $row2['target']; ?>"  class="btn btn-success " >Sub station</a>
