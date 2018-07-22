@@ -71,11 +71,10 @@ $(document).ready(function(){
             <th>Production line</th>
             <th>Machine name</th>
             <th>Target</th>
-            <th>Actual Goods</th>
-           
+            <th>Actual Total</th>
             <th>Free Total</th>
             <th>Reject Total</th>
-             <th>Actual Total</th>
+            <th>Actual Goods</th>
         </tr>
     </thead>
     <tbody id="data">

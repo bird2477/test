@@ -2,7 +2,7 @@
 
 include '../../../../config/database.php';
 $checksheetId = $_POST['checksheetId'];
-$query = "UPDATE `checksheet` SET `status`='0' WHERE `id` ='$checksheetId'";
+$query = "UPDATE `checksheet` SET `status`='1' WHERE `id` ='$checksheetId'";
 mysqli_query($connection, $query);
 $query = "SELECT  `subproductionline`.`speed` , `subchecksheet`.`subproductionlineID`, `subproductionline`.`name`, `subchecksheet`.`target`, `subproductionline`.`actual_total`, `subproductionline`.`free_total`, `subproductionline`.`reject_total`
 FROM `subchecksheet`
