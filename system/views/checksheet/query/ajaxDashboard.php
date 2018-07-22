@@ -47,10 +47,13 @@ $result = mysqli_query($connection, $query);
                 <td><?php echo $row['linename']; ?></td>
                 <td><?php echo $row['name']; ?></td>
                 <td id="<?php echo 'target'.$row['id']; ?>"><?php echo $row['target']; ?></td>
-                <td id="<?php echo 'actual_total'.$row['id']; ?>"><?php echo $actual_total+$row['actual_total']; ?></td>
+                <td id="<?php echo 'speed'.$row['id']; ?>"><?php echo $actual_total+ $row['actual_total']- $row['free_total']- $row['reject_total']-$reject_total-$free_total; ?></td>
+          
                 <td id="<?php echo 'free_total'.$row['id']; ?>"><?php echo $free_total+$row['free_total']; ?></td>
                 <td id="<?php echo 'reject_total'.$row['id']; ?>"><?php echo $reject_total+$row['reject_total']; ?></td>
-                <td id="<?php echo 'speed'.$row['id']; ?>"><?php echo $actual_total+ $row['actual_total']- $row['free_total']- $row['reject_total']-$reject_total-$free_total; ?></td>
+               
+            
+             <td id="<?php echo 'actual_total'.$row['id']; ?>"><?php echo $actual_total+$row['actual_total']; ?></td>
             </tr>
             <?php
         }
