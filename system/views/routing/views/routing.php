@@ -110,19 +110,19 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                             <input type="text" autocomplete="off" class="form-control " id="lotno" name="lotno" placeholder="Product Lot No." required="">
                         </div>
                     </div>
-
+                     <div class="row">
+                        <label for="deadline">Delivery Date</label>
+                        <div class="input-group ">
+                            <input type="date" class="form-control " id="deadline" name="deadline" placeholder="วันที่ต้องส่งของ" required="">
+                        </div>
+                    </div>
                     <div class="row">
                         <label for="target">Production Order</label>
                         <div class="input-group ">
                             <input type="text" autocomplete="off" class="form-control " id="target" name="target" placeholder="Production Order" required="">
                         </div>
                     </div>
-                    <div class="row">
-                        <label for="deadline">Delivery Date</label>
-                        <div class="input-group ">
-                            <input type="date" class="form-control " id="deadline" name="deadline" placeholder="วันที่ต้องส่งของ" required="">
-                        </div>
-                    </div>
+                   
 
                 </form>
 
