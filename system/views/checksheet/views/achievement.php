@@ -79,9 +79,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                     </div>
 
                     <div class="row">
-                        <label for="target">Target</label>
+                        <label for="target">Production Order</label>
                         <div class="input-group ">
-                            <input type="text" class="form-control " id="target" name="target" placeholder="Target" required="">
+                            <input type="text" class="form-control " id="target" name="target" placeholder="Production Order" required="">
                         </div>
                     </div>
                     <div class="row">
@@ -133,7 +133,8 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
             <tr>
 
                 <th>Product Lot No.</th> 
-                <th>Target</th>
+                <th>Production Order</th>
+                <th>Delivery Date</th>
                 <th>Actual Goods</th>
 
             </tr>
@@ -180,6 +181,16 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                         <td><?php echo $row1['lotno']; ?></td>
 
                         <td><?php echo $row1['target']; ?></td>
+                        <td><?php
+                        
+                        
+                         $date = date_create( $row1['deadline']);
+                         echo date_format($date, "d/m/Y");
+                        
+                        
+                        ?></td>
+                        
+                        
                         <td><?php echo $row1['actual']; ?></td>
 
                     </tr>
@@ -209,6 +220,15 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                             <td><?php echo $row2['lotno']; ?></td>
 
                             <td><?php echo $row2['target']; ?></td>
+                            <td><?php
+                            
+                            
+                           
+                             $date = date_create( $row2['deadline']);
+                         echo date_format($date, "d/m/Y");
+                            
+                            
+                            ?></td>
                             <td><?php echo $row2['actual']; ?></td>
 
 
@@ -218,7 +238,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                 } else {
                     ?>
                     <tr style="text-align: center;">
-                        <td colspan="4"> No data</td>
+                        <td colspan="5"> No data</td>
 
                     </tr>
                     <?php
