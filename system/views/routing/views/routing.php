@@ -6,9 +6,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 <script >
     $(document).ready(function () {
         $("#lotno").change(function () {
-            var dataSting = "name="+$('#lotno').val();
+            var dataSting = "name=" + $('#lotno').val();
             $.ajax({data: dataSting, type: 'POST', cache: false, url: "views/routing/query/check.php", success: function (data, textStatus, jqXHR) {
-                  
+
                     if (data != 0) {
                         $('#lotno').val("");
                         alert("มีข้อมูลอยู่แล้ว");
@@ -112,13 +112,13 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                     </div>
 
                     <div class="row">
-                        <label for="target">Target</label>
+                        <label for="target">Production Order</label>
                         <div class="input-group ">
-                            <input type="text" autocomplete="off" class="form-control " id="target" name="target" placeholder="Target" required="">
+                            <input type="text" autocomplete="off" class="form-control " id="target" name="target" placeholder="Production Order" required="">
                         </div>
                     </div>
                     <div class="row">
-                        <label for="deadline">วันที่ต้องส่งของ</label>
+                        <label for="deadline">Delivery Date</label>
                         <div class="input-group ">
                             <input type="date" class="form-control " id="deadline" name="deadline" placeholder="วันที่ต้องส่งของ" required="">
                         </div>
@@ -166,7 +166,8 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
             <tr>
 
                 <th>Product Lot No.</th> 
-                <th>Target</th>
+                <th>Production Order</th>
+                <th>Delivery Date</th>
                 <th>Tools</th>
             </tr>
         </thead>
@@ -194,22 +195,26 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                     $arrays[] = $row1;
                 }
                 foreach ($arrays as $row1) {
-                     if ($start1 < $cout1) {
-                            $start1++;
-                            continue;
-                        }
-                        if ($start1 >= $lastname1) {
-                            $start1++;
-                            continue;
-                        }
-                       
+                    if ($start1 < $cout1) {
                         $start1++;
-                    
+                        continue;
+                    }
+                    if ($start1 >= $lastname1) {
+                        $start1++;
+                        continue;
+                    }
+
+                    $start1++;
                     ?>
                     <tr>
                         <td><?php echo $row1['lotno']; ?></td>
 
                         <td><?php echo $row1['target']; ?></td>
+                        <td><?php
+                         $date = date_create( $row1['deadline']);
+                         echo date_format($date, "d/m/Y");
+                        
+                        ?></td>
 
                         <td>
                             <a href="./views/routing/views/subrouting.php?id=<?php echo $row1['id']; ?>&lotno=<?php echo $row1['lotno']; ?>&target=<?php echo $row1['target']; ?>"  class="btn btn-success " >Sub station</a>
@@ -228,7 +233,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                         $arrays[] = $row2;
                     }
                     foreach ($arrays as $row2) {
-                         if ($start1 < $cout1) {
+                        if ($start1 < $cout1) {
                             $start1++;
                             continue;
                         }
@@ -236,13 +241,18 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                             $start1++;
                             continue;
                         }
-                       
+
                         $start1++;
                         ?>
                         <tr>
                             <td><?php echo $row2['lotno']; ?></td>
 
                             <td><?php echo $row2['target']; ?></td>
+                            <td><?php
+          
+                         $date = date_create($row2['deadline']);
+                         echo date_format($date, "d/m/Y");
+                        ?></td>
 
                             <td>
                                 <a href="./views/routing/views/subrouting.php?id=<?php echo $row2['id']; ?>&lotno=<?php echo $row2['lotno']; ?>&target=<?php echo $row2['target']; ?>"  class="btn btn-success " >Sub station</a>
@@ -251,35 +261,35 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                                 </button>   
                             </td>
                         </tr>
-                        <?php
-                    }
-                } else {
-                    ?>
+            <?php
+        }
+    } else {
+        ?>
                     <tr style="text-align: center;">
                         <td colspan="4"> No data</td>
 
                     </tr>
-                    <?php
-                }
-            }
-            ?>
+        <?php
+    }
+}
+?>
         </tbody>
     </table>
     <div class="container">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-                <?php
-                if ($lotno == "") {
-                    $query = "SELECT * FROM `routing` WHERE 1";
-                } else {
-                    $query = "SELECT * FROM `routing` WHERE `lotno` like '$lotno' ";
-                }
+<?php
+if ($lotno == "") {
+    $query = "SELECT * FROM `routing` WHERE 1";
+} else {
+    $query = "SELECT * FROM `routing` WHERE `lotno` like '$lotno' ";
+}
 
 
-                $result = mysqli_query($connection, $query);
-                $num = mysqli_num_rows($result) / 10;
-                $numrow = ceil($num);
-                ?>
+$result = mysqli_query($connection, $query);
+$num = mysqli_num_rows($result) / 10;
+$numrow = ceil($num);
+?>
                 <li class="page-item <?php
                 if ($page == 1) {
                     echo 'disabled';
@@ -287,14 +297,14 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
                 ?> ">
                     <a class="page-link " href="?fragment=routing&component=routing&lotno=<?php echo $lotno; ?>&page=<?php echo $page - 1; ?>" tabindex="-1">Previous</a>
                 </li>
-                <?php for ($i = 1; $i <= $numrow; $i++) { ?>
+<?php for ($i = 1; $i <= $numrow; $i++) { ?>
                     <li class="page-item <?php
                     if ($page == $i) {
                         echo 'active';
                     }
                     ?>  "><a class="page-link" href="?fragment=routing&component=routing&lotno=<?php echo $lotno; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
 
-                <?php } ?>
+                    <?php } ?>
                 <li class="page-item <?php
                 if ($page >= $numrow) {
                     echo 'disabled';
